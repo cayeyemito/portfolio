@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "frimee",
+    "title": "Frimee",
+    "status": "En producción",
+    "problem": "Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.",
+    "stack": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Capacitor",
+      "LiveKit",
+      "Google Maps",
+      "Docker"
+    ],
+    "role": "Equipo de 2 personas. Mi parte: la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
+    "links": {
+      "repo": "https://github.com/FrimeeApp/Frimee",
+      "demo": "https://frimee.es"
+    },
+    "image": {
+      "src": "/projects/frimee/plan.webp",
+      "alt": "Itinerario de un viaje en Frimee: actividades por día y ruta en el mapa",
+      "width": 1600,
+      "height": 867
+    }
+  },
+  {
+    "slug": "portfolio",
+    "title": "Este portfolio",
+    "status": "En producción",
+    "problem": "Una web estática que también sirve de proyecto DevOps: infraestructura en AWS definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
+    "stack": [
+      "Vue 3",
+      "TypeScript",
+      "Vite",
+      "Terraform",
+      "AWS S3",
+      "CloudFront",
+      "GitHub Actions",
+      "Python",
+      "Docker"
+    ],
+    "role": "Proyecto individual: frontend, infraestructura, pipeline y scripts de operación.",
+    "links": {
+      "repo": "https://github.com/cayeyemito/portfolio",
+      "demo": "/como-esta-hecha/"
+    }
+  }
+]

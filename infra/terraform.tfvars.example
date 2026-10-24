@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars (gitignored) and fill in.
+budget_email = "cayetanoym@gmail.com"
+
+# Optional custom domain:
+# domain_name       = "cayetanoyeste.dev"
+# route53_zone_name = "cayetanoyeste.dev"
