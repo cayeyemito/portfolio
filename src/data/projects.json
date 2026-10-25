@@ -15,7 +15,7 @@
       "Google Maps",
       "Docker"
     ],
-    "role": "Equipo de 2 personas. Mi parte: la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
+    "role": "Equipo de 2 personas: mi compañera hizo todo el diseño visual y yo desarrollé el frontend y el backend. Entre otras cosas, la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
     "links": {
       "repo": "https://github.com/FrimeeApp/Frimee",
       "demo": "https://frimee.es"
