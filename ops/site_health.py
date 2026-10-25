@@ -36,13 +36,19 @@ from urllib3.util.retry import Retry
 ROOT = Path(__file__).resolve().parent.parent
 PROJECTS_JSON = ROOT / "src" / "data" / "projects.json"
 
-PAGES = ["/", "/como-esta-hecha/", "/cv/Cayetano_Yeste_CV_ES.pdf"]
+PAGES = [
+    "/",
+    "/como-esta-hecha/",
+    "/cv/Cayetano_Yeste_CV_DevOps.pdf",
+    "/cv/Cayetano_Yeste_CV_FullStack.pdf",
+]
 MISSING_PAGE = "/esta-pagina-no-existe/"
 EXPECTED_KEYS = [
     "index.html",
     "como-esta-hecha/index.html",
     "404.html",
-    "cv/Cayetano_Yeste_CV_ES.pdf",
+    "cv/Cayetano_Yeste_CV_DevOps.pdf",
+    "cv/Cayetano_Yeste_CV_FullStack.pdf",
 ]
 TLS_MIN_DAYS = 14
 LOG_PREFIX = "cloudfront/"

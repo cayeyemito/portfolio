@@ -4,8 +4,10 @@ import ProjectCard from '@/components/ProjectCard.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
 import StatusSummary from '@/components/StatusSummary.vue'
-import { experience, profile } from '@/data/profile'
+import { cvs, experience, profile } from '@/data/profile'
 import { projects } from '@/lib/projects'
+
+const mainCv = cvs[0]!
 </script>
 
 <template>
@@ -17,7 +19,7 @@ import { projects } from '@/lib/projects'
       <p class="headline">{{ profile.headline }}</p>
       <p class="intro muted">{{ profile.intro }}</p>
       <div class="actions">
-        <a :href="profile.cv" class="button primary" download>CV en PDF</a>
+        <a :href="mainCv.href" class="button primary" download>CV en PDF</a>
         <a :href="profile.links.github" class="button">GitHub</a>
         <a :href="profile.links.linkedin" class="button">LinkedIn</a>
       </div>
@@ -54,10 +56,17 @@ import { projects } from '@/lib/projects'
             <h3>
               {{ job.role }} <span class="muted">· {{ job.company }}</span>
             </h3>
+            <p class="period">{{ job.period }}</p>
             <p class="muted">{{ job.summary }}</p>
           </li>
         </ol>
-        <p><a :href="profile.cv" download>Descargar el CV completo</a></p>
+        <p class="cvs">
+          CV completo en PDF:
+          <template v-for="(cv, i) in cvs" :key="cv.href">
+            <span v-if="i > 0" aria-hidden="true"> · </span>
+            <a :href="cv.href" download>{{ cv.label }}</a>
+          </template>
+        </p>
       </div>
     </section>
 
@@ -137,5 +146,12 @@ h1 {
 .jobs p {
   margin: 0.3rem 0 0;
   max-width: 44rem;
+}
+
+.jobs .period {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
 }
 </style>
