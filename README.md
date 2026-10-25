@@ -72,8 +72,8 @@ python ops/site_health.py --url https://<tu-distribucion>.cloudfront.net --smoke
 
    ```sh
    ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
-   aws s3api create-bucket --bucket portfolio-tfstate-$ACCOUNT --region eu-south-2 \
-     --create-bucket-configuration LocationConstraint=eu-south-2
+   aws s3api create-bucket --bucket portfolio-tfstate-$ACCOUNT --region eu-west-1 \
+     --create-bucket-configuration LocationConstraint=eu-west-1
    aws s3api put-bucket-versioning --bucket portfolio-tfstate-$ACCOUNT \
      --versioning-configuration Status=Enabled
    aws s3api put-public-access-block --bucket portfolio-tfstate-$ACCOUNT \
@@ -108,7 +108,7 @@ secretos, porque no hay ninguna clave:
 
 | Variable | Valor |
 | --- | --- |
-| `AWS_REGION` | `eu-south-2` |
+| `AWS_REGION` | `eu-west-1` |
 | `AWS_DEPLOY_ROLE_ARN` | output `deploy_role_arn` |
 | `AWS_PLAN_ROLE_ARN` | output `plan_role_arn` |
 | `SITE_BUCKET` | output `site_bucket` |

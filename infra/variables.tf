@@ -7,7 +7,7 @@ variable "project" {
 variable "aws_region" {
   description = "Region for the buckets and IAM. CloudFront and ACM are global (us-east-1)."
   type        = string
-  default     = "eu-south-2"
+  default     = "eu-west-1"
 }
 
 variable "github_repository" {
