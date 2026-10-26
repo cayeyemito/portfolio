@@ -16,6 +16,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Skipped until the infrastructure exists and SITE_BUCKET is set (see README).
+    if: vars.SITE_BUCKET != ''
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

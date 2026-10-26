@@ -44,6 +44,8 @@ jobs:
   terraform:
     name: Terraform · fmt, validate y plan
     runs-on: ubuntu-latest
+    # Skipped until the AWS roles exist and their ARNs are set as repository variables.
+    if: vars.AWS_PLAN_ROLE_ARN != ''
     permissions:
       contents: read
       id-token: write # OIDC token for AWS
