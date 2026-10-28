@@ -1,20 +1,20 @@
 """Daily health check for the portfolio.
 
 Checks that the pages and project links respond, how long the TLS certificate
-has left, that the bucket holds the expected files and which 4xx/5xx errors
-show up in the CloudFront access logs. Writes report.json and report.html and
-exits with 1 if any check fails, so the GitHub Actions job turns red.
+has left, that the $web container of the storage account holds the expected
+files and which 4xx/5xx errors show up in the access logs (Log Analytics).
+Writes report.json and report.html and exits with 1 if any check fails, so the
+GitHub Actions job turns red. Azure calls use DefaultAzureCredential (az login).
 
-    python ops/site_health.py --url https://dxxxx.cloudfront.net \
-        --bucket portfolio-site-123 --logs-bucket portfolio-logs-123 --out report/
+    python ops/site_health.py --url https://<account>.z6.web.core.windows.net \
+        --account <account> --workspace <workspace-id> --out report/
 
-    python ops/site_health.py --url https://dxxxx.cloudfront.net --smoke
+    python ops/site_health.py --url https://<account>.z6.web.core.windows.net --smoke
 """
 
 from __future__ import annotations
 
 import argparse
-import gzip
 import html
 import json
 import os
@@ -26,7 +26,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Callable, Iterable
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -51,7 +51,14 @@ EXPECTED_KEYS = [
     "cv/Cayetano_Yeste_CV_FullStack.pdf",
 ]
 TLS_MIN_DAYS = 14
-LOG_PREFIX = "cloudfront/"
+WEB_CONTAINER = "$web"
+# Reads of the site in the last N hours, grouped by path and status code.
+ACCESS_QUERY = """
+StorageBlobLogs
+| where TimeGenerated > ago({hours}h)
+| extend Path = tostring(parse_url(Uri).Path), Status = toint(StatusCode)
+| summarize Requests = count() by Path, Status
+"""
 USER_AGENT = "portfolio-site-health/1.0 (+https://github.com/cayeyemito/portfolio)"
 
 
@@ -162,69 +169,62 @@ def tls_check(site_url: str) -> Check:
 
 
 # --------------------------------------------------------------------------
-# S3
+# Storage ($web container)
 # --------------------------------------------------------------------------
 
 
-def list_keys(s3, bucket: str, prefix: str = "") -> Iterable[dict]:
-    paginator = s3.get_paginator("list_objects_v2")
-    for page in paginator.paginate(Bucket=bucket, Prefix=prefix):
-        yield from page.get("Contents", [])
-
-
-def bucket_checks(s3, bucket: str) -> list[Check]:
-    keys = {obj["Key"] for obj in list_keys(s3, bucket)}
+def storage_checks(container) -> list[Check]:
+    """container: azure.storage.blob.ContainerClient for $web (anything with list_blobs)."""
+    names = {blob.name for blob in container.list_blobs()}
     checks = [
-        Check("s3", key, key in keys, "presente" if key in keys else "no está en el bucket")
-        for key in EXPECTED_KEYS
+        Check("blob", name, name in names, "presente" if name in names else "no está en $web")
+        for name in EXPECTED_KEYS
     ]
-    assets = sum(1 for k in keys if k.startswith("assets/"))
-    checks.append(Check("s3", "assets/", assets > 0, f"{assets} ficheros"))
+    assets = sum(1 for n in names if n.startswith("assets/"))
+    checks.append(Check("blob", "assets/", assets > 0, f"{assets} ficheros"))
     return checks
 
 
 # --------------------------------------------------------------------------
-# CloudFront access logs
+# Access logs (Log Analytics, StorageBlobLogs table)
 # --------------------------------------------------------------------------
 
-
-def parse_log(lines: Iterable[str]) -> Iterable[tuple[str, int]]:
-    """Yield (path, status) from a CloudFront standard log (W3C, tab separated)."""
-    columns: list[str] = []
-    for line in lines:
-        line = line.rstrip("\n")
-        if line.startswith("#Fields:"):
-            columns = line.split()[1:]
-            continue
-        if not line or line.startswith("#") or not columns:
-            continue
-        values = line.split("\t")
-        row = dict(zip(columns, values))
-        status = row.get("sc-status", "")
-        if status.isdigit():
-            yield row.get("cs-uri-stem", "?"), int(status)
+# Runs a KQL query over the last N hours and returns the rows as dicts.
+# Injected into log_checks so the tests need no Azure.
+LogQuery = Callable[[str, int], list[dict]]
 
 
-def count_errors(entries: Iterable[tuple[str, int]]) -> Counter:
-    return Counter((path, status) for path, status in entries if status >= 400)
+def make_log_query(workspace_id: str) -> LogQuery:
+    from azure.identity import DefaultAzureCredential
+    from azure.monitor.query import LogsQueryClient
+
+    client = LogsQueryClient(DefaultAzureCredential())
+
+    def run(kql: str, hours: int) -> list[dict]:
+        result = client.query_workspace(workspace_id, kql, timespan=timedelta(hours=hours))
+        tables = getattr(result, "tables", None) or result.partial_data
+        return [dict(zip(t.columns, row)) for t in tables for row in t.rows]
+
+    return run
 
 
-def log_checks(s3, bucket: str, hours: int = 24) -> tuple[list[Check], list[dict]]:
-    since = datetime.now(timezone.utc) - timedelta(hours=hours)
+def count_errors(rows: Iterable[dict]) -> Counter:
     errors: Counter = Counter()
-    files = 0
-    for obj in list_keys(s3, bucket, LOG_PREFIX):
-        if obj["LastModified"] < since:
-            continue
-        files += 1
-        body = s3.get_object(Bucket=bucket, Key=obj["Key"])["Body"].read()
-        text = gzip.decompress(body).decode("utf-8", errors="replace")
-        errors += count_errors(parse_log(text.splitlines()))
+    for row in rows:
+        if row["Status"] >= 400:
+            errors[(row["Path"], row["Status"])] += row["Requests"]
+    return errors
 
+
+def log_checks(query: LogQuery, hours: int = 24) -> tuple[list[Check], list[dict]]:
+    rows = query(ACCESS_QUERY.format(hours=hours), hours)
+    errors = count_errors(rows)
+
+    total = sum(row["Requests"] for row in rows)
     client = sum(n for (_, status), n in errors.items() if status < 500)
     server = sum(n for (_, status), n in errors.items() if status >= 500)
     checks = [
-        Check("logs", f"ficheros de las últimas {hours} h", True, str(files)),
+        Check("logs", f"peticiones de las últimas {hours} h", True, str(total)),
         Check("logs", "errores 4xx", True, str(client)),
         Check("logs", "errores 5xx", server == 0, str(server)),
     ]
@@ -284,7 +284,7 @@ a {{ color:inherit; }}
 {rows}
 </tbody>
 </table>
-<h2>Errores en los logs de CloudFront (24 h)</h2>
+<h2>Errores en los logs de acceso (24 h)</h2>
 <table>
 <thead><tr><th>Ruta</th><th>Código</th><th>Peticiones</th></tr></thead>
 <tbody>
@@ -309,11 +309,11 @@ def write_report(report: Report, out: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--url", default=os.environ.get("SITE_URL"), help="https://... (o SITE_URL)")
-    parser.add_argument("--bucket", default=os.environ.get("SITE_BUCKET"))
-    parser.add_argument("--logs-bucket", default=os.environ.get("LOGS_BUCKET"))
+    parser.add_argument("--account", default=os.environ.get("SITE_STORAGE_ACCOUNT"))
+    parser.add_argument("--workspace", default=os.environ.get("LOG_WORKSPACE_ID"))
     parser.add_argument("--out", type=Path, default=Path("report"))
     parser.add_argument(
-        "--smoke", action="store_true", help="solo las páginas propias, sin AWS ni enlaces externos"
+        "--smoke", action="store_true", help="solo las páginas propias, sin Azure ni enlaces externos"
     )
     args = parser.parse_args(argv)
     if not args.url:
@@ -325,15 +325,20 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.smoke:
         report.checks.append(tls_check(site_url))
-        if args.bucket or args.logs_bucket:
-            import boto3  # only needed for the full run
+        if args.account:
+            # Azure SDKs are only needed for the full run.
+            from azure.identity import DefaultAzureCredential
+            from azure.storage.blob import ContainerClient
 
-            s3 = boto3.client("s3")
-            if args.bucket:
-                report.checks += bucket_checks(s3, args.bucket)
-            if args.logs_bucket:
-                checks, report.errors_by_path = log_checks(s3, args.logs_bucket)
-                report.checks += checks
+            container = ContainerClient(
+                f"https://{args.account}.blob.core.windows.net",
+                WEB_CONTAINER,
+                credential=DefaultAzureCredential(),
+            )
+            report.checks += storage_checks(container)
+        if args.workspace:
+            checks, report.errors_by_path = log_checks(make_log_query(args.workspace))
+            report.checks += checks
         write_report(report, args.out)
 
     sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to cp1252

@@ -1,5 +1,5 @@
 # Reproducible build + local preview. Production does not run this container:
-# the same dist/ is uploaded to S3 and served by CloudFront.
+# the same dist/ is uploaded to the $web container of Azure Storage.
 
 # ---- build ----
 FROM node:24-alpine AS build

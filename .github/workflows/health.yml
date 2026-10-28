@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write # OIDC token for AWS
+  id-token: write # OIDC token for Azure
 
 jobs:
   health:
@@ -23,18 +23,19 @@ jobs:
           cache-dependency-path: ops/requirements.txt
       - run: pip install -r ops/requirements.txt
 
-      - uses: aws-actions/configure-aws-credentials@v6
+      - uses: azure/login@v2
         with:
-          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          client-id: ${{ vars.AZURE_DEPLOY_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Run checks
         id: checks
         run: >-
           python ops/site_health.py
           --url "${{ vars.SITE_URL }}"
-          --bucket "${{ vars.SITE_BUCKET }}"
-          --logs-bucket "${{ vars.LOGS_BUCKET }}"
+          --account "${{ vars.SITE_STORAGE_ACCOUNT }}"
+          --workspace "${{ vars.LOG_WORKSPACE_ID }}"
           --out report
 
       # Publish the report even when a check failed: that is when it matters most.
@@ -48,7 +49,10 @@ jobs:
       - name: Publish to /status
         if: always() && hashFiles('report/report.json') != ''
         run: |
-          aws s3 cp report/report.html "s3://${{ vars.SITE_BUCKET }}/status/index.html" \
-            --content-type "text/html; charset=utf-8" --cache-control "no-cache"
-          aws s3 cp report/report.json "s3://${{ vars.SITE_BUCKET }}/status/report.json" \
-            --content-type "application/json" --cache-control "no-cache"
+          upload() {
+            az storage blob upload --auth-mode login --overwrite --only-show-errors \
+              --account-name "${{ vars.SITE_STORAGE_ACCOUNT }}" --container-name "\$web" \
+              --file "$1" --name "$2" --content-type "$3" --content-cache-control "no-cache"
+          }
+          upload report/report.html status/index.html "text/html; charset=utf-8"
+          upload report/report.json status/report.json "application/json"

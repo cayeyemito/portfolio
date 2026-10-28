@@ -1,78 +1,77 @@
-import gzip
 import json
 import sys
-from datetime import datetime, timedelta, timezone
-from io import BytesIO
 from pathlib import Path
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import site_health as sh  # noqa: E402
 
-LOG = """#Version: 1.0
-#Fields: date time x-edge-location sc-bytes c-ip cs-method cs(Host) cs-uri-stem sc-status
-2026-10-25\t06:00:00\tMAD50\t512\t1.2.3.4\tGET\td1.cloudfront.net\t/\t200
-2026-10-25\t06:00:01\tMAD50\t512\t1.2.3.4\tGET\td1.cloudfront.net\t/wp-login.php\t404
-2026-10-25\t06:00:02\tMAD50\t512\t1.2.3.4\tGET\td1.cloudfront.net\t/wp-login.php\t404
-2026-10-25\t06:00:03\tMAD50\t512\t1.2.3.4\tGET\td1.cloudfront.net\t/como-esta-hecha/\t503
-"""
+# Rows as ACCESS_QUERY returns them from Log Analytics.
+ROWS = [
+    {"Path": "/", "Status": 200, "Requests": 10},
+    {"Path": "/wp-login.php", "Status": 404, "Requests": 2},
+    {"Path": "/como-esta-hecha/", "Status": 503, "Requests": 1},
+]
 
 
-class FakeS3:
-    """Just enough of the boto3 S3 client for the checks."""
+class FakeQuery:
+    """Stands in for make_log_query: records the KQL and returns fixed rows."""
 
-    def __init__(self, objects: dict[str, bytes]):
-        now = datetime.now(timezone.utc)
-        self.objects = objects
-        self.meta = [{"Key": k, "LastModified": now} for k in objects]
+    def __init__(self, rows):
+        self.rows = rows
+        self.calls = []
 
-    def get_paginator(self, name):
-        assert name == "list_objects_v2"
-        meta = self.meta
-
-        class Paginator:
-            def paginate(self, Bucket, Prefix=""):
-                yield {"Contents": [m for m in meta if m["Key"].startswith(Prefix)]}
-
-        return Paginator()
-
-    def get_object(self, Bucket, Key):
-        return {"Body": BytesIO(self.objects[Key])}
+    def __call__(self, kql, hours):
+        self.calls.append((kql, hours))
+        return self.rows
 
 
-def test_parse_log_reads_path_and_status():
-    entries = list(sh.parse_log(LOG.splitlines()))
-    assert entries[0] == ("/", 200)
-    assert len(entries) == 4
+class FakeContainer:
+    """Just enough of azure.storage.blob.ContainerClient for the checks."""
+
+    def __init__(self, names):
+        self.names = names
+
+    def list_blobs(self):
+        return [SimpleNamespace(name=n) for n in self.names]
 
 
 def test_count_errors_groups_by_path_and_status():
-    errors = sh.count_errors(sh.parse_log(LOG.splitlines()))
+    errors = sh.count_errors(ROWS)
     assert errors[("/wp-login.php", 404)] == 2
     assert errors[("/como-esta-hecha/", 503)] == 1
     assert ("/", 200) not in errors
 
 
 def test_log_checks_fail_on_5xx():
-    s3 = FakeS3({"cloudfront/E1.2026-10-25-06.abc.gz": gzip.compress(LOG.encode())})
-    checks, by_path = sh.log_checks(s3, "logs")
+    query = FakeQuery(ROWS)
+    checks, by_path = sh.log_checks(query)
     by_name = {c.name: c for c in checks}
+    assert by_name["peticiones de las últimas 24 h"].detail == "13"
     assert by_name["errores 4xx"].detail == "2"
     assert not by_name["errores 5xx"].ok
     assert by_path[0] == {"path": "/wp-login.php", "status": 404, "count": 2}
 
 
-def test_log_checks_skip_old_files():
-    s3 = FakeS3({"cloudfront/old.gz": gzip.compress(LOG.encode())})
-    s3.meta[0]["LastModified"] -= timedelta(days=2)
-    checks, by_path = sh.log_checks(s3, "logs")
+def test_log_checks_query_the_storage_logs_of_the_period():
+    query = FakeQuery([])
+    sh.log_checks(query, hours=6)
+    kql, hours = query.calls[0]
+    assert "StorageBlobLogs" in kql
+    assert "ago(6h)" in kql
+    assert hours == 6
+
+
+def test_log_checks_pass_without_errors():
+    checks, by_path = sh.log_checks(FakeQuery([{"Path": "/", "Status": 200, "Requests": 3}]))
     assert all(c.ok for c in checks)
     assert by_path == []
 
 
-def test_bucket_checks_report_missing_files():
-    s3 = FakeS3({"index.html": b"", "assets/app.js": b""})
-    checks = {c.name: c for c in sh.bucket_checks(s3, "site")}
+def test_storage_checks_report_missing_files():
+    container = FakeContainer(["index.html", "assets/app.js"])
+    checks = {c.name: c for c in sh.storage_checks(container)}
     assert checks["index.html"].ok
     assert not checks["404.html"].ok
     assert checks["assets/"].detail == "1 ficheros"
