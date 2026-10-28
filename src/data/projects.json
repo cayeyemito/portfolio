@@ -31,14 +31,14 @@
     "slug": "portfolio",
     "title": "Este portfolio",
     "status": "En producción",
-    "problem": "Una web estática que también sirve de proyecto DevOps: infraestructura en AWS definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
+    "problem": "Una web estática que también sirve de proyecto DevOps: infraestructura en Azure definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
     "stack": [
       "Vue 3",
       "TypeScript",
       "Vite",
       "Terraform",
-      "AWS S3",
-      "CloudFront",
+      "Azure Storage",
+      "Entra ID",
       "GitHub Actions",
       "Python",
       "Docker"

@@ -5,12 +5,16 @@ import vue from '@vitejs/plugin-vue'
 
 const page = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 
-// Multi-page static build: each HTML file becomes a folder in dist/, which CloudFront
+// Multi-page static build: each HTML file becomes a folder in dist/, which Azure Storage
 // serves as /, /como-esta-hecha/ and /404.html. /status/ is uploaded by the health workflow.
 export default defineConfig({
   plugins: [vue()],
-  // No SPA fallback: unknown paths are 404s, as on CloudFront.
+  // No SPA fallback: unknown paths are 404s, as on the Azure static website.
   appType: 'mpa',
+  // deploy.yml uploads right after building, so build time is the deploy time.
+  define: {
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

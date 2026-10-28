@@ -3,6 +3,7 @@ import ArchitectureDiagram from '@/components/ArchitectureDiagram.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
+import StatusLine from '@/components/StatusLine.vue'
 import StatusSummary from '@/components/StatusSummary.vue'
 import { cvs, experience, profile } from '@/data/profile'
 import { projects } from '@/lib/projects'
@@ -16,6 +17,7 @@ const mainCv = cvs[0]!
     <section id="inicio" class="container hero">
       <p class="eyebrow">{{ profile.location }}</p>
       <h1>{{ profile.name }}</h1>
+      <StatusLine />
       <p class="headline">{{ profile.headline }}</p>
       <p class="intro muted">{{ profile.intro }}</p>
       <div class="actions">
@@ -38,9 +40,15 @@ const mainCv = cvs[0]!
       <div class="container stack">
         <h2 class="section-title">Cómo está hecha esta web</h2>
         <p>
-          Esta web es estática y vive en un bucket S3 privado servido por CloudFront. La
+          Esta web es estática y vive en Azure Storage, servida con HTTPS como web estática. La
           infraestructura está definida en Terraform, cada push a <code>main</code> la despliega
           GitHub Actions y un script en Python la revisa cada día.
+        </p>
+        <p class="pipeline" aria-label="Pasos del pipeline">
+          <template v-for="(step, i) in ['lint', 'tests', 'build', 'deploy']" :key="step">
+            <span v-if="i > 0" class="muted" aria-hidden="true"> · </span>
+            <span class="check" aria-hidden="true">✓</span> {{ step }}
+          </template>
         </p>
         <ArchitectureDiagram />
         <StatusSummary />
@@ -89,14 +97,15 @@ const mainCv = cvs[0]!
 }
 
 h1 {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(2.25rem, 7vw, 3.25rem);
   letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
 }
 
 .headline {
   font-size: 1.35rem;
   font-weight: 500;
-  margin: 0.5rem 0 1rem;
+  margin: 1.25rem 0 1rem;
 }
 
 .intro {
@@ -115,18 +124,17 @@ h1 {
   gap: 1.25rem;
 }
 
-@media (min-width: 800px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .stack > * + * {
   margin-top: 1.5rem;
 }
 
-.stack > p {
-  max-width: 44rem;
+.pipeline {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.pipeline .check {
+  color: var(--ok);
 }
 
 .jobs {
