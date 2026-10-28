@@ -9,6 +9,13 @@
       content="Portfolio de Cayetano Yeste: proyectos, experiencia y una web desplegada en Azure con Terraform y GitHub Actions."
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      // Apply the saved light/dark choice before the first paint (see src/lib/theme.ts).
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+      } catch {}
+    </script>
   </head>
   <body>
     <div id="app"></div>

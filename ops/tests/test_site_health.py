@@ -93,10 +93,11 @@ def test_real_projects_json_is_readable():
 
 def test_render_html_escapes_and_shows_verdict():
     report = sh.Report(site_url="https://site.example")
-    report.checks.append(sh.Check("http", "<script>", False, "500"))
+    # The page has its own <script> (theme), so look for this exact payload.
+    report.checks.append(sh.Check("http", "<script>alert(1)</script>", False, "500"))
     page = sh.render_html(report)
-    assert "&lt;script&gt;" in page
-    assert "<script>" not in page
+    assert "&lt;script&gt;alert(1)&lt;/script&gt;" in page
+    assert "<script>alert(1)</script>" not in page
     assert "Hay comprobaciones fallidas" in page
 
 
