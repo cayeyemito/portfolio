@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How it is built · Cayetano Yeste</title>
+    <meta
+      name="description"
+      content="Azure architecture, GitHub Actions pipeline, Terraform and daily monitoring of this portfolio."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      // Apply the saved light/dark choice before the first paint (see src/lib/theme.ts).
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>This site needs JavaScript.</noscript>
+    <script type="module" src="/src/pages/build.ts"></script>
+  </body>
+</html>

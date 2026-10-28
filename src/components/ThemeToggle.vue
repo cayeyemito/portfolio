@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useMessages } from '@/i18n'
 import { currentTheme, setTheme, type Theme } from '@/lib/theme'
 
+const m = useMessages()
 const theme = ref<Theme>('light')
 const next = computed<Theme>(() => (theme.value === 'dark' ? 'light' : 'dark'))
-const label = computed(() =>
-  next.value === 'dark' ? 'Activar el modo oscuro' : 'Activar el modo claro',
-)
+const label = computed(() => (next.value === 'dark' ? m.theme.toDark : m.theme.toLight))
 
 // Until a theme is chosen, keep the icon in sync with the system setting.
 const media = window.matchMedia('(prefers-color-scheme: dark)')

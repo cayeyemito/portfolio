@@ -1,3 +1,5 @@
+import type { Locale } from '@/i18n'
+
 // Shape of status/report.json, written by ops/site_health.py.
 export type Check = {
   group: string
@@ -27,8 +29,12 @@ export function summarize(report: Report): { passed: number; failed: number; tot
   return { passed, failed: report.checks.length - passed, total: report.checks.length }
 }
 
-export function formatDate(iso: string): string {
-  return new Intl.DateTimeFormat('es-ES', {
+// Intl locale per site language; en-GB keeps day/month order and the 24 h clock.
+const INTL_LOCALE: Record<Locale, string> = { es: 'es-ES', en: 'en-GB' }
+const JUST_NOW: Record<Locale, string> = { es: 'ahora mismo', en: 'just now' }
+
+export function formatDate(iso: string, locale: Locale = 'es'): string {
+  return new Intl.DateTimeFormat(INTL_LOCALE[locale], {
     dateStyle: 'medium',
     timeStyle: 'short',
     timeZone: 'Europe/Madrid',
@@ -41,14 +47,14 @@ const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
   ['minute', 60],
 ]
 
-// "hace 2 h", "ayer"… Under a minute reads as "ahora mismo".
-export function timeAgo(iso: string, now = Date.now()): string {
+// "hace 2 h", "ayer" / "2 hr. ago", "yesterday"… Under a minute reads as "ahora mismo" / "just now".
+export function timeAgo(iso: string, now = Date.now(), locale: Locale = 'es'): string {
   const seconds = (new Date(iso).getTime() - now) / 1000
-  const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto', style: 'short' })
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' })
   for (const [unit, size] of UNITS) {
     if (Math.abs(seconds) >= size) return rtf.format(Math.round(seconds / size), unit)
   }
-  return 'ahora mismo'
+  return JUST_NOW[locale]
 }
 
 export async function fetchReport(url = REPORT_URL): Promise<Report | null> {
