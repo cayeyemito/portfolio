@@ -7,7 +7,7 @@ import { profile } from '@/data/profile'
     <div class="container row">
       <span>© {{ new Date().getFullYear() }} {{ profile.name }}</span>
       <span>
-        Hecha con Vue, desplegada en AWS con Terraform y GitHub Actions ·
+        Hecha con Vue, desplegada en Azure con Terraform y GitHub Actions ·
         <a href="/status/">Estado</a>
       </span>
     </div>

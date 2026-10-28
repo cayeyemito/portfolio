@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchReport, summarize, type Report } from '@/lib/status'
+import { fetchReport, summarize, timeAgo, type Report } from '@/lib/status'
 
 const report: Report = {
   generated_at: '2026-10-25T06:00:00+00:00',
-  site_url: 'https://example.cloudfront.net',
+  site_url: 'https://example.z6.web.core.windows.net',
   ok: false,
   checks: [
     { group: 'http', name: '/', ok: true, detail: '200 en 80 ms' },
     { group: 'tls', name: 'certificado', ok: true, detail: 'caduca en 60 días' },
-    { group: 's3', name: 'index.html', ok: false, detail: 'no está en el bucket' },
+    { group: 'blob', name: 'index.html', ok: false, detail: 'no está en $web' },
   ],
   errors_by_path: [],
 }
@@ -20,6 +20,19 @@ afterEach(() => {
 describe('summarize', () => {
   it('counts passed and failed checks', () => {
     expect(summarize(report)).toEqual({ passed: 2, failed: 1, total: 3 })
+  })
+})
+
+describe('timeAgo', () => {
+  const now = Date.parse('2026-10-25T08:00:00Z')
+
+  it('uses the largest whole unit', () => {
+    expect(timeAgo('2026-10-25T06:00:00Z', now)).toBe('hace 2 h')
+    expect(timeAgo('2026-10-25T07:45:00Z', now)).toBe('hace 15 min')
+  })
+
+  it('reads recent times as now', () => {
+    expect(timeAgo('2026-10-25T07:59:30Z', now)).toBe('ahora mismo')
   })
 })
 

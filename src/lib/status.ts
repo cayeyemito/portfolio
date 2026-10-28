@@ -35,6 +35,22 @@ export function formatDate(iso: string): string {
   }).format(new Date(iso))
 }
 
+const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+  ['day', 86_400],
+  ['hour', 3_600],
+  ['minute', 60],
+]
+
+// "hace 2 h", "ayer"… Under a minute reads as "ahora mismo".
+export function timeAgo(iso: string, now = Date.now()): string {
+  const seconds = (new Date(iso).getTime() - now) / 1000
+  const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto', style: 'short' })
+  for (const [unit, size] of UNITS) {
+    if (Math.abs(seconds) >= size) return rtf.format(Math.round(seconds / size), unit)
+  }
+  return 'ahora mismo'
+}
+
 export async function fetchReport(url = REPORT_URL): Promise<Report | null> {
   const res = await fetch(url, { cache: 'no-store' })
   if (res.status === 404 || res.status === 403) return null

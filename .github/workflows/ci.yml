@@ -44,34 +44,34 @@ jobs:
   terraform:
     name: Terraform · fmt, validate y plan
     runs-on: ubuntu-latest
-    # Skipped until the AWS roles exist and their ARNs are set as repository variables.
-    if: vars.AWS_PLAN_ROLE_ARN != ''
+    # Skipped until the plan identity exists and its client ID is set as a repository variable.
+    if: vars.AZURE_PLAN_CLIENT_ID != ''
     permissions:
       contents: read
-      id-token: write # OIDC token for AWS
+      id-token: write # OIDC token for Azure
       pull-requests: write # plan comment
     defaults:
       run:
-        working-directory: infra
+        working-directory: infra/azure
+    # azurerm, azuread and the azurerm backend all sign in with the GitHub OIDC token.
+    env:
+      ARM_USE_OIDC: 'true'
+      ARM_CLIENT_ID: ${{ vars.AZURE_PLAN_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
     steps:
       - uses: actions/checkout@v7
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_wrapper: false
       - run: terraform fmt -check -recursive
-      - uses: aws-actions/configure-aws-credentials@v6
-        with:
-          role-to-assume: ${{ vars.AWS_PLAN_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
-      - run: >-
-          terraform init -input=false
-          -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}"
-          -backend-config="region=${{ vars.AWS_REGION }}"
+      - run: terraform init -input=false
       - run: terraform validate
-      # Read-only role: plan without taking the state lock.
+      # Read-only identity: plan without taking the state lock.
       - id: plan
         run: |
           terraform plan -input=false -no-color -lock=false -out=tfplan \
+            -var="subscription_id=${{ vars.AZURE_SUBSCRIPTION_ID }}" \
             -var="budget_email=${{ vars.BUDGET_EMAIL }}"
           terraform show -no-color tfplan > plan.txt
       - uses: actions/github-script@v9
@@ -79,7 +79,7 @@ jobs:
         with:
           script: |
             const fs = require('fs')
-            const path = 'infra/plan.txt'
+            const path = 'infra/azure/plan.txt'
             const plan = fs.existsSync(path) ? fs.readFileSync(path, 'utf8') : 'El plan ha fallado: revisa el log del job.'
             const body = [
               '### Terraform plan',
