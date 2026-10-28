@@ -21,6 +21,16 @@ variable "github_repository" {
   default     = "cayeyemito/portfolio"
 }
 
+variable "operator_object_id" {
+  description = <<-EOT
+    Entra ID object ID of the person who applies Terraform (az ad signed-in-user show --query id).
+    Owner of the app registrations and data access to the site storage. Fixed on purpose: the
+    identity running Terraform differs locally and in CI, and the plan must not depend on it.
+  EOT
+  type        = string
+  default     = "6e0ff015-f7bb-4168-8dd2-89d845ee9f5b"
+}
+
 variable "github_oidc_repository" {
   description = <<-EOT
     Repository as it appears in the GitHub OIDC token subject. GitHub uses immutable

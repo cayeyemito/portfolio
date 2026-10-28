@@ -8,7 +8,7 @@ provider "azurerm" {
 
 provider "azuread" {}
 
-# Who runs Terraform (az login locally, the plan identity in CI).
+# Tenant of whoever runs Terraform (the same locally and in CI).
 data "azuread_client_config" "current" {}
 
 locals {
@@ -60,7 +60,7 @@ resource "azurerm_storage_account" "site" {
 resource "azurerm_role_assignment" "operator_site_data" {
   scope                = azurerm_storage_account.site.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = data.azuread_client_config.current.object_id
+  principal_id         = var.operator_object_id
 }
 
 resource "azurerm_storage_account_static_website" "site" {
@@ -106,12 +106,12 @@ resource "azurerm_monitor_diagnostic_setting" "site_reads" {
 # Deploy and health workflows: pushes to main only.
 resource "azuread_application" "deploy" {
   display_name = "${var.project}-github-deploy"
-  owners       = [data.azuread_client_config.current.object_id]
+  owners       = [var.operator_object_id]
 }
 
 resource "azuread_service_principal" "deploy" {
   client_id = azuread_application.deploy.client_id
-  owners    = [data.azuread_client_config.current.object_id]
+  owners    = [var.operator_object_id]
 }
 
 resource "azuread_application_federated_identity_credential" "deploy_main" {
@@ -139,12 +139,12 @@ resource "azurerm_role_assignment" "deploy_logs_reader" {
 # Terraform plan on pull requests: read-only.
 resource "azuread_application" "plan" {
   display_name = "${var.project}-github-plan"
-  owners       = [data.azuread_client_config.current.object_id]
+  owners       = [var.operator_object_id]
 }
 
 resource "azuread_service_principal" "plan" {
   client_id = azuread_application.plan.client_id
-  owners    = [data.azuread_client_config.current.object_id]
+  owners    = [var.operator_object_id]
 }
 
 resource "azuread_application_federated_identity_credential" "plan_pull_request" {
