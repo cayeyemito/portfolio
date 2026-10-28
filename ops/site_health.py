@@ -259,9 +259,15 @@ def render_html(report: Report) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Estado · Cayetano Yeste</title>
+<script>
+// Same light/dark choice as the rest of the site (src/lib/theme.ts).
+try {{ const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; }} catch {{}}
+</script>
 <style>
 :root {{ --bg:#fafaf9; --fg:#1c1917; --muted:#57534e; --line:#e7e5e4; --ok:#15803d; --fail:#b91c1c; color-scheme: light dark; }}
-@media (prefers-color-scheme: dark) {{ :root {{ --bg:#0c0a09; --fg:#f5f5f4; --muted:#a8a29e; --line:#292524; --ok:#4ade80; --fail:#f87171; }} }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --bg:#0c0a09; --fg:#f5f5f4; --muted:#a8a29e; --line:#292524; --ok:#4ade80; --fail:#f87171; }} }}
+:root[data-theme="dark"] {{ --bg:#0c0a09; --fg:#f5f5f4; --muted:#a8a29e; --line:#292524; --ok:#4ade80; --fail:#f87171; color-scheme: dark; }}
+:root[data-theme="light"] {{ color-scheme: light; }}
 body {{ margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, sans-serif; }}
 main {{ max-width:56rem; margin:0 auto; padding:3rem 1rem; }}
 h1 {{ margin:0 0 .25rem; }} h2 {{ margin-top:2.5rem; font-size:1.2rem; }}

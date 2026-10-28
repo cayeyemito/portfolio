@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ThemeToggle from '@/components/ThemeToggle.vue'
 import { profile } from '@/data/profile'
 
 // On the home page the anchors are local; elsewhere they point back to it.
@@ -15,6 +16,7 @@ defineProps<{ base?: string }>()
         <li><a :href="`${base ?? ''}#experiencia`">Experiencia</a></li>
         <li><a :href="`${base ?? ''}#contacto`">Contacto</a></li>
       </ul>
+      <ThemeToggle />
     </nav>
   </header>
 </template>
@@ -47,7 +49,8 @@ defineProps<{ base?: string }>()
 ul {
   display: flex;
   gap: 1.25rem;
-  margin: 0;
+  /* Links sit on the right, next to the theme toggle. */
+  margin: 0 0 0 auto;
   padding: 0;
   list-style: none;
   font-size: 0.9rem;
