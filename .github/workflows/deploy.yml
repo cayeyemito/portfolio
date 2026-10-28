@@ -41,15 +41,18 @@ jobs:
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       # Hashed assets are cached for a year; HTML and the rest must revalidate.
+      # Only azcopy copy can set Cache-Control, so copy first and then let sync
+      # delete what is gone from dist/ (it uploads nothing: Azure has newer files).
       # status/ belongs to the health workflow, so the delete must not touch it.
       # No CDN in front, so there is no cache to invalidate afterwards.
       - name: Upload to $web
         run: |
-          azcopy sync dist/assets "$WEB_CONTAINER_URL/assets" --delete-destination=true \
+          azcopy copy "dist/assets/*" "$WEB_CONTAINER_URL/assets" --recursive --overwrite=true \
             --cache-control "public, max-age=31536000, immutable"
-          azcopy sync dist "$WEB_CONTAINER_URL" --delete-destination=true \
-            --exclude-path "assets;status" \
+          azcopy copy "dist/*" "$WEB_CONTAINER_URL" --recursive --overwrite=true \
+            --exclude-path "assets" \
             --cache-control "public, max-age=0, must-revalidate"
+          azcopy sync dist "$WEB_CONTAINER_URL" --delete-destination=true --exclude-path "status"
 
       - uses: actions/setup-python@v7
         with:
