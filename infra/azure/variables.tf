@@ -21,6 +21,16 @@ variable "github_repository" {
   default     = "cayeyemito/portfolio"
 }
 
+variable "github_oidc_repository" {
+  description = <<-EOT
+    Repository as it appears in the GitHub OIDC token subject. GitHub uses immutable
+    IDs (owner@id/repo@id), so a deleted or renamed repository can never be
+    impersonated by a new one with the same name.
+  EOT
+  type        = string
+  default     = "cayeyemito@46819817/portfolio@1432650297"
+}
+
 variable "tfstate_resource_group" {
   description = "Resource group of the hand-made Terraform state storage account."
   type        = string

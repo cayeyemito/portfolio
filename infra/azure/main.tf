@@ -119,7 +119,7 @@ resource "azuread_application_federated_identity_credential" "deploy_main" {
   display_name   = "github-main"
   issuer         = local.github_issuer
   audiences      = [local.github_audience]
-  subject        = "repo:${var.github_repository}:ref:refs/heads/main"
+  subject        = "repo:${var.github_oidc_repository}:ref:refs/heads/main"
 }
 
 # Upload the site and the /status report to $web, nothing else.
@@ -152,7 +152,7 @@ resource "azuread_application_federated_identity_credential" "plan_pull_request"
   display_name   = "github-pull-request"
   issuer         = local.github_issuer
   audiences      = [local.github_audience]
-  subject        = "repo:${var.github_repository}:pull_request"
+  subject        = "repo:${var.github_oidc_repository}:pull_request"
 }
 
 resource "azurerm_role_assignment" "plan_reader" {
