@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cayetano Yeste · DevOps and development</title>
+    <meta
+      name="description"
+      content="Portfolio of Cayetano Yeste: projects, experience and a site deployed on Azure with Terraform and GitHub Actions."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      // Apply the saved light/dark choice before the first paint (see src/lib/theme.ts).
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>This site needs JavaScript. Write to me at cayetanoym@gmail.com.</noscript>
+    <script type="module" src="/src/pages/home.ts"></script>
+  </body>
+</html>

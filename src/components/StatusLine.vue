@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useLocale, useMessages } from '@/i18n'
 import { fetchReport, timeAgo, type Report } from '@/lib/status'
 
 // One-line status under the name: verdict from report.json (only when it exists) plus deploy age.
+const m = useMessages()
 const report = ref<Report | null>(null)
-const deployed = timeAgo(__BUILD_TIME__)
+const deployed = timeAgo(__BUILD_TIME__, Date.now(), useLocale())
 
 onMounted(async () => {
   try {
@@ -19,10 +21,10 @@ onMounted(async () => {
   <a href="/status/" class="status-line" aria-live="polite">
     <template v-if="report">
       <span :class="['dot', report.ok ? 'ok' : 'fail']" aria-hidden="true">●</span>
-      {{ report.ok ? 'Todos los sistemas operativos' : 'Hay comprobaciones fallidas' }}
+      {{ report.ok ? m.status.allOk : m.status.failed }}
       <span aria-hidden="true">·</span>
     </template>
-    último despliegue {{ deployed }}
+    {{ m.status.lastDeploy }} {{ deployed }}
   </a>
 </template>
 

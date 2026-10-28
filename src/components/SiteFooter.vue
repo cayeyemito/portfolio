@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { profile } from '@/data/profile'
+import { useMessages } from '@/i18n'
+
+const m = useMessages()
 </script>
 
 <template>
@@ -7,8 +10,8 @@ import { profile } from '@/data/profile'
     <div class="container row">
       <span>© {{ new Date().getFullYear() }} {{ profile.name }}</span>
       <span>
-        Hecha con Vue, desplegada en Azure con Terraform y GitHub Actions ·
-        <a href="/status/">Estado</a>
+        {{ m.footer.madeWith }} ·
+        <a href="/status/">{{ m.footer.status }}</a>
       </span>
     </div>
   </footer>

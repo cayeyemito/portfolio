@@ -27,16 +27,17 @@ y una monitorización diaria en Python que publica un informe de estado en `/sta
 
 ## Estructura
 
-| Ruta | Qué hay |
-| --- | --- |
-| `src/` | Frontend en Vue 3 + TypeScript. Los proyectos se leen de `src/data/projects.json` |
-| `index.html`, `como-esta-hecha/`, `404.html` | Páginas del build multipágina de Vite |
-| `infra/azure/` | Terraform desplegado: `main.tf`, `variables.tf`, `outputs.tf` y `backend.tf` |
-| `infra/aws/` | La misma arquitectura para AWS, validada pero sin desplegar ([ver abajo](#la-versión-de-aws)) |
-| `ops/site_health.py` | Comprobaciones diarias e informe HTML/JSON |
-| `ops/logs.sh` | Resumen de errores de los logs de acceso con `az`, `grep`, `awk` y `sort \| uniq -c` |
-| `.github/workflows/` | `ci.yml` (PR), `deploy.yml` (push a `main`) y `health.yml` (diario) |
-| `Dockerfile` | Build reproducible y previsualización local con Nginx |
+| Ruta                                                | Qué hay                                                                                                  |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `src/`                                              | Frontend en Vue 3 + TypeScript. Los proyectos se leen de `src/data/projects.json`                        |
+| `src/i18n/`                                         | Textos en español (`es.ts`) e inglés (`en.ts`). El tipo `Messages` obliga a que tengan las mismas claves |
+| `index.html`, `como-esta-hecha/`, `en/`, `404.html` | Páginas del build multipágina de Vite: español en `/` e inglés en `/en/`, con los mismos componentes     |
+| `infra/azure/`                                      | Terraform desplegado: `main.tf`, `variables.tf`, `outputs.tf` y `backend.tf`                             |
+| `infra/aws/`                                        | La misma arquitectura para AWS, validada pero sin desplegar ([ver abajo](#la-versión-de-aws))            |
+| `ops/site_health.py`                                | Comprobaciones diarias e informe HTML/JSON                                                               |
+| `ops/logs.sh`                                       | Resumen de errores de los logs de acceso con `az`, `grep`, `awk` y `sort \| uniq -c`                     |
+| `.github/workflows/`                                | `ci.yml` (PR), `deploy.yml` (push a `main`) y `health.yml` (diario)                                      |
+| `Dockerfile`                                        | Build reproducible y previsualización local con Nginx                                                    |
 
 ## Desarrollo local
 
@@ -88,7 +89,7 @@ python ops/site_health.py --url https://<cuenta>.z6.web.core.windows.net --smoke
    ```
 
    Ser propietario de la suscripción no da acceso a los datos de un Storage: por eso hace falta el
-   rol *Storage Blob Data Contributor*.
+   rol _Storage Blob Data Contributor_.
 
 ### 2. Crear la infraestructura (en local)
 
@@ -102,7 +103,7 @@ terraform output github_variables
 ```
 
 El backend (`backend.tf`) apunta a la cuenta del paso 1 y entra con tu identidad
-(`use_azuread_auth`). El *lease* del blob hace de bloqueo del estado.
+(`use_azuread_auth`). El _lease_ del blob hace de bloqueo del estado.
 
 ### 3. Primer despliegue a mano
 
@@ -118,16 +119,16 @@ AZCOPY_AUTO_LOGIN_TYPE=AZCLI azcopy sync dist "https://$ACCOUNT.blob.core.window
 Ve a **Settings → Secrets and variables → Actions → Variables** y crea estas variables. No son
 secretos: con OIDC solo hacen falta identificadores.
 
-| Variable | Valor |
-| --- | --- |
-| `AZURE_TENANT_ID` | `github_variables` |
-| `AZURE_SUBSCRIPTION_ID` | `github_variables` |
-| `AZURE_DEPLOY_CLIENT_ID` | `github_variables` |
-| `AZURE_PLAN_CLIENT_ID` | `github_variables` |
-| `SITE_STORAGE_ACCOUNT` | `github_variables` |
-| `LOG_WORKSPACE_ID` | `github_variables` |
-| `SITE_URL` | `github_variables` |
-| `BUDGET_EMAIL` | el email de las alertas |
+| Variable                 | Valor                   |
+| ------------------------ | ----------------------- |
+| `AZURE_TENANT_ID`        | `github_variables`      |
+| `AZURE_SUBSCRIPTION_ID`  | `github_variables`      |
+| `AZURE_DEPLOY_CLIENT_ID` | `github_variables`      |
+| `AZURE_PLAN_CLIENT_ID`   | `github_variables`      |
+| `SITE_STORAGE_ACCOUNT`   | `github_variables`      |
+| `LOG_WORKSPACE_ID`       | `github_variables`      |
+| `SITE_URL`               | `github_variables`      |
+| `BUDGET_EMAIL`           | el email de las alertas |
 
 A partir de aquí, cada push a `main` despliega solo. Puedes lanzar `health.yml` a mano desde la
 pestaña Actions para generar el primer `/status`.
@@ -157,7 +158,7 @@ GitHub avisa por email.
 
 ## Seguridad y costes
 
-- No hay secretos de Azure en el repositorio ni en GitHub: solo OIDC con *federated credentials*.
+- No hay secretos de Azure en el repositorio ni en GitHub: solo OIDC con _federated credentials_.
 - La identidad `portfolio-github-deploy` solo acepta tokens de la rama `main` de este repositorio.
   Puede escribir en la cuenta de Storage de la web y leer sus logs, y nada más.
 - La identidad `portfolio-github-plan` solo acepta tokens de pull requests: lectura de la

@@ -1,9 +1,18 @@
 [
   {
     "slug": "frimee",
-    "title": "Frimee",
-    "status": "En producción",
-    "problem": "Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.",
+    "title": {
+      "es": "Frimee",
+      "en": "Frimee"
+    },
+    "status": {
+      "es": "En producción",
+      "en": "Live"
+    },
+    "problem": {
+      "es": "Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.",
+      "en": "When a group plans a trip, everything ends up scattered across messages, notes and loose payments. Frimee brings the activities, the map, the calendar, the shared expenses and the chat together in a single plan."
+    },
     "stack": [
       "Next.js",
       "React",
@@ -15,23 +24,38 @@
       "Google Maps",
       "Docker"
     ],
-    "role": "Equipo de 2 personas: mi compañera hizo todo el diseño visual y yo desarrollé el frontend y el backend. Entre otras cosas, la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
+    "role": {
+      "es": "Equipo de 2 personas: mi compañera hizo todo el diseño visual y yo desarrollé el frontend y el backend. Entre otras cosas, la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
+      "en": "Team of 2: my teammate did all the visual design and I built the frontend and the backend. Among other things, the native Android and iOS app with Capacitor, receipt scanning with OCR, the token authentication shared by web and mobile, and the chat and video calls with LiveKit."
+    },
     "links": {
       "repo": "https://github.com/FrimeeApp/Frimee",
       "demo": "https://frimee.es"
     },
     "image": {
       "src": "/projects/frimee/plan.webp",
-      "alt": "Itinerario de un viaje en Frimee: actividades por día y ruta en el mapa",
+      "alt": {
+        "es": "Itinerario de un viaje en Frimee: actividades por día y ruta en el mapa",
+        "en": "A trip itinerary in Frimee: activities by day and the route on the map"
+      },
       "width": 1600,
       "height": 867
     }
   },
   {
     "slug": "portfolio",
-    "title": "Este portfolio",
-    "status": "En producción",
-    "problem": "Una web estática que también sirve de proyecto DevOps: infraestructura en Azure definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
+    "title": {
+      "es": "Este portfolio",
+      "en": "This portfolio"
+    },
+    "status": {
+      "es": "En producción",
+      "en": "Live"
+    },
+    "problem": {
+      "es": "Una web estática que también sirve de proyecto DevOps: infraestructura en Azure definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
+      "en": "A static site that is also a DevOps project: infrastructure on Azure defined with Terraform, automatic deployment on every push and a daily status report generated in Python."
+    },
     "stack": [
       "Vue 3",
       "TypeScript",
@@ -43,7 +67,10 @@
       "Python",
       "Docker"
     ],
-    "role": "Proyecto individual: frontend, infraestructura, pipeline y scripts de operación.",
+    "role": {
+      "es": "Proyecto individual: frontend, infraestructura, pipeline y scripts de operación.",
+      "en": "Solo project: frontend, infrastructure, pipeline and operations scripts."
+    },
     "links": {
       "repo": "https://github.com/cayeyemito/portfolio",
       "demo": "/como-esta-hecha/"
