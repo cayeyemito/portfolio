@@ -41,7 +41,7 @@ const b = useMessages().build
     <section>
       <h2>{{ b.opsTitle }}</h2>
       <p><RichText :text="b.opsText" /></p>
-      <StatusSummary detailed />
+      <StatusSummary />
     </section>
 
     <section>

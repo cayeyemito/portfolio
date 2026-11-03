@@ -3,9 +3,6 @@ import { onMounted, ref } from 'vue'
 import { useLocale, useMessages } from '@/i18n'
 import { fetchReport, formatDate, summarize, type Report } from '@/lib/status'
 
-// "detailed" shows every check; otherwise only the verdict line.
-defineProps<{ detailed?: boolean }>()
-
 const locale = useLocale()
 const m = useMessages()
 
@@ -36,7 +33,7 @@ onMounted(async () => {
           {{ formatDate(report.generated_at, locale) }}
         </span>
       </p>
-      <table v-if="detailed">
+      <table>
         <thead>
           <tr>
             <th scope="col">{{ m.status.check }}</th>

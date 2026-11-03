@@ -74,6 +74,18 @@
     "links": {
       "repo": "https://github.com/cayeyemito/portfolio",
       "demo": "/como-esta-hecha/"
+    },
+    "image": {
+      "src": {
+        "es": "/projects/portfolio/arquitectura.webp",
+        "en": "/projects/portfolio/architecture.webp"
+      },
+      "alt": {
+        "es": "Diagrama de arquitectura: GitHub Actions entra en Azure con OIDC y sube la web a Azure Storage, que envía sus logs a Log Analytics",
+        "en": "Architecture diagram: GitHub Actions signs in to Azure with OIDC and uploads the site to Azure Storage, which sends its logs to Log Analytics"
+      },
+      "width": 1600,
+      "height": 900
     }
   }
 ]

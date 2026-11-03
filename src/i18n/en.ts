@@ -51,11 +51,6 @@ export const en: Messages = {
     repo: 'Repository',
   },
   home: {
-    buildTitle: 'How this site is built',
-    buildIntro:
-      'This is a static site hosted on Azure Storage and served over HTTPS as a static website. The infrastructure is defined in Terraform, GitHub Actions deploys every push to `main` and a Python script checks it every day.',
-    pipelineLabel: 'Pipeline steps',
-    buildMore: 'See the pipeline, the infrastructure and the operations →',
     experienceTitle: 'Experience',
     cvsLabel: 'Full CV (PDF):',
     contactTitle: 'Contact',

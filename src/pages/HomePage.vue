@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import ArchitectureDiagram from '@/components/ArchitectureDiagram.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
-import RichText from '@/components/RichText.vue'
-import StatusSummary from '@/components/StatusSummary.vue'
 import { profile } from '@/data/profile'
-import { pages, useLocale, useMessages } from '@/i18n'
+import { useLocale, useMessages } from '@/i18n'
 import { projectsFor } from '@/lib/projects'
 
 const locale = useLocale()
@@ -42,24 +39,6 @@ const projects = projectsFor(locale)
         <div class="grid">
           <ProjectCard v-for="p in projects" :key="p.slug" :project="p" />
         </div>
-      </div>
-    </section>
-
-    <section id="build" class="section">
-      <div class="container stack">
-        <h2 class="section-title">{{ m.home.buildTitle }}</h2>
-        <p><RichText :text="m.home.buildIntro" /></p>
-        <p class="pipeline" :aria-label="m.home.pipelineLabel">
-          <template v-for="(step, i) in ['lint', 'tests', 'build', 'deploy']" :key="step">
-            <span v-if="i > 0" class="muted" aria-hidden="true"> · </span>
-            <span class="check" aria-hidden="true">✓</span> {{ step }}
-          </template>
-        </p>
-        <ArchitectureDiagram />
-        <StatusSummary />
-        <p>
-          <a :href="pages.build[locale]">{{ m.home.buildMore }}</a>
-        </p>
       </div>
     </section>
 
@@ -130,19 +109,6 @@ h1 {
 .grid {
   display: grid;
   gap: 1.25rem;
-}
-
-.stack > * + * {
-  margin-top: 1.5rem;
-}
-
-.pipeline {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-}
-
-.pipeline .check {
-  color: var(--ok);
 }
 
 .jobs {

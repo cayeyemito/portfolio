@@ -53,11 +53,6 @@ export const es = {
     repo: 'Repositorio',
   },
   home: {
-    buildTitle: 'Cómo está hecha esta web',
-    buildIntro:
-      'Esta web es estática y vive en Azure Storage, servida con HTTPS como web estática. La infraestructura está definida en Terraform, cada push a `main` la despliega GitHub Actions y un script en Python la revisa cada día.',
-    pipelineLabel: 'Pasos del pipeline',
-    buildMore: 'Ver el pipeline, la infraestructura y la operación →',
     experienceTitle: 'Experiencia',
     cvsLabel: 'CV completo en PDF:',
     contactTitle: 'Contacto',

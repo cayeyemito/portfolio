@@ -33,6 +33,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+        env:
+          VITE_SITE_URL: ${{ vars.SITE_URL }}
 
       - uses: azure/login@v2
         with:

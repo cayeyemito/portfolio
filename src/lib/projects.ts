@@ -12,7 +12,8 @@ type ProjectSource = {
   stack: string[]
   role: Localized
   links: { repo?: string; demo?: string }
-  image?: { src: string; alt: Localized; width: number; height: number }
+  // src is localized when the image itself has text in it.
+  image?: { src: string | Localized; alt: Localized; width: number; height: number }
 }
 
 // As the components use it: texts in one language.
@@ -36,6 +37,10 @@ export function projectsFor(locale: Locale): Project[] {
     status: p.status[locale],
     problem: p.problem[locale],
     role: p.role[locale],
-    image: p.image && { ...p.image, alt: p.image.alt[locale] },
+    image: p.image && {
+      ...p.image,
+      src: typeof p.image.src === 'string' ? p.image.src : p.image.src[locale],
+      alt: p.image.alt[locale],
+    },
   }))
 }
