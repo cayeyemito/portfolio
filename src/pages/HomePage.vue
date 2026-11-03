@@ -3,48 +3,49 @@ import ArchitectureDiagram from '@/components/ArchitectureDiagram.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
+import RichText from '@/components/RichText.vue'
 import StatusLine from '@/components/StatusLine.vue'
 import StatusSummary from '@/components/StatusSummary.vue'
-import { cvs, experience, profile } from '@/data/profile'
-import { projects } from '@/lib/projects'
+import { profile } from '@/data/profile'
+import { pages, useLocale, useMessages } from '@/i18n'
+import { projectsFor } from '@/lib/projects'
 
-const mainCv = cvs[0]!
+const locale = useLocale()
+const m = useMessages()
+const projects = projectsFor(locale)
+const mainCv = m.cvs[0]!
 </script>
 
 <template>
-  <SiteHeader />
+  <SiteHeader page="home" />
   <main>
-    <section id="inicio" class="container hero">
-      <p class="eyebrow">{{ profile.location }}</p>
+    <section id="top" class="container hero">
+      <p class="eyebrow">{{ m.profile.location }}</p>
       <h1>{{ profile.name }}</h1>
       <StatusLine />
-      <p class="headline">{{ profile.headline }}</p>
-      <p class="intro muted">{{ profile.intro }}</p>
+      <p class="headline">{{ m.profile.headline }}</p>
+      <p class="intro muted">{{ m.profile.intro }}</p>
       <div class="actions">
-        <a :href="mainCv.href" class="button primary" download>CV en PDF</a>
+        <a :href="mainCv.href" class="button primary" download>{{ m.profile.cvButton }}</a>
         <a :href="profile.links.github" class="button">GitHub</a>
         <a :href="profile.links.linkedin" class="button">LinkedIn</a>
       </div>
     </section>
 
-    <section id="proyectos" class="section">
+    <section id="projects" class="section">
       <div class="container">
-        <h2 class="section-title">Proyectos</h2>
+        <h2 class="section-title">{{ m.projects.title }}</h2>
         <div class="grid">
           <ProjectCard v-for="p in projects" :key="p.slug" :project="p" />
         </div>
       </div>
     </section>
 
-    <section id="como-esta-hecha" class="section">
+    <section id="build" class="section">
       <div class="container stack">
-        <h2 class="section-title">Cómo está hecha esta web</h2>
-        <p>
-          Esta web es estática y vive en Azure Storage, servida con HTTPS como web estática. La
-          infraestructura está definida en Terraform, cada push a <code>main</code> la despliega
-          GitHub Actions y un script en Python la revisa cada día.
-        </p>
-        <p class="pipeline" aria-label="Pasos del pipeline">
+        <h2 class="section-title">{{ m.home.buildTitle }}</h2>
+        <p><RichText :text="m.home.buildIntro" /></p>
+        <p class="pipeline" :aria-label="m.home.pipelineLabel">
           <template v-for="(step, i) in ['lint', 'tests', 'build', 'deploy']" :key="step">
             <span v-if="i > 0" class="muted" aria-hidden="true"> · </span>
             <span class="check" aria-hidden="true">✓</span> {{ step }}
@@ -52,15 +53,17 @@ const mainCv = cvs[0]!
         </p>
         <ArchitectureDiagram />
         <StatusSummary />
-        <p><a href="/como-esta-hecha/">Ver el pipeline, la infraestructura y la operación →</a></p>
+        <p>
+          <a :href="pages.build[locale]">{{ m.home.buildMore }}</a>
+        </p>
       </div>
     </section>
 
-    <section id="experiencia" class="section">
+    <section id="experience" class="section">
       <div class="container">
-        <h2 class="section-title">Experiencia</h2>
+        <h2 class="section-title">{{ m.home.experienceTitle }}</h2>
         <ol class="jobs">
-          <li v-for="job in experience" :key="job.company">
+          <li v-for="job in m.experience" :key="job.company">
             <h3>
               {{ job.role }} <span class="muted">· {{ job.company }}</span>
             </h3>
@@ -69,8 +72,8 @@ const mainCv = cvs[0]!
           </li>
         </ol>
         <p class="cvs">
-          CV completo en PDF:
-          <template v-for="(cv, i) in cvs" :key="cv.href">
+          {{ m.home.cvsLabel }}
+          <template v-for="(cv, i) in m.cvs" :key="cv.href">
             <span v-if="i > 0" aria-hidden="true"> · </span>
             <a :href="cv.href" download>{{ cv.label }}</a>
           </template>
@@ -78,11 +81,12 @@ const mainCv = cvs[0]!
       </div>
     </section>
 
-    <section id="contacto" class="section">
+    <section id="contact" class="section">
       <div class="container">
-        <h2 class="section-title">Contacto</h2>
+        <h2 class="section-title">{{ m.home.contactTitle }}</h2>
         <p>
-          Escríbeme a <a :href="`mailto:${profile.email}`">{{ profile.email }}</a> o por
+          {{ m.home.contactBefore }}
+          <a :href="`mailto:${profile.email}`">{{ profile.email }}</a> {{ m.home.contactOr }}
           <a :href="profile.links.linkedin">LinkedIn</a>.
         </p>
       </div>

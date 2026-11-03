@@ -39,16 +39,22 @@ PROJECTS_JSON = ROOT / "src" / "data" / "projects.json"
 PAGES = [
     "/",
     "/como-esta-hecha/",
+    "/en/",
+    "/en/how-it-is-built/",
     "/cv/Cayetano_Yeste_CV_DevOps.pdf",
     "/cv/Cayetano_Yeste_CV_FullStack.pdf",
+    "/cv/Cayetano_Yeste_CV_FullStack_EN.pdf",
 ]
 MISSING_PAGE = "/esta-pagina-no-existe/"
 EXPECTED_KEYS = [
     "index.html",
     "como-esta-hecha/index.html",
+    "en/index.html",
+    "en/how-it-is-built/index.html",
     "404.html",
     "cv/Cayetano_Yeste_CV_DevOps.pdf",
     "cv/Cayetano_Yeste_CV_FullStack.pdf",
+    "cv/Cayetano_Yeste_CV_FullStack_EN.pdf",
 ]
 TLS_MIN_DAYS = 14
 WEB_CONTAINER = "$web"

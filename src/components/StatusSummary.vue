@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useLocale, useMessages } from '@/i18n'
 import { fetchReport, formatDate, summarize, type Report } from '@/lib/status'
 
 // "detailed" shows every check; otherwise only the verdict line.
 defineProps<{ detailed?: boolean }>()
+
+const locale = useLocale()
+const m = useMessages()
 
 const report = ref<Report | null>(null)
 const state = ref<'loading' | 'ready' | 'missing' | 'error'>('loading')
@@ -20,25 +24,23 @@ onMounted(async () => {
 
 <template>
   <div class="status card" aria-live="polite">
-    <p v-if="state === 'loading'" class="muted">Cargando el último informe…</p>
-    <p v-else-if="state === 'missing'" class="muted">
-      Todavía no hay informe: se genera una vez al día.
-    </p>
-    <p v-else-if="state === 'error'" class="muted">No se ha podido leer el informe de estado.</p>
+    <p v-if="state === 'loading'" class="muted">{{ m.status.loading }}</p>
+    <p v-else-if="state === 'missing'" class="muted">{{ m.status.missing }}</p>
+    <p v-else-if="state === 'error'" class="muted">{{ m.status.error }}</p>
     <template v-else-if="report">
       <p class="verdict">
         <span :class="['dot', report.ok ? 'ok' : 'fail']" aria-hidden="true"></span>
-        <strong>{{ report.ok ? 'Todo en orden' : 'Hay comprobaciones fallidas' }}</strong>
+        <strong>{{ report.ok ? m.status.summaryOk : m.status.failed }}</strong>
         <span class="muted">
-          · {{ summarize(report).passed }}/{{ summarize(report).total }} comprobaciones ·
-          {{ formatDate(report.generated_at) }}
+          · {{ summarize(report).passed }}/{{ summarize(report).total }} {{ m.status.checks }} ·
+          {{ formatDate(report.generated_at, locale) }}
         </span>
       </p>
       <table v-if="detailed">
         <thead>
           <tr>
-            <th scope="col">Comprobación</th>
-            <th scope="col">Resultado</th>
+            <th scope="col">{{ m.status.check }}</th>
+            <th scope="col">{{ m.status.result }}</th>
           </tr>
         </thead>
         <tbody>
@@ -46,12 +48,14 @@ onMounted(async () => {
             <td>
               <span class="group">{{ c.group }}</span> {{ c.name }}
             </td>
-            <td :class="c.ok ? 'ok' : 'fail'">{{ c.ok ? 'OK' : 'Fallo' }} · {{ c.detail }}</td>
+            <td :class="c.ok ? 'ok' : 'fail'">
+              {{ c.ok ? m.status.pass : m.status.fail }} · {{ c.detail }}
+            </td>
           </tr>
         </tbody>
       </table>
     </template>
-    <a href="/status/" class="more">Ver el informe completo →</a>
+    <a href="/status/" class="more">{{ m.status.fullReport }}</a>
   </div>
 </template>
 

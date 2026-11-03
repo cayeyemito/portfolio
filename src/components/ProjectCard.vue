@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { localizePath, useLocale, useMessages } from '@/i18n'
 import type { Project } from '@/lib/projects'
 
 defineProps<{ project: Project }>()
+
+const locale = useLocale()
+const m = useMessages()
 </script>
 
 <template>
@@ -25,8 +29,15 @@ defineProps<{ project: Project }>()
       <li v-for="tech in project.stack" :key="tech">{{ tech }}</li>
     </ul>
     <div class="links">
-      <a v-if="project.links.demo" :href="project.links.demo" class="button primary">Ver demo</a>
-      <a v-if="project.links.repo" :href="project.links.repo" class="button">Repositorio</a>
+      <a
+        v-if="project.links.demo"
+        :href="localizePath(project.links.demo, locale)"
+        class="button primary"
+        >{{ m.projects.demo }}</a
+      >
+      <a v-if="project.links.repo" :href="project.links.repo" class="button">{{
+        m.projects.repo
+      }}</a>
     </div>
   </article>
 </template>

@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { useMessages } from '@/i18n'
+
 type Box = { x: number; y: number; w: number; title: string; sub: string; accent?: boolean }
+
+const m = useMessages()
+const t = m.diagram
 
 const H = 60
 const boxes: Box[] = [
-  { x: 20, y: 30, w: 120, title: 'Tú', sub: 'git push' },
-  { x: 175, y: 30, w: 130, title: 'GitHub', sub: 'repositorio' },
+  { x: 20, y: 30, w: 120, title: t.you, sub: 'git push' },
+  { x: 175, y: 30, w: 130, title: 'GitHub', sub: t.repository },
   { x: 340, y: 30, w: 150, title: 'GitHub Actions', sub: 'ci · deploy · health' },
-  { x: 525, y: 30, w: 120, title: 'Entra ID', sub: 'OIDC, temporal' },
-  { x: 20, y: 230, w: 120, title: 'Visitante', sub: 'navegador' },
-  { x: 340, y: 230, w: 150, title: 'Azure Storage', sub: 'web estática + /status', accent: true },
+  { x: 525, y: 30, w: 120, title: 'Entra ID', sub: t.temporary },
+  { x: 20, y: 230, w: 120, title: t.visitor, sub: t.browser },
+  { x: 340, y: 230, w: 150, title: 'Azure Storage', sub: t.site, accent: true },
   { x: 660, y: 230, w: 120, title: 'Log Analytics', sub: 'logs · KQL' },
 ]
 
@@ -25,12 +30,8 @@ const arrows = [
 <template>
   <figure class="diagram">
     <svg viewBox="0 0 800 310" role="img" aria-labelledby="arch-title arch-desc">
-      <title id="arch-title">Arquitectura del portfolio</title>
-      <desc id="arch-desc">
-        Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y
-        sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran
-        por HTTPS y cada lectura queda registrada en Log Analytics.
-      </desc>
+      <title id="arch-title">{{ t.title }}</title>
+      <desc id="arch-desc">{{ t.desc }}</desc>
       <defs>
         <marker
           id="arrow"
@@ -61,9 +62,7 @@ const arrows = [
         <text :x="b.x + b.w / 2" :y="b.y + 45" class="sub">{{ b.sub }}</text>
       </g>
     </svg>
-    <figcaption class="muted">
-      Despliegue arriba, tráfico abajo. Ningún secreto de Azure se guarda en GitHub.
-    </figcaption>
+    <figcaption class="muted">{{ t.caption }}</figcaption>
   </figure>
 </template>
 

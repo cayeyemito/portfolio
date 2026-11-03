@@ -1,21 +1,46 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import { profile } from '@/data/profile'
+import { otherLocale, pages, useLocale, useMessages, type PageName } from '@/i18n'
+
+const props = defineProps<{ page: PageName }>()
+
+const locale = useLocale()
+const m = useMessages()
+const other = otherLocale(locale)
 
 // On the home page the anchors are local; elsewhere they point back to it.
-defineProps<{ base?: string }>()
+const base = computed(() => (props.page === 'home' ? '' : pages.home[locale]))
 </script>
 
 <template>
   <header class="header">
-    <nav class="container nav" aria-label="Principal">
-      <a :href="`${base ?? ''}#inicio`" class="brand">{{ profile.name }}</a>
+    <nav class="container nav" :aria-label="m.nav.label">
+      <a :href="`${base}#top`" class="brand">{{ profile.name }}</a>
       <ul>
-        <li><a :href="`${base ?? ''}#proyectos`">Proyectos</a></li>
-        <li><a href="/como-esta-hecha/">Cómo está hecha</a></li>
-        <li><a :href="`${base ?? ''}#experiencia`">Experiencia</a></li>
-        <li><a :href="`${base ?? ''}#contacto`">Contacto</a></li>
+        <li>
+          <a :href="`${base}#projects`">{{ m.nav.projects }}</a>
+        </li>
+        <li>
+          <a :href="pages.build[locale]">{{ m.nav.build }}</a>
+        </li>
+        <li>
+          <a :href="`${base}#experience`">{{ m.nav.experience }}</a>
+        </li>
+        <li>
+          <a :href="`${base}#contact`">{{ m.nav.contact }}</a>
+        </li>
       </ul>
+      <a
+        :href="pages[page][other]"
+        :hreflang="other"
+        :lang="other"
+        :aria-label="m.nav.switchLanguage"
+        :title="m.nav.switchLanguage"
+        class="language"
+        >{{ other.toUpperCase() }}</a
+      >
       <ThemeToggle />
     </nav>
   </header>
@@ -62,6 +87,19 @@ ul a {
 }
 
 ul a:hover {
+  color: var(--text);
+}
+
+.language {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.language:hover {
   color: var(--text);
 }
 
