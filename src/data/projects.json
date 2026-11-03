@@ -25,8 +25,8 @@
       "Docker"
     ],
     "role": {
-      "es": "Equipo de 2 personas: mi compañera hizo todo el diseño visual y yo desarrollé el frontend y el backend. Entre otras cosas, la app nativa con Capacitor para Android e iOS, la lectura de tickets con OCR, la autenticación por token que comparten web y móvil, y el chat y las videollamadas con LiveKit.",
-      "en": "Team of 2: my teammate did all the visual design and I built the frontend and the backend. Among other things, the native Android and iOS app with Capacitor, receipt scanning with OCR, the token authentication shared by web and mobile, and the chat and video calls with LiveKit."
+      "es": "Equipo de 2. Mi compañera hizo el diseño visual y parte de la interfaz; yo, el resto del frontend y todo el backend: el esquema SQL en Supabase, la app nativa con Capacitor para Android e iOS, la autenticación por token que comparten web y móvil, la lectura de tickets con OCR, y el chat y las videollamadas con LiveKit.",
+      "en": "Team of 2. My teammate did the visual design and part of the UI; I built the rest of the frontend and all of the backend: the SQL schema in Supabase, the native Android and iOS app with Capacitor, the token authentication shared by web and mobile, receipt scanning with OCR, and the chat and video calls with LiveKit."
     },
     "links": {
       "repo": "https://github.com/FrimeeApp/Frimee",

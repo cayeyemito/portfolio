@@ -4,7 +4,6 @@ import ProjectCard from '@/components/ProjectCard.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
 import RichText from '@/components/RichText.vue'
-import StatusLine from '@/components/StatusLine.vue'
 import StatusSummary from '@/components/StatusSummary.vue'
 import { profile } from '@/data/profile'
 import { pages, useLocale, useMessages } from '@/i18n'
@@ -13,7 +12,6 @@ import { projectsFor } from '@/lib/projects'
 const locale = useLocale()
 const m = useMessages()
 const projects = projectsFor(locale)
-const mainCv = m.cvs[0]!
 </script>
 
 <template>
@@ -22,11 +20,17 @@ const mainCv = m.cvs[0]!
     <section id="top" class="container hero">
       <p class="eyebrow">{{ m.profile.location }}</p>
       <h1>{{ profile.name }}</h1>
-      <StatusLine />
       <p class="headline">{{ m.profile.headline }}</p>
       <p class="intro muted">{{ m.profile.intro }}</p>
       <div class="actions">
-        <a :href="mainCv.href" class="button primary" download>{{ m.profile.cvButton }}</a>
+        <a
+          v-for="(cv, i) in m.cvs"
+          :key="cv.href"
+          :href="cv.href"
+          :class="['button', { primary: i === 0 }]"
+          download
+          >{{ cv.label }}</a
+        >
         <a :href="profile.links.github" class="button">GitHub</a>
         <a :href="profile.links.linkedin" class="button">LinkedIn</a>
       </div>

@@ -103,10 +103,27 @@ ul a:hover {
   color: var(--text);
 }
 
-/* On narrow screens only the dedicated page link stays visible. */
+/* On narrow screens the links move to a second row. The build page drops out: the
+   portfolio project card links to it. */
 @media (max-width: 640px) {
-  ul li:not(:nth-child(2)) {
+  .nav {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+
+  ul {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 0.6rem;
+  }
+
+  ul li:nth-child(2) {
     display: none;
+  }
+
+  .language {
+    margin-left: auto;
   }
 }
 </style>

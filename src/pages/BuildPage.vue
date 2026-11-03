@@ -4,6 +4,7 @@ import CiLog from '@/components/CiLog.vue'
 import RichText from '@/components/RichText.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
+import StatusLine from '@/components/StatusLine.vue'
 import StatusSummary from '@/components/StatusSummary.vue'
 import { useMessages } from '@/i18n'
 
@@ -15,6 +16,7 @@ const b = useMessages().build
   <main class="container page">
     <p class="eyebrow">{{ b.eyebrow }}</p>
     <h1>{{ b.title }}</h1>
+    <StatusLine />
     <p class="lead"><RichText :text="b.lead" /></p>
 
     <section>
