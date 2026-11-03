@@ -15,15 +15,14 @@ export const es = {
   },
   profile: {
     location: 'Barcelona · abierto a remoto',
-    headline: 'DevOps y desarrollo junior',
+    headline: 'Desarrollador full stack junior · Java/Spring Boot y Vue · CI/CD',
     intro:
-      'Perfil junior entre DevOps y desarrollo. En EY desarrollé con Vue y Java Spring la aplicación de NH Hoteles y la desplegaba con Jenkins; en Itequia mantuve los agentes de build de Azure DevOps Pipelines. Me interesa la parte que va del código a producción.',
-    cvButton: 'CV en PDF',
+      'Desarrollador full stack junior con más peso en el backend. En EY desarrollé funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue, y las desplegaba con Jenkins. En Itequia mantuve los agentes de build de Azure DevOps Pipelines. Me interesa todo el camino del código a producción.',
   },
-  // The first CV is the main download button.
+  // One download button each in the hero; the first one is the primary button.
   cvs: [
-    { label: 'CV DevOps', href: '/cv/Cayetano_Yeste_CV_DevOps.pdf' },
     { label: 'CV Full Stack', href: '/cv/Cayetano_Yeste_CV_FullStack.pdf' },
+    { label: 'CV DevOps', href: '/cv/Cayetano_Yeste_CV_DevOps.pdf' },
   ],
   experience: [
     {
@@ -31,7 +30,7 @@ export const es = {
       company: 'EY',
       period: 'Oct 2025 – Jun 2026',
       summary:
-        'Desarrollo full stack de la aplicación de NH Hoteles con Vue y Java Spring en un equipo Scrum, y despliegue en el entorno de pruebas con Jenkins. Automaticé con IA las pruebas de mi código en un proyecto sin tests.',
+        'Desarrollo de funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue en un equipo Scrum, y despliegue en el entorno de pruebas con Jenkins. Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto sin tests, escritos con ayuda de IA generativa.',
     },
     {
       role: 'DevOps Engineer (prácticas)',
@@ -54,11 +53,6 @@ export const es = {
     repo: 'Repositorio',
   },
   home: {
-    buildTitle: 'Cómo está hecha esta web',
-    buildIntro:
-      'Esta web es estática y vive en Azure Storage, servida con HTTPS como web estática. La infraestructura está definida en Terraform, cada push a `main` la despliega GitHub Actions y un script en Python la revisa cada día.',
-    pipelineLabel: 'Pasos del pipeline',
-    buildMore: 'Ver el pipeline, la infraestructura y la operación →',
     experienceTitle: 'Experiencia',
     cvsLabel: 'CV completo en PDF:',
     contactTitle: 'Contacto',
@@ -66,7 +60,7 @@ export const es = {
     contactOr: 'o por',
   },
   status: {
-    allOk: 'Todos los sistemas operativos',
+    allOk: 'Todo operativo',
     failed: 'Hay comprobaciones fallidas',
     lastDeploy: 'último despliegue',
     justNow: 'ahora mismo',
@@ -150,7 +144,7 @@ export const es = {
       'Un workflow programado ejecuta `ops/site_health.py` una vez al día. Comprueba que las páginas y los enlaces de los proyectos responden, cuántos días le quedan al certificado TLS, que la web tiene los ficheros esperados y qué errores 4xx y 5xx aparecen en los logs, con una consulta KQL a Log Analytics. El informe se publica en [/status](/status/); si algo falla, el job termina en rojo y GitHub avisa por email.',
     fromAwsTitle: 'De AWS a Azure',
     fromAwsText:
-      'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Sigue en `infra/aws/`, validada pero sin desplegar, porque la cuenta nueva se quedó bloqueada en la verificación. La pasé a Azure, donde la arquitectura es la misma idea con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
+      'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Sigue en `infra/aws/`, validada con `terraform validate` pero sin desplegar, porque la cuenta nueva se quedó bloqueada en la verificación. La pasé a Azure, donde la arquitectura es la misma idea con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
     notCoveredTitle: 'Qué no cubre',
     notCoveredText:
       'No hay Kubernetes ni alta disponibilidad real: es un sitio estático en una sola suscripción. Tampoco hay CDN: en Azure costaría una cuota fija mensual (Front Door) y, para un portfolio, la web estática de Storage basta. En producción separaría entornos en suscripciones distintas, pondría Front Door con dominio propio y cabeceras de seguridad, y movería el `terraform apply` al pipeline con aprobación manual.',

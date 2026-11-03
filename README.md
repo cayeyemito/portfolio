@@ -4,6 +4,9 @@ Mi portfolio personal y, a la vez, un proyecto DevOps completo: una web estátic
 con la infraestructura de Azure definida en Terraform, despliegue continuo con GitHub Actions y OIDC,
 y una monitorización diaria en Python que publica un informe de estado en `/status`.
 
+Desarrollado con Claude Code como asistente. Las decisiones de arquitectura y de seguridad, y su
+revisión, son mías.
+
 ## Arquitectura
 
 ```

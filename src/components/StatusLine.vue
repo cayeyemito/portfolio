@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useLocale, useMessages } from '@/i18n'
 import { fetchReport, timeAgo, type Report } from '@/lib/status'
 
-// One-line status under the name: verdict from report.json (only when it exists) plus deploy age.
+// One-line status under the title of the build page: verdict from report.json (only when it exists) plus deploy age.
 const m = useMessages()
 const report = ref<Report | null>(null)
 const deployed = timeAgo(__BUILD_TIME__, Date.now(), useLocale())
