@@ -161,6 +161,11 @@
 }
 
 .case-toc a:hover {
+  color: var(--fg);
+}
+
+/* The section being read (see CaseToc). */
+.case-toc a.active {
   border-left-color: var(--atext);
   color: var(--fg);
 }
