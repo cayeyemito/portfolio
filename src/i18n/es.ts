@@ -199,9 +199,9 @@ export const es = {
     imageCaption: 'Un plan de viaje en Frimee: actividades por día y la ruta en el mapa.',
     video: {
       label:
-        'Recorrido por Frimee: inicio de sesión, planes, itinerario, mapa con la ruta, chat con el asistente y la misma app en Android.',
+        'Recorrido por Frimee: inicio de sesión, planes, itinerario, mapa con la ruta, gastos compartidos, chat con el asistente y la misma app en Android.',
       caption:
-        'Recorrido de 18 segundos por la web y la app de Android, montado con capturas reales.',
+        'Recorrido de 21 segundos por la web y la app de Android, montado con capturas reales.',
       pause: 'Pausar el vídeo',
       play: 'Reproducir el vídeo',
     },
