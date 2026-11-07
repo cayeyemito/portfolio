@@ -188,8 +188,8 @@ export const en: Messages = {
     imageCaption: 'A trip plan in Frimee: activities by day and the route on the map.',
     video: {
       label:
-        'A tour of Frimee: sign in, plans, itinerary, map with the route, chat with the assistant and the same app on Android.',
-      caption: 'An 18-second tour of the web and the Android app, built from real screenshots.',
+        'A tour of Frimee: sign in, plans, itinerary, map with the route, shared expenses, chat with the assistant and the same app on Android.',
+      caption: 'A 21-second tour of the web and the Android app, built from real screenshots.',
       pause: 'Pause the video',
       play: 'Play the video',
     },
