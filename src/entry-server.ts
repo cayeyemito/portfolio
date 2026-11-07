@@ -4,9 +4,14 @@ import { createSSRApp, type Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import { LOCALE, pages, type Locale, type PageName } from '@/i18n'
 import BuildPage from '@/pages/BuildPage.vue'
+import FrimeePage from '@/pages/FrimeePage.vue'
 import HomePage from '@/pages/HomePage.vue'
 
-const components: Record<PageName, Component> = { home: HomePage, build: BuildPage }
+const components: Record<PageName, Component> = {
+  home: HomePage,
+  build: BuildPage,
+  frimee: FrimeePage,
+}
 
 /** Every page in every language, with its file in dist/ (e.g. en/how-it-is-built/index.html). */
 export const routes = (Object.keys(pages) as PageName[]).flatMap((page) =>

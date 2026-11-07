@@ -4,11 +4,10 @@ import { demoLabel, type Project } from '@/lib/projects'
 
 // featured: media first and a big title (the main project). Otherwise the text comes
 // first and the media (the #media slot, or the project image) sits beside it.
-const props = defineProps<{ project: Project; number: string; featured?: boolean }>()
+defineProps<{ project: Project; number: string; featured?: boolean }>()
 
 const locale = useLocale()
 const m = useMessages()
-const demo = props.project.links.demo
 </script>
 
 <template>
@@ -56,19 +55,16 @@ const demo = props.project.links.demo
       </ul>
 
       <div class="links">
-        <a v-if="demo" :href="localizePath(demo, locale)">
-          {{ demoLabel(demo, m.projects.caseStudy) }}
-          <svg
-            v-if="demo.startsWith('https://')"
-            width="14"
-            height="14"
-            viewBox="0 0 16 16"
-            aria-hidden="true"
-          >
-            <path d="M5 11L11 5M5.5 5H11v5.5" />
-          </svg>
-          <svg v-else width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">
+        <a v-if="project.links.case" :href="localizePath(project.links.case, locale)">
+          {{ m.projects.caseStudy }}
+          <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M2 8h12M9.5 3.5L14 8l-4.5 4.5" />
+          </svg>
+        </a>
+        <a v-if="project.links.demo" :href="project.links.demo">
+          {{ demoLabel(project.links.demo) }}
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M5 11L11 5M5.5 5H11v5.5" />
           </svg>
         </a>
         <a v-if="project.links.repo" :href="project.links.repo">

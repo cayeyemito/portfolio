@@ -184,6 +184,131 @@ export const es = {
     browser: 'navegador',
     site: 'web estática + /status',
   },
+  // Case page of Frimee. Title, status, summary, "my part" and design credit come from
+  // projects.json. Every technical fact here was checked against the Frimee repository.
+  frimee: {
+    toc: 'Contenido del caso',
+    open: 'Abrir frimee.es',
+    facts: [
+      { label: 'Web', value: 'frimee.es' },
+      { label: 'Despliegue', value: 'Hostinger' },
+      { label: 'Equipo', value: '2 personas' },
+      { label: 'Stack', value: 'Next.js · Supabase · Firebase · Capacitor · LiveKit' },
+      { label: 'Servicios', value: 'Google Maps · OpenAI · Claude · Sentry' },
+    ],
+    imageCaption: 'Un plan de viaje en Frimee: actividades por día y la ruta en el mapa.',
+    contextTitle: 'Contexto',
+    context: [
+      'Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.',
+      'Es una web y una app para Android e iOS que salen del mismo código. La hicimos entre dos: Vicky se encargó del diseño y de parte de la interfaz, y yo del resto del frontend y de todo el backend.',
+    ],
+    featuresTitle: 'Funcionalidades clave',
+    features: [
+      {
+        name: 'Chat y llamadas',
+        text: 'Chat en tiempo real con Supabase Realtime; llamadas y videollamadas con LiveKit.',
+      },
+      {
+        name: 'Asistente en el chat',
+        text: 'Con Claude Haiku, desde una función de Supabase: responde preguntas y ofrece atajos, como crear planes.',
+      },
+      {
+        name: 'Tickets y entradas',
+        text: 'Se leen con OCR (OpenAI) para añadir los gastos o las entradas del plan sin teclearlos.',
+      },
+      {
+        name: 'Mapa y avisos',
+        text: 'Google Maps para los lugares y las rutas, y notificaciones push con Firebase.',
+      },
+    ],
+    architectureTitle: 'Arquitectura',
+    architecture: {
+      caption: 'Vista de sistema · tres caminos',
+      clients: 'Clientes',
+      web: 'Web',
+      browser: 'navegador',
+      app: 'App móvil',
+      direct: 'A · Directo',
+      directNote: 'con claves públicas',
+      server: 'B · Vía servidor',
+      serverNote: 'solo lo que necesita secretos',
+      functions: 'C · Funciones de Supabase',
+      functionsNote: 'tareas de fondo',
+      boxes: {
+        supabase: 'datos · login · tiempo real',
+        firebase: 'feed · fotos · archivos',
+        maps: 'mapas',
+        livekit: 'llamadas · vídeo',
+        api: 'token de llamada · OCR · rutas · borrar cuenta',
+        token: 'emite el token',
+        serviceKey: 'clave de servicio',
+        ocr: 'OCR de tickets',
+        assistant: 'asistente',
+        push: 'notificaciones push',
+        sync: 'copia los planes publicados a Firestore',
+      },
+      sentry: 'errores en el cliente, el servidor y el edge',
+      hosting: 'la web de Next.js y sus rutas /api, en frimee.es',
+    },
+    architectureNote:
+      'Los clientes hablan directamente con los servicios usando claves públicas. El servidor solo interviene en lo que necesita privilegios, y la clave de servicio de Supabase nunca llega al cliente.',
+    decisionsTitle: 'Decisiones',
+    why: 'Por qué',
+    decisions: [
+      {
+        name: 'Next.js',
+        note: 'un código, tres salidas',
+        what: 'El mismo proyecto genera la web con servidor y rutas `/api`, una exportación estática que Capacitor empaqueta como app (`BUILD_TARGET=capacitor`) y una imagen Docker standalone (`BUILD_TARGET=docker`).',
+        why: 'Queríamos que la web y la app salieran del mismo código, y con Next.js eso era fácil: la app es la propia web exportada y metida en Capacitor. Además, las pocas cosas que necesitan claves secretas las pusimos en rutas `/api` del mismo proyecto, así que no tuvimos que montar un backend aparte.',
+      },
+      {
+        name: 'Supabase',
+        note: 'lo relacional, el login y el tiempo real',
+        what: 'PostgreSQL con políticas RLS para planes, miembros, chats y gastos, más la autenticación y Realtime para el chat. Lo que necesita privilegios (OCR, borrar cuenta, tokens de llamada) va en rutas `/api` con la clave de servicio; el asistente y las notificaciones push, en funciones de Supabase.',
+        why: 'Para todo lo que tiene relaciones queríamos una base de datos SQL de verdad, y Supabase nos la daba ya montada, con el login y el tiempo real incluidos. Como el cliente habla directamente con la base de datos, protegimos los datos con políticas RLS, que era lo que más me preocupaba.',
+      },
+      {
+        name: 'Firebase',
+        note: 'lo social y los archivos',
+        what: 'Firestore guarda el feed (publicaciones, likes, comentarios y fotos) y Firebase Storage los archivos que se suben, convertidos a WebP si son imágenes. Las notificaciones push salen por Firebase Cloud Messaging.',
+        why: 'Las publicaciones, los comentarios y las fotos son documentos sueltos que se leen mucho y no necesitan relaciones, así que Firestore y su Storage encajaban mejor ahí que en la base de datos relacional.',
+      },
+      {
+        name: 'Capacitor',
+        note: 'la misma interfaz en Android e iOS',
+        what: 'La app es la web exportada dentro de un WebView. Los plugins dan acceso a lo nativo: cámara, ubicación, notificaciones push y widgets de Android (PlanWidget y CountdownWidget, con un plugin propio).',
+        why: '',
+      },
+      {
+        name: 'LiveKit',
+        note: 'llamadas y videollamadas',
+        what: 'WebRTC gestionado con LiveKit Cloud. El token lo emite `/api/livekit/token` solo si el usuario es miembro del chat (si no, 403), caduca en 1 hora y la ruta tiene límite de peticiones. El estado de cada llamada vive en la tabla `llamadas`, y un script SQL marca como terminadas las que llevan más de 2 horas abiertas.',
+        why: 'Hacer videollamadas en grupo nosotros mismos suponía montar y mantener un servidor de vídeo, y eso se nos iba de las manos. Con LiveKit Cloud solo tuvimos que generar el token desde nuestra API, y así seguimos decidiendo quién entra en cada llamada: si no estás en el chat, no hay token.',
+      },
+    ],
+    challengeTitle: 'Reto',
+    challenge: {
+      title: 'La sesión no llegaba desde la app móvil',
+      text: [
+        'En la web, las rutas `/api` leían la sesión de la cookie. Pero la app es una exportación estática dentro de un WebView: el cliente de Supabase guarda la sesión en localStorage y las peticiones no llevan esa cookie, así que todo lo que pasaba por el servidor devolvía 401 desde el móvil (rutas, OCR de tickets, borrar cuenta…).',
+        'La solución: los clientes envían el access token en la cabecera `Authorization: Bearer` y cada ruta lo valida contra Supabase. En la web sigue funcionando la cookie.',
+      ],
+      codeNote:
+        'La línea resaltada valida el token contra Supabase en lugar de decodificarlo en local: un token caducado o revocado no pasa.',
+    },
+    learningsTitle: 'Aprendizajes',
+    learnings: [
+      {
+        name: 'Lo que haría distinto',
+        text: 'El mismo bloque de autenticación está copiado en cinco rutas. Hoy lo sacaría a una única función `getRequestUser(req)` con su test, para que un cambio en la autenticación no haya que hacerlo cinco veces.',
+      },
+      {
+        name: 'Web y WebView desde el primer día',
+        text: 'Las cookies frente a los tokens y el historial del WebView (hubo que cambiar el «volver atrás» en ajustes porque en móvil se comportaba de forma imprevisible) salieron tarde y costaron arreglos en muchas pantallas.',
+      },
+    ],
+    other: 'Siguiente',
+  },
   build: {
     // Case page of the portfolio project: its title and status come from projects.json.
     toc: 'Contenido del caso',

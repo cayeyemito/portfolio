@@ -17,6 +17,7 @@ export const messages: Record<Locale, Messages> = { es, en }
 export const pages = {
   home: { es: '/', en: '/en/' },
   build: { es: '/como-esta-hecha/', en: '/en/how-it-is-built/' },
+  frimee: { es: '/proyectos/frimee/', en: '/en/projects/frimee/' },
 } as const
 
 export type PageName = keyof typeof pages
