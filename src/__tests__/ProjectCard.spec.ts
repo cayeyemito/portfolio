@@ -26,16 +26,26 @@ describe('ProjectCard', () => {
     expect(links(wrapper)).toEqual(['https://github.com/example/demo'])
   })
 
-  it('labels an external demo with its host and a site page with its name', () => {
-    const external = mount(ProjectCard, {
-      props: { project: { ...project, links: { demo: 'https://frimee.es' } }, number: '01' },
+  it('links the case, the live site by its host and the repo, in that order', () => {
+    const wrapper = mount(ProjectCard, {
+      props: {
+        project: {
+          ...project,
+          links: {
+            repo: 'https://github.com/x/y',
+            demo: 'https://frimee.es',
+            case: '/proyectos/frimee/',
+          },
+        },
+        number: '01',
+      },
     })
-    expect(external.find('.links a').text()).toBe('frimee.es')
-
-    const internal = mount(ProjectCard, {
-      props: { project: { ...project, links: { demo: '/como-esta-hecha/' } }, number: '02' },
-    })
-    expect(internal.find('.links a').text()).toBe('Leer el caso')
+    expect(wrapper.findAll('.links a').map((a) => a.text())).toEqual([
+      'Leer el caso',
+      'frimee.es',
+      'Ver el repositorio',
+    ])
+    expect(links(wrapper)[0]).toBe('/proyectos/frimee/')
   })
 
   it('shows "My part" and the facts only when the project has them', () => {

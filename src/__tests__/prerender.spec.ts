@@ -9,7 +9,9 @@ describe('prerender', () => {
       'como-esta-hecha/index.html',
       'en/how-it-is-built/index.html',
       'en/index.html',
+      'en/projects/frimee/index.html',
       'index.html',
+      'proyectos/frimee/index.html',
     ])
   })
 
@@ -25,6 +27,21 @@ describe('prerender', () => {
       for (const id of ['projects', 'experience', 'stack', 'contact'])
         expect(html).toContain(`id="${id}"`)
       expect(html).toContain('mailto:cayetanoym@gmail.com')
+    },
+  )
+
+  it.each(routes.filter((r) => r.page === 'frimee'))(
+    '$file is the Frimee case: title, sections, code and the link to the next case',
+    async ({ locale }) => {
+      const html = await render('frimee', locale)
+      const f = messages[locale].frimee
+      expect(html).toContain('>Frimee</h1>')
+      for (const title of [f.contextTitle, f.architectureTitle, f.decisionsTitle, f.challengeTitle])
+        expect(html).toContain(title)
+      expect(html).toContain('auth.getUser(token)')
+      expect(html).toContain(
+        locale === 'es' ? 'href="/como-esta-hecha/"' : 'href="/en/how-it-is-built/"',
+      )
     },
   )
 

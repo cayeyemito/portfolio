@@ -21,7 +21,7 @@ describe.each(['es', 'en'] as const)('projects.json (%s)', (locale) => {
     expect(project.part?.trim() ?? 'none').not.toBe('')
     for (const fact of project.facts) expect(fact.label && fact.value).toBeTruthy()
     expect(project.stack.length).toBeGreaterThan(0)
-    expect(project.links.repo ?? project.links.demo).toBeTruthy()
+    expect(project.links.case ?? project.links.repo ?? project.links.demo).toBeTruthy()
   })
 
   it.each(projects)('$slug links are absolute https or site-relative', (project) => {

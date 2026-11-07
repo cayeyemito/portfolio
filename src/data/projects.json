@@ -23,8 +23,9 @@
     ],
     "stack": ["Next.js", "Supabase", "Capacitor", "LiveKit", "Docker"],
     "links": {
-      "repo": "https://github.com/FrimeeApp/Frimee",
-      "demo": "https://frimee.es"
+      "case": "/proyectos/frimee/",
+      "demo": "https://frimee.es",
+      "repo": "https://github.com/FrimeeApp/Frimee"
     },
     "image": {
       "src": "/projects/frimee/plan.webp",
@@ -52,8 +53,8 @@
     },
     "stack": ["Azure", "Terraform", "GitHub Actions", "OIDC", "Python"],
     "links": {
-      "repo": "https://github.com/cayeyemito/portfolio",
-      "demo": "/como-esta-hecha/"
+      "case": "/como-esta-hecha/",
+      "repo": "https://github.com/cayeyemito/portfolio"
     }
   }
 ]
