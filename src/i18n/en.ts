@@ -186,6 +186,47 @@ export const en: Messages = {
       { label: 'Services', value: 'Google Maps · OpenAI · Claude · Sentry' },
     ],
     imageCaption: 'A trip plan in Frimee: activities by day and the route on the map.',
+    video: {
+      label:
+        'A tour of Frimee: sign in, plans, itinerary, map with the route, chat with the assistant and the same app on Android.',
+      caption: 'An 18-second tour of the web and the Android app, built from real screenshots.',
+      pause: 'Pause the video',
+      play: 'Play the video',
+    },
+    capturesTitle: 'Screenshots',
+    captures: {
+      web: 'Web',
+      mobile: 'Android app',
+      mobileNote: 'The same interface, packaged with Capacitor.',
+      webShots: [
+        {
+          src: '/projects/frimee/web-itinerario.webp',
+          width: 1552,
+          height: 986,
+          alt: 'Itinerary of a trip to New York: the day activities with times, travel between them and the route on the map',
+        },
+        {
+          src: '/projects/frimee/web-chat.webp',
+          width: 1286,
+          height: 947,
+          alt: 'Tokyo plan chat: the assistant suggests three restaurants and creates a poll to vote',
+        },
+      ],
+      mobileShots: [
+        {
+          src: '/projects/frimee/movil-itinerario.webp',
+          alt: 'Android app: itinerary of a day in Tokyo with two activities and the map',
+        },
+        {
+          src: '/projects/frimee/movil-mapa.webp',
+          alt: 'Android app: full-screen map with the route of the day',
+        },
+        {
+          src: '/projects/frimee/movil-chat.webp',
+          alt: 'Android app: poll created by the assistant in the plan chat',
+        },
+      ],
+    },
     contextTitle: 'Context',
     context: [
       'When a group plans a trip, everything ends up scattered across messages, notes and loose payments. Frimee brings the activities, the map, the calendar, the shared expenses and the chat together in a single plan.',

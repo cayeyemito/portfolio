@@ -197,6 +197,48 @@ export const es = {
       { label: 'Servicios', value: 'Google Maps · OpenAI · Claude · Sentry' },
     ],
     imageCaption: 'Un plan de viaje en Frimee: actividades por día y la ruta en el mapa.',
+    video: {
+      label:
+        'Recorrido por Frimee: inicio de sesión, planes, itinerario, mapa con la ruta, chat con el asistente y la misma app en Android.',
+      caption:
+        'Recorrido de 18 segundos por la web y la app de Android, montado con capturas reales.',
+      pause: 'Pausar el vídeo',
+      play: 'Reproducir el vídeo',
+    },
+    capturesTitle: 'Capturas',
+    captures: {
+      web: 'Web',
+      mobile: 'App de Android',
+      mobileNote: 'La misma interfaz, empaquetada con Capacitor.',
+      webShots: [
+        {
+          src: '/projects/frimee/web-itinerario.webp',
+          width: 1552,
+          height: 986,
+          alt: 'Itinerario de un viaje a Nueva York: actividades del día con horarios, desplazamientos y la ruta en el mapa',
+        },
+        {
+          src: '/projects/frimee/web-chat.webp',
+          width: 1286,
+          height: 947,
+          alt: 'Chat del plan de Tokio: el asistente propone tres restaurantes y crea una encuesta para votar',
+        },
+      ],
+      mobileShots: [
+        {
+          src: '/projects/frimee/movil-itinerario.webp',
+          alt: 'App de Android: itinerario de un día en Tokio con dos actividades y el mapa',
+        },
+        {
+          src: '/projects/frimee/movil-mapa.webp',
+          alt: 'App de Android: mapa a pantalla completa con la ruta del día',
+        },
+        {
+          src: '/projects/frimee/movil-chat.webp',
+          alt: 'App de Android: encuesta creada por el asistente en el chat del plan',
+        },
+      ],
+    },
     contextTitle: 'Contexto',
     context: [
       'Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.',
