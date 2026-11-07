@@ -195,9 +195,9 @@ GitHub avisa por email.
 
 `infra/aws/` tiene la misma arquitectura para AWS: S3 privado, CloudFront con Origin Access
 Control y una CloudFront Function para servir `index.html` en cada carpeta, roles IAM con OIDC,
-bucket de logs con caducidad y AWS Budgets. Pasa `terraform validate`, pero nunca se ha desplegado:
-la cuenta nueva se quedó bloqueada en la verificación y el portfolio pasó a Azure. Los workflows y
-el script de operación de este repositorio ya son los de Azure.
+bucket de logs con caducidad y AWS Budgets. Pasa `terraform validate` y no está desplegada: el
+portfolio se desplegó en Azure. Los workflows y el script de operación de este repositorio son los
+de Azure.
 
 ## Qué haría distinto en producción
 

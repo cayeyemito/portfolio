@@ -103,4 +103,36 @@ ol {
   color: var(--muted);
   font-size: 15px;
 }
+
+/* Phones: each workflow becomes a vertical list with arrows pointing down, so no box is
+   split and no arrow is left hanging at the end of a line. */
+@media (max-width: 640px) {
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .label {
+    flex: none;
+  }
+
+  ol {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .arrow {
+    display: flex;
+    justify-content: center;
+  }
+
+  .arrow svg {
+    transform: rotate(90deg);
+  }
+
+  .scheduled {
+    align-self: stretch;
+  }
+}
 </style>
