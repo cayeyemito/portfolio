@@ -8,9 +8,12 @@ type ProjectSource = {
   slug: string
   title: Localized
   status: Localized
-  problem: Localized
+  summary: Localized
+  // "My part": only for team projects.
+  part?: Localized
+  // Short label/value pairs, e.g. Design: Vicky.
+  facts?: { label: Localized; value: string }[]
   stack: string[]
-  role: Localized
   links: { repo?: string; demo?: string }
   // src is localized when the image itself has text in it.
   image?: { src: string | Localized; alt: Localized; width: number; height: number }
@@ -21,9 +24,10 @@ export type Project = {
   slug: string
   title: string
   status: string
-  problem: string
+  summary: string
+  part?: string
+  facts: { label: string; value: string }[]
   stack: string[]
-  role: string
   links: { repo?: string; demo?: string }
   image?: { src: string; alt: string; width: number; height: number }
 }
@@ -35,12 +39,18 @@ export function projectsFor(locale: Locale): Project[] {
     ...p,
     title: p.title[locale],
     status: p.status[locale],
-    problem: p.problem[locale],
-    role: p.role[locale],
+    summary: p.summary[locale],
+    part: p.part?.[locale],
+    facts: (p.facts ?? []).map((f) => ({ label: f.label[locale], value: f.value })),
     image: p.image && {
       ...p.image,
       src: typeof p.image.src === 'string' ? p.image.src : p.image.src[locale],
       alt: p.image.alt[locale],
     },
   }))
+}
+
+/** Label for a project's demo link: the host for external sites, the page name otherwise. */
+export function demoLabel(href: string, sitePageLabel: string): string {
+  return href.startsWith('https://') ? new URL(href).host : sitePageLabel
 }

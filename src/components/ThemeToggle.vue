@@ -3,10 +3,10 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useMessages } from '@/i18n'
 import { currentTheme, setTheme, type Theme } from '@/lib/theme'
 
+// A toggle button: its name stays "Light theme" and aria-pressed says whether it is on.
 const m = useMessages()
 const theme = ref<Theme>('light')
-const next = computed<Theme>(() => (theme.value === 'dark' ? 'light' : 'dark'))
-const label = computed(() => (next.value === 'dark' ? m.theme.toDark : m.theme.toLight))
+const isLight = computed(() => theme.value === 'light')
 
 // Until a theme is chosen, keep the icon in sync with the system setting. Only in the
 // browser: the page is also rendered at build time, where there is no window.
@@ -21,22 +21,28 @@ onMounted(() => {
 onBeforeUnmount(() => media?.removeEventListener('change', onSystemChange))
 
 function toggle() {
-  setTheme(next.value)
-  theme.value = next.value
+  const next: Theme = isLight.value ? 'dark' : 'light'
+  setTheme(next)
+  theme.value = next
 }
 </script>
 
 <template>
-  <button type="button" class="toggle" :aria-label="label" :title="label" @click="toggle">
-    <!-- Icon of the theme the button switches to. -->
-    <svg v-if="next === 'light'" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="4" />
-      <path
-        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-      />
+  <button
+    type="button"
+    class="toggle"
+    :aria-label="m.theme.light"
+    :aria-pressed="isLight"
+    :title="m.theme.light"
+    @click="toggle"
+  >
+    <!-- Moon while light is on (switches to dark), sun while dark is on. -->
+    <svg v-if="isLight" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z" />
     </svg>
-    <svg v-else viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    <svg v-else width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="3" />
+      <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3" />
     </svg>
   </button>
 </template>
@@ -44,35 +50,26 @@ function toggle() {
 <style scoped>
 .toggle {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  flex-shrink: 0;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--rule2);
+  background: transparent;
+  color: var(--fg);
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition: border-color 150ms var(--ease);
 }
 
 .toggle:hover {
-  border-color: var(--text);
-}
-
-.toggle:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  border-color: var(--fg);
 }
 
 svg {
-  width: 1.1rem;
-  height: 1.1rem;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-width: 1.5;
 }
 </style>

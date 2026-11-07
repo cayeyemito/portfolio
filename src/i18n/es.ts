@@ -2,62 +2,154 @@
 // Strings rendered with <RichText> may contain `code`, [links](/url) and *emphasis*.
 export const es = {
   nav: {
-    label: 'Principal',
+    label: 'Secciones',
     projects: 'Proyectos',
     build: 'Cómo está hecha',
     experience: 'Experiencia',
+    stack: 'Stack',
     contact: 'Contacto',
     switchLanguage: 'Read in English',
+    menu: 'Menú',
+    openMenu: 'Abrir menú',
+    close: 'Cerrar',
+    closeMenu: 'Cerrar menú',
   },
+  // A toggle with a fixed name: aria-pressed says whether light is on.
   theme: {
-    toDark: 'Activar el modo oscuro',
-    toLight: 'Activar el modo claro',
+    light: 'Tema claro',
   },
   profile: {
-    location: 'Barcelona · abierto a remoto',
-    headline: 'Desarrollador full stack junior · Java/Spring Boot y Vue · CI/CD',
+    focus: 'Backend y DevOps',
+    // The *starred* parts are highlighted.
     intro:
-      'Desarrollador full stack junior con más peso en el backend. En EY desarrollé funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue, y las desplegaba con Jenkins. En Itequia mantuve los agentes de build de Azure DevOps Pipelines. Me interesa todo el camino del código a producción.',
+      'Desarrollador full stack junior en Barcelona. He trabajado a los dos lados del deploy: *las máquinas que compilan y despliegan*, y *el código que llega a producción*.',
+    tags: ['Java', 'Spring Boot', 'TypeScript', 'Next.js', 'Azure', 'Terraform', 'Docker'],
+    available: 'Abierto a ofertas',
+    languages: [
+      { name: 'Castellano · Catalán', level: 'Nativo' },
+      { name: 'Inglés', level: 'Avanzado' },
+    ],
   },
-  // One download button each in the hero; the first one is the primary button.
+  // In the hero, the contact list and the mobile menu; the first one is highlighted.
   cvs: [
-    { label: 'CV Full Stack', href: '/cv/Cayetano_Yeste_CV_FullStack.pdf' },
-    { label: 'CV DevOps', href: '/cv/Cayetano_Yeste_CV_DevOps.pdf' },
+    {
+      label: 'Full Stack / Backend',
+      short: 'CV Full Stack',
+      href: '/cv/Cayetano_Yeste_CV_FullStack.pdf',
+    },
+    {
+      label: 'DevOps / Operaciones IT',
+      short: 'CV DevOps',
+      href: '/cv/Cayetano_Yeste_CV_DevOps.pdf',
+    },
   ],
+  // Newest first. The first job is drawn as the current one.
   experience: [
     {
-      role: 'Consultor de Tecnología de la Información Junior',
       company: 'EY',
-      period: 'Oct 2025 – Jun 2026',
-      summary:
-        'Desarrollo de funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue en un equipo Scrum, y despliegue en el entorno de pruebas con Jenkins. Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto sin tests, escritos con ayuda de IA generativa.',
+      role: 'Consultor de Tecnología Junior',
+      period: 'oct 2025 — jun 2026',
+      kind: 'Contrato de formación',
+      points: [
+        'Funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue, en un equipo Scrum',
+        'Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto que no tenía',
+        'Despliegue en el entorno de pruebas con Jenkins; flujo Git con pull requests y sprints en Jira',
+      ],
     },
     {
-      role: 'DevOps Engineer (prácticas)',
       company: 'Itequia',
-      period: 'Mar 2021 – Jun 2022',
-      summary:
-        'Mantenimiento de los agentes de build de Azure DevOps Pipelines (VM Windows en Azure y on-premise), diagnóstico de fallos revisando logs, scripts en PowerShell y Bash, y copias de seguridad diarias.',
+      role: 'DevOps Engineer · prácticas',
+      period: 'mar 2021 — jun 2022',
+      kind: 'Prácticas',
+      points: [
+        'Mantenimiento de los agentes de build de Azure DevOps Pipelines: VM Windows en Azure y on-premise',
+        'Diagnóstico de fallos revisando logs, y scripts en PowerShell y Bash',
+        'Copias de seguridad diarias y bases de datos SQL',
+        'Incidencias en Jira Service Management',
+      ],
     },
     {
-      role: 'Analista de Datos',
       company: 'Little Suite',
-      period: 'Feb 2019 – Ago 2020',
-      summary:
-        'Gestión de bases de datos MySQL, cuidando su integridad y seguridad, e informes técnicos para la dirección y los clientes.',
+      role: 'Analista de datos',
+      period: 'feb 2019 — ago 2020',
+      kind: 'Jornada parcial',
+      points: [
+        'Gestión de bases de datos MySQL, cuidando su integridad y seguridad',
+        'Informes técnicos para la dirección y los clientes',
+      ],
     },
   ],
+  education: {
+    title: 'Formación',
+    items: [
+      { period: '2024 — 2026', name: 'DAW · Desarrollo de Aplicaciones Web · IFP' },
+      {
+        period: '2019 — 2022',
+        name: "DAM · Desarrollo de Aplicaciones Multiplataforma · IES Joan d'Àustria",
+      },
+    ],
+  },
   projects: {
     title: 'Proyectos',
-    demo: 'Ver demo',
-    repo: 'Repositorio',
+    path: '~/work',
+    part: 'Mi parte',
+    repo: 'Ver el repositorio',
+    // The portfolio card's figure: what runs, and when.
+    workflows: {
+      caption: 'GitHub Actions · workflows',
+      rows: [
+        { label: 'Pull request', steps: ['lint', 'test', 'build', 'terraform plan'] },
+        { label: 'Push a main', steps: ['build', 'deploy · OIDC → Azure', 'smoke test'] },
+      ],
+      scheduled: 'Programado',
+      scheduledNote: 'revisión diaria del sitio',
+    },
   },
   home: {
     experienceTitle: 'Experiencia',
-    cvsLabel: 'CV completo en PDF:',
-    contactTitle: 'Contacto',
-    contactBefore: 'Escríbeme a',
-    contactOr: 'o por',
+    experiencePath: 'CHANGELOG.md',
+    stackTitle: 'Stack',
+    stackNote: 'Tecnología → dónde la he usado',
+    // "01" and "02" are the projects above. *Starred* items are the strongest ones.
+    stack: [
+      {
+        title: 'Backend y datos',
+        items: [
+          { name: '*Java · Spring Boot*', where: 'EY' },
+          { name: 'Supabase', where: '01' },
+          { name: 'Python', where: '02' },
+          { name: 'SQL', where: 'Itequia' },
+          { name: 'MySQL', where: 'Little Suite' },
+        ],
+      },
+      {
+        title: 'Frontend y móvil',
+        items: [
+          { name: 'Vue', where: 'EY · 02' },
+          { name: 'React · Next.js', where: '01' },
+          { name: 'TypeScript', where: '01 · 02' },
+          { name: 'Capacitor', where: '01' },
+          { name: 'LiveKit', where: '01' },
+        ],
+      },
+      {
+        title: 'DevOps y cloud',
+        items: [
+          { name: '*GitHub Actions*', where: '02' },
+          { name: 'Azure', where: 'Itequia · 02' },
+          { name: 'Terraform · OIDC', where: '02' },
+          { name: 'Azure DevOps · Jenkins', where: 'Itequia · EY' },
+          { name: 'Docker · Linux', where: '01 · DAW' },
+        ],
+      },
+    ],
+    stackAlso: 'También: PowerShell y Bash (Itequia) · Git y Jira (EY, Itequia)',
+    contactLabel: 'Contacto',
+    contactTitle: '¿Hablamos?',
+    email: 'Email',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    copiedMessage: 'Email copiado al portapapeles',
   },
   status: {
     allOk: 'Todo operativo',
@@ -76,8 +168,9 @@ export const es = {
     fullReport: 'Ver el informe completo →',
   },
   footer: {
-    madeWith: 'Hecha con Vue, desplegada en Azure con Terraform y GitHub Actions',
+    madeWith: 'Vue · Azure · Terraform · GitHub Actions',
     status: 'Estado',
+    source: 'Código fuente',
   },
   diagram: {
     title: 'Arquitectura del portfolio',

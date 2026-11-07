@@ -1,19 +1,47 @@
-/* Self-hosted: bundled into dist/assets and served by the site itself, no third-party requests. */
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
+/* Self-hosted: bundled into dist/assets and served by the site itself, no third-party requests.
+   Each file is split by unicode-range, so the browser only downloads the latin subset it uses. */
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
+/* Design tokens ("Technical Editorial"): ink, paper and one orange signal.
+   --i* tokens are the inverted palette, for the Stack section and the mobile menu. */
 :root {
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --text: #1c1917;
-  --muted: #57534e;
-  --line: #e7e5e4;
-  --accent: #0f766e;
-  --accent-soft: #ccfbf1;
+  --accent: #ff4d1f;
+  --accent-ink: #c2360f; /* the accent as small text on paper: 4.7:1 */
+  --on-accent: #0b0b0c;
+
+  --bg: #efede8;
+  --bg-alt: #e7e4dc;
+  --fg: #0b0b0c;
+  --fg-strong: #000000;
+  --muted: #5e5c57;
+  --body: #3a3936;
+  --rule: #d3d0c8;
+  --rule2: #bfbbb2;
+  --rule3: #8e8a82;
+  --panel: #e5e2da;
+  --hatch: #d6d2c8;
+  --atext: var(--accent-ink);
+  --ibg: #0b0b0c;
+  --ifg: #efede8;
+  --irule: #2a2a2e;
+  --imuted: #a8a6a0;
+  --iaccent: var(--accent);
   --ok: #15803d;
   --fail: #b91c1c;
-  --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+
+  --font: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+  --display: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --gutter: clamp(20px, 5vw, 72px);
+
+  /* Older names, still used by the build page until it is redesigned. */
+  --text: var(--fg);
+  --line: var(--rule);
+  --surface: var(--panel);
+
   color-scheme: light dark;
 }
 
@@ -21,26 +49,46 @@
    or when the visitor chose dark (data-theme, see src/lib/theme.ts). */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0c0a09;
-    --surface: #1c1917;
-    --text: #f5f5f4;
-    --muted: #a8a29e;
-    --line: #292524;
-    --accent: #2dd4bf;
-    --accent-soft: #134e4a;
+    --bg: #0b0b0c;
+    --bg-alt: #101012;
+    --fg: #efede8;
+    --fg-strong: #ffffff;
+    --muted: #a8a6a0;
+    --body: #d2d0ca;
+    --rule: #232326;
+    --rule2: #34343a;
+    --rule3: #5a5a60;
+    --panel: #111113;
+    --hatch: #18181b;
+    --atext: var(--accent);
+    --ibg: #efede8;
+    --ifg: #0b0b0c;
+    --irule: #cfccc4;
+    --imuted: #5e5c57;
+    --iaccent: var(--accent-ink);
     --ok: #4ade80;
     --fail: #f87171;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #0c0a09;
-  --surface: #1c1917;
-  --text: #f5f5f4;
-  --muted: #a8a29e;
-  --line: #292524;
-  --accent: #2dd4bf;
-  --accent-soft: #134e4a;
+  --bg: #0b0b0c;
+  --bg-alt: #101012;
+  --fg: #efede8;
+  --fg-strong: #ffffff;
+  --muted: #a8a6a0;
+  --body: #d2d0ca;
+  --rule: #232326;
+  --rule2: #34343a;
+  --rule3: #5a5a60;
+  --panel: #111113;
+  --hatch: #18181b;
+  --atext: var(--accent);
+  --ibg: #efede8;
+  --ifg: #0b0b0c;
+  --irule: #cfccc4;
+  --imuted: #5e5c57;
+  --iaccent: var(--accent-ink);
   --ok: #4ade80;
   --fail: #f87171;
   color-scheme: dark;
@@ -59,23 +107,34 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: 1rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text);
+  color: var(--fg);
   font-family: var(--font);
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 250ms var(--ease),
+    color 250ms var(--ease);
 }
 
 img,
@@ -86,15 +145,32 @@ svg {
 }
 
 a {
-  color: var(--accent);
-  text-underline-offset: 3px;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--rule3);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+a:hover {
+  text-decoration-color: var(--fg);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.2;
   margin: 0;
+  font-family: var(--display);
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 code {
@@ -102,9 +178,108 @@ code {
   font-size: 0.9em;
 }
 
+/* Type roles from the design's system board. */
+.m {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.d {
+  font-family: var(--display);
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+}
+
+.dc {
+  font-family: var(--display);
+  font-stretch: 62%;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+}
+
+/* Outlined display type: only the hero name and decorative numbers. */
+.ol {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--fg);
+}
+
+/* Full-width rows of the home page: 1440px max with a fluid gutter. */
+.wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+/* Section heading: "01 / Proyectos" on the left, a path on the right. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 96px 0 28px;
+  border-bottom: 1px solid currentColor;
+}
+
+.section-head h2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  font-size: clamp(40px, 5vw, 72px);
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+}
+
+.section-head .num {
+  padding-top: 6px;
+  color: var(--atext);
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 6px 10px;
+  border: 1px solid var(--rule2);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Visually hidden, still read by screen readers. */
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Build page (single column), until it gets its own redesign. */
 .container {
   width: 100%;
-  max-width: 45rem; /* ~720px single column */
+  max-width: 45rem;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -115,76 +290,18 @@ code {
   }
 }
 
-.section {
-  padding: 4rem 0;
-  border-top: 1px solid var(--line);
-}
-
-.section-title {
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-}
-
 .eyebrow {
+  margin: 0 0 0.75rem;
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 0.5rem;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.1rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--text);
-  background: var(--surface);
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: border-color 0.15s;
-}
-
-.button:hover {
-  border-color: var(--text);
-}
-
-.button.primary {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.tags li {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.375rem;
-  background: var(--accent-soft);
-  color: var(--text);
+  color: var(--atext);
 }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule2);
   padding: 1.5rem;
 }
 

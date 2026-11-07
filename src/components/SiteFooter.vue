@@ -7,11 +7,11 @@ const m = useMessages()
 
 <template>
   <footer class="footer">
-    <div class="container row">
-      <span>© {{ new Date().getFullYear() }} {{ profile.name }}</span>
+    <div class="wrap row m">
+      <span>© {{ new Date().getFullYear() }} {{ profile.fullName }}</span>
       <span>
-        {{ m.footer.madeWith }} ·
-        <a href="/status/">{{ m.footer.status }}</a>
+        {{ m.footer.madeWith }} · <a href="/status/">{{ m.footer.status }}</a> ·
+        <a :href="profile.links.source">{{ m.footer.source }} ↗</a>
       </span>
     </div>
   </footer>
@@ -19,16 +19,23 @@ const m = useMessages()
 
 <style scoped>
 .footer {
-  border-top: 1px solid var(--line);
-  padding: 2rem 0;
-  font-size: 0.85rem;
-  color: var(--muted);
+  border-top: 1px solid var(--rule);
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 10px 32px;
+  padding-block: 22px;
+  color: var(--muted);
+}
+
+a {
+  color: var(--muted);
+}
+
+a:hover {
+  color: var(--fg);
 }
 </style>
