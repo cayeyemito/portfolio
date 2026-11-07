@@ -230,7 +230,7 @@ export const en: Messages = {
     contextTitle: 'Context',
     context: [
       'When a group plans a trip, everything ends up scattered across messages, notes and loose payments. Frimee brings the activities, the map, the calendar, the shared expenses and the chat together in a single plan.',
-      'It is a web app and an Android and iOS app built from the same code. We were two: Vicky did the design and part of the UI, and I did the rest of the frontend and all of the backend.',
+      'It is a web app and an Android and iOS app built from the same code. We were two: Vicky did the design, part of the UI and pieces such as the push notifications, and I did most of the backend and the frontend.',
     ],
     featuresTitle: 'Key features',
     features: [
@@ -401,7 +401,7 @@ export const en: Messages = {
       'A scheduled workflow runs `ops/site_health.py` once a day. It checks that the pages and the project links respond, how many days the TLS certificate has left, that the site holds the expected files and which 4xx and 5xx errors show up in the logs, with a KQL query to Log Analytics. The report is published at [/status](/status/); if anything fails, the job turns red and GitHub sends an email.',
     fromAwsTitle: 'From AWS to Azure',
     fromAwsText:
-      'The infrastructure was first designed for AWS: private S3, CloudFront with Origin Access Control, IAM roles with OIDC and AWS Budgets. It is still in `infra/aws/`, validated with `terraform validate` but never deployed, because the new account got stuck in verification. I moved it to Azure, where the architecture is the same idea with other pieces: Storage instead of S3, Entra ID instead of IAM and Log Analytics instead of the CloudFront logs.',
+      'The infrastructure was first designed for AWS: private S3, CloudFront with Origin Access Control, IAM roles with OIDC and AWS Budgets. It is in `infra/aws/`, validated with `terraform validate` and not deployed. I deployed it on Azure, where the architecture is the same with other pieces: Storage instead of S3, Entra ID instead of IAM and Log Analytics instead of the CloudFront logs.',
     notCoveredTitle: 'What it does not cover',
     notCoveredText:
       'There is no Kubernetes and no real high availability: it is a static site in a single subscription. There is no CDN either: on Azure it would have a fixed monthly fee (Front Door) and, for a portfolio, the Storage static website is enough. In production I would split environments into separate subscriptions, add Front Door with a custom domain and security headers, and move `terraform apply` into the pipeline with manual approval.',

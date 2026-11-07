@@ -242,7 +242,7 @@ export const es = {
     contextTitle: 'Contexto',
     context: [
       'Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.',
-      'Es una web y una app para Android e iOS que salen del mismo código. La hicimos entre dos: Vicky se encargó del diseño y de parte de la interfaz, y yo del resto del frontend y de todo el backend.',
+      'Es una web y una app para Android e iOS que salen del mismo código. La hicimos entre dos: Vicky se encargó del diseño, de parte de la interfaz y de piezas como las notificaciones push, y yo hice la mayor parte del backend y del frontend.',
     ],
     featuresTitle: 'Funcionalidades clave',
     features: [
@@ -414,7 +414,7 @@ export const es = {
       'Un workflow programado ejecuta `ops/site_health.py` una vez al día. Comprueba que las páginas y los enlaces de los proyectos responden, cuántos días le quedan al certificado TLS, que la web tiene los ficheros esperados y qué errores 4xx y 5xx aparecen en los logs, con una consulta KQL a Log Analytics. El informe se publica en [/status](/status/); si algo falla, el job termina en rojo y GitHub avisa por email.',
     fromAwsTitle: 'De AWS a Azure',
     fromAwsText:
-      'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Sigue en `infra/aws/`, validada con `terraform validate` pero sin desplegar, porque la cuenta nueva se quedó bloqueada en la verificación. La pasé a Azure, donde la arquitectura es la misma idea con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
+      'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Está en `infra/aws/`, validada con `terraform validate` y sin desplegar. La desplegué en Azure, donde la arquitectura es la misma con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
     notCoveredTitle: 'Qué no cubre',
     notCoveredText:
       'No hay Kubernetes ni alta disponibilidad real: es un sitio estático en una sola suscripción. Tampoco hay CDN: en Azure costaría una cuota fija mensual (Front Door) y, para un portfolio, la web estática de Storage basta. En producción separaría entornos en suscripciones distintas, pondría Front Door con dominio propio y cabeceras de seguridad, y movería el `terraform apply` al pipeline con aprobación manual.',
