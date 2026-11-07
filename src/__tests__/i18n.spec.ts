@@ -30,12 +30,22 @@ describe('messages', () => {
     expect(messages.en.cvs.every((cv) => cv.href.endsWith('_EN.pdf'))).toBe(true)
   })
 
-  it.each(locales)('%s: every job has a role, a period and a summary', (locale) => {
+  it.each(locales)('%s: every job has a role, a period, a kind and some points', (locale) => {
     for (const job of messages[locale].experience) {
       expect(job.role.trim()).not.toBe('')
       expect(job.period.trim()).not.toBe('')
-      expect(job.summary.trim()).not.toBe('')
+      expect(job.kind.trim()).not.toBe('')
+      expect(job.points.length).toBeGreaterThan(0)
     }
+  })
+
+  it('both languages list the same jobs, studies and stack', () => {
+    const shape = (locale: Locale) => ({
+      jobs: messages[locale].experience.map((job) => [job.company, job.points.length]),
+      studies: messages[locale].education.items.map((item) => item.period),
+      stack: messages[locale].home.stack.map((group) => group.items.map((item) => item.where)),
+    })
+    expect(shape('en')).toEqual(shape('es'))
   })
 })
 

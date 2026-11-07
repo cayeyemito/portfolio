@@ -17,8 +17,9 @@ describe.each(['es', 'en'] as const)('projects.json (%s)', (locale) => {
   it.each(projects)('$slug has a title, a stack and at least one link', (project) => {
     expect(project.title.trim()).not.toBe('')
     expect(project.status.trim()).not.toBe('')
-    expect(project.problem.trim()).not.toBe('')
-    expect(project.role.trim()).not.toBe('')
+    expect(project.summary.trim()).not.toBe('')
+    expect(project.part?.trim() ?? 'none').not.toBe('')
+    for (const fact of project.facts) expect(fact.label && fact.value).toBeTruthy()
     expect(project.stack.length).toBeGreaterThan(0)
     expect(project.links.repo ?? project.links.demo).toBeTruthy()
   })

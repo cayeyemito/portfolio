@@ -14,13 +14,16 @@ describe('prerender', () => {
   })
 
   it.each(routes.filter((r) => r.page === 'home'))(
-    '$file has the profile, the projects and the contact',
+    '$file has the profile, every section and the contact',
     async ({ locale }) => {
       const html = await render('home', locale)
       const m = messages[locale]
-      expect(html).toContain('Cayetano Yeste')
-      expect(html).toContain(m.profile.headline)
+      expect(html).toContain('Yeste Morant')
+      expect(html).toContain(m.profile.focus)
       for (const project of projectsFor(locale)) expect(html).toContain(project.title)
+      for (const job of m.experience) expect(html).toContain(job.company)
+      for (const id of ['projects', 'experience', 'stack', 'contact'])
+        expect(html).toContain(`id="${id}"`)
       expect(html).toContain('mailto:cayetanoym@gmail.com')
     },
   )

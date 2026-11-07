@@ -9,25 +9,19 @@
       "es": "En producción",
       "en": "Live"
     },
-    "problem": {
-      "es": "Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.",
-      "en": "When a group plans a trip, everything ends up scattered across messages, notes and loose payments. Frimee brings the activities, the map, the calendar, the shared expenses and the chat together in a single plan."
+    "summary": {
+      "es": "Junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat de un grupo. Web y app para Android e iOS desde el mismo código, hecha en un equipo de dos.",
+      "en": "Brings a group's activities, map, calendar, shared expenses and chat together in a single plan. Web and Android and iOS app from the same code, built in a team of two."
     },
-    "stack": [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Supabase",
-      "PostgreSQL",
-      "Capacitor",
-      "LiveKit",
-      "Google Maps",
-      "Docker"
+    "part": {
+      "es": "Todo el backend y el resto del frontend: el esquema en Supabase, la app con Capacitor, la autenticación que comparten web y móvil, la lectura de tickets con OCR, el chat en tiempo real con Supabase Realtime y las llamadas con LiveKit.",
+      "en": "All of the backend and the rest of the frontend: the Supabase schema, the Capacitor app, the authentication shared by web and mobile, receipt scanning with OCR, the real-time chat with Supabase Realtime and the calls with LiveKit."
+    },
+    "facts": [
+      { "label": { "es": "Diseño", "en": "Design" }, "value": "Vicky" },
+      { "label": { "es": "Inicio", "en": "Started" }, "value": "2026" }
     ],
-    "role": {
-      "es": "Equipo de 2. Mi compañera hizo el diseño visual y parte de la interfaz; yo, el resto del frontend y todo el backend: el esquema SQL en Supabase, la app nativa con Capacitor para Android e iOS, la autenticación por token que comparten web y móvil, la lectura de tickets con OCR, y el chat y las videollamadas con LiveKit.",
-      "en": "Team of 2. My teammate did the visual design and part of the UI; I built the rest of the frontend and all of the backend: the SQL schema in Supabase, the native Android and iOS app with Capacitor, the token authentication shared by web and mobile, receipt scanning with OCR, and the chat and video calls with LiveKit."
-    },
+    "stack": ["Next.js", "Supabase", "Capacitor", "LiveKit", "Docker"],
     "links": {
       "repo": "https://github.com/FrimeeApp/Frimee",
       "demo": "https://frimee.es"
@@ -49,43 +43,17 @@
       "en": "This portfolio"
     },
     "status": {
-      "es": "En producción",
-      "en": "Live"
+      "es": "Infraestructura",
+      "en": "Infrastructure"
     },
-    "problem": {
-      "es": "Una web estática que también sirve de proyecto DevOps: infraestructura en Azure definida con Terraform, despliegue automático en cada push y un informe diario de estado generado en Python.",
-      "en": "A static site that is also a DevOps project: infrastructure on Azure defined with Terraform, automatic deployment on every push and a daily status report generated in Python."
+    "summary": {
+      "es": "El sitio que estás leyendo, sobre mi propia infraestructura en Azure: definida con Terraform, desplegada con GitHub Actions mediante OIDC, sin credenciales guardadas, y revisada a diario por un workflow programado en Python.",
+      "en": "The site you are reading, on my own Azure infrastructure: defined with Terraform, deployed by GitHub Actions through OIDC with no stored credentials, and checked every day by a scheduled workflow in Python."
     },
-    "stack": [
-      "Vue 3",
-      "TypeScript",
-      "Vite",
-      "Terraform",
-      "Azure Storage",
-      "Entra ID",
-      "GitHub Actions",
-      "Python",
-      "Docker"
-    ],
-    "role": {
-      "es": "Proyecto individual: frontend, infraestructura, pipeline y scripts de operación.",
-      "en": "Solo project: frontend, infrastructure, pipeline and operations scripts."
-    },
+    "stack": ["Azure", "Terraform", "GitHub Actions", "OIDC", "Python"],
     "links": {
       "repo": "https://github.com/cayeyemito/portfolio",
       "demo": "/como-esta-hecha/"
-    },
-    "image": {
-      "src": {
-        "es": "/projects/portfolio/arquitectura.webp",
-        "en": "/projects/portfolio/architecture.webp"
-      },
-      "alt": {
-        "es": "Diagrama de arquitectura: GitHub Actions entra en Azure con OIDC y sube la web a Azure Storage, que envía sus logs a Log Analytics",
-        "en": "Architecture diagram: GitHub Actions signs in to Azure with OIDC and uploads the site to Azure Storage, which sends its logs to Log Analytics"
-      },
-      "width": 1600,
-      "height": 900
     }
   }
 ]
