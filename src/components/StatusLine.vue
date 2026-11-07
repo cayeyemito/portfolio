@@ -6,9 +6,12 @@ import { fetchReport, timeAgo, type Report } from '@/lib/status'
 // One-line status under the title of the build page: verdict from report.json (only when it exists) plus deploy age.
 const m = useMessages()
 const report = ref<Report | null>(null)
-const deployed = timeAgo(__BUILD_TIME__, Date.now(), useLocale())
+const locale = useLocale()
+// Set in the browser: at build time (prerendering) it would always say "just now".
+const deployed = ref('')
 
 onMounted(async () => {
+  deployed.value = timeAgo(__BUILD_TIME__, Date.now(), locale)
   try {
     report.value = await fetchReport()
   } catch {
@@ -24,7 +27,7 @@ onMounted(async () => {
       {{ report.ok ? m.status.allOk : m.status.failed }}
       <span aria-hidden="true">·</span>
     </template>
-    {{ m.status.lastDeploy }} {{ deployed }}
+    <template v-if="deployed">{{ m.status.lastDeploy }} {{ deployed }}</template>
   </a>
 </template>
 

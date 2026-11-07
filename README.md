@@ -34,6 +34,7 @@ revisión, son mías.
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `src/`                                              | Frontend en Vue 3 + TypeScript. Los proyectos se leen de `src/data/projects.json`                        |
 | `src/i18n/`                                         | Textos en español (`es.ts`) e inglés (`en.ts`). El tipo `Messages` obliga a que tengan las mismas claves |
+| `src/entry-server.ts`, `scripts/prerender.ts`       | Generan el HTML de cada página en el build, para que el contenido esté sin JavaScript                    |
 | `index.html`, `como-esta-hecha/`, `en/`, `404.html` | Páginas del build multipágina de Vite: español en `/` e inglés en `/en/`, con los mismos componentes     |
 | `infra/azure/`                                      | Terraform desplegado: `main.tf`, `variables.tf`, `outputs.tf` y `backend.tf`                             |
 | `infra/aws/`                                        | La misma arquitectura para AWS, validada pero sin desplegar ([ver abajo](#la-versión-de-aws))            |
@@ -177,6 +178,10 @@ GitHub avisa por email.
 
 - **Vue 3 + Vite, sin router.** Son tres páginas estáticas. Un build multipágina evita el
   "fallback" de SPA, que convertiría todos los 404 en 200.
+- **HTML generado en el build.** `npm run build` hace un segundo build para servidor y escribe el
+  HTML de cada página en `dist/`; en el navegador Vue lo hidrata. Buscadores, vistas previas y
+  quien navegue sin JavaScript ven el contenido. Sin vite-ssg: con dos componentes de página,
+  `renderToString` de Vue basta.
 - **Web estática de Storage sin CDN.** Front Door tiene una cuota fija mensual que no compensa en un
   portfolio. El precio: sin dominio propio con HTTPS ni cabeceras de seguridad propias.
 - **Sin claves de acceso en ningún Storage.** Todo entra con identidad, queda registrado y no hay

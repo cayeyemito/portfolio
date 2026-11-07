@@ -8,15 +8,17 @@ const theme = ref<Theme>('light')
 const next = computed<Theme>(() => (theme.value === 'dark' ? 'light' : 'dark'))
 const label = computed(() => (next.value === 'dark' ? m.theme.toDark : m.theme.toLight))
 
-// Until a theme is chosen, keep the icon in sync with the system setting.
-const media = window.matchMedia('(prefers-color-scheme: dark)')
+// Until a theme is chosen, keep the icon in sync with the system setting. Only in the
+// browser: the page is also rendered at build time, where there is no window.
+let media: MediaQueryList | undefined
 const onSystemChange = () => (theme.value = currentTheme())
 
 onMounted(() => {
   theme.value = currentTheme()
+  media = window.matchMedia('(prefers-color-scheme: dark)')
   media.addEventListener('change', onSystemChange)
 })
-onBeforeUnmount(() => media.removeEventListener('change', onSystemChange))
+onBeforeUnmount(() => media?.removeEventListener('change', onSystemChange))
 
 function toggle() {
   setTheme(next.value)
