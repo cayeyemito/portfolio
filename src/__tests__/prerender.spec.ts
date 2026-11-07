@@ -39,6 +39,10 @@ describe('prerender', () => {
       for (const title of [f.contextTitle, f.architectureTitle, f.decisionsTitle, f.challengeTitle])
         expect(html).toContain(title)
       expect(html).toContain('auth.getUser(token)')
+      expect(html).toContain(f.capturesTitle)
+      expect(html).toContain('src="/projects/frimee/demo.mp4"')
+      for (const shot of [...f.captures.webShots, ...f.captures.mobileShots])
+        expect(html).toContain(shot.src)
       expect(html).toContain(
         locale === 'es' ? 'href="/como-esta-hecha/"' : 'href="/en/how-it-is-built/"',
       )
