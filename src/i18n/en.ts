@@ -86,6 +86,7 @@ export const en: Messages = {
     title: 'Projects',
     path: '~/work',
     part: 'My part',
+    caseStudy: 'Read the case',
     repo: 'View the repository',
     workflows: {
       caption: 'GitHub Actions · workflows',
@@ -175,8 +176,16 @@ export const en: Messages = {
     site: 'static website + /status',
   },
   build: {
-    eyebrow: 'DevOps project',
-    title: 'How this site is built',
+    toc: 'Case contents',
+    status: 'Status',
+    facts: [
+      { label: 'Site', value: 'Azure Storage · static website' },
+      { label: 'Region', value: 'Spain Central' },
+      { label: 'Team', value: 'Solo project' },
+      { label: 'Stack', value: 'Vue 3 · Vite · Terraform · GitHub Actions · Python' },
+    ],
+    repo: 'View the repository',
+    other: 'Other project',
     lead: 'This is a static site: Vue 3 built with Vite and served over HTTPS from Azure Storage. All the infrastructure is in Terraform, GitHub Actions deploys it without storing any secret and a Python script checks it every day. [The code is on GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Architecture',
     pipeline: 'Pipeline',

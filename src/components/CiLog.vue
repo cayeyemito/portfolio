@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <figure class="ci-log card">
+  <figure class="ci-log">
     <figcaption>
       <code>.github/workflows/{{ file }}</code> <span class="muted">· {{ trigger }}</span>
     </figcaption>
@@ -25,25 +25,31 @@ defineProps<{
 <style scoped>
 .ci-log {
   margin: 0;
-  padding: 1rem 1.25rem;
+  border: 1px solid var(--rule2);
+  background: var(--panel);
   font-family: var(--mono);
-  font-size: 0.82rem;
+  font-size: 14px;
+}
+
+.ci-log + .ci-log {
+  margin-top: 16px;
 }
 
 figcaption {
-  padding-bottom: 0.6rem;
-  margin-bottom: 0.6rem;
-  border-bottom: 1px solid var(--line);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--rule2);
+  color: var(--muted);
 }
 
 figcaption code {
+  color: var(--fg);
   font-size: 1em;
 }
 
 ol {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 14px 16px;
 }
 
 li {

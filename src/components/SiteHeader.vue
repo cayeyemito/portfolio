@@ -4,7 +4,9 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
 import { profile } from '@/data/profile'
 import { otherLocale, pages, useLocale, useMessages, type PageName } from '@/i18n'
 
-const props = defineProps<{ page: PageName }>()
+// On a case page (slug set) the header shows its path and a link back to the projects
+// instead of the section links and the mobile menu.
+const props = defineProps<{ page: PageName; slug?: string }>()
 
 const locale = useLocale()
 const m = useMessages()
@@ -12,6 +14,7 @@ const other = otherLocale(locale)
 
 // On the home page the anchors are local; elsewhere they point back to it.
 const base = computed(() => (props.page === 'home' ? '' : pages.home[locale]))
+const isCase = computed(() => Boolean(props.slug))
 
 const sections = computed(() => [
   { num: '01', id: 'projects', label: m.nav.projects },
@@ -50,13 +53,24 @@ onBeforeUnmount(() => {
 
 <template>
   <header class="header">
-    <div class="wrap bar m">
+    <div :class="['wrap', 'bar', 'm', { case: isCase }]">
       <a :href="`${base}#top`" class="brand">
         <span class="logo" aria-hidden="true">{{ profile.initials }}</span>
-        <span class="path">{{ profile.handle }}</span>
+        <span class="path"
+          >{{ profile.handle
+          }}<template v-if="slug"
+            ><span class="muted">/work/</span><span class="slug">{{ slug }}</span></template
+          ></span
+        >
         <span class="vh">{{ profile.name }}</span>
       </a>
-      <nav class="links" :aria-label="m.nav.label">
+      <a v-if="isCase" :href="`${base}#projects`" class="back">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M14 8H2M6.5 3.5L2 8l4.5 4.5" />
+        </svg>
+        {{ m.nav.projects }}
+      </a>
+      <nav v-else class="links" :aria-label="m.nav.label">
         <a v-for="s in sections" :key="s.id" :href="`${base}#${s.id}`">
           <span class="num">{{ s.num }}</span> {{ s.label }}
         </a>
@@ -73,6 +87,7 @@ onBeforeUnmount(() => {
         >
         <ThemeToggle />
         <button
+          v-if="!isCase"
           ref="openButton"
           type="button"
           class="menu-button m"
@@ -225,17 +240,42 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 
-.menu-button svg {
+.menu-button svg,
+.back svg {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
 }
 
-/* Phones: logo, theme and "Menu"; the sections and the language move into the menu. */
+/* Case pages: path, then language and theme, then "← Projects" at the far right. */
+.case {
+  gap: 16px;
+}
+
+.case .tools {
+  order: 2;
+  margin-left: auto;
+}
+
+.back {
+  order: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.slug {
+  color: var(--atext);
+}
+
+/* Phones: logo, theme and "Menu"; the sections and the language move into the menu.
+   Case pages keep the language, since they have no menu. */
 @media (max-width: 767px) {
   .path,
   .links,
-  .language {
+  .bar:not(.case) .language {
     display: none;
   }
 
