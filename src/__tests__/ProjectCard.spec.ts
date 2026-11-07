@@ -35,7 +35,7 @@ describe('ProjectCard', () => {
     const internal = mount(ProjectCard, {
       props: { project: { ...project, links: { demo: '/como-esta-hecha/' } }, number: '02' },
     })
-    expect(internal.find('.links a').text()).toBe('Cómo está hecha')
+    expect(internal.find('.links a').text()).toBe('Leer el caso')
   })
 
   it('shows "My part" and the facts only when the project has them', () => {

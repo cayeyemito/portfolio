@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="status card" aria-live="polite">
+  <div class="status" aria-live="polite">
     <p v-if="state === 'loading'" class="muted">{{ m.status.loading }}</p>
     <p v-else-if="state === 'missing'" class="muted">{{ m.status.missing }}</p>
     <p v-else-if="state === 'error'" class="muted">{{ m.status.error }}</p>
@@ -57,6 +57,12 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.status {
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--rule2);
+  background: var(--panel);
+}
+
 .status p {
   margin: 0;
 }
@@ -69,9 +75,8 @@ onMounted(async () => {
 }
 
 .dot {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
+  width: 8px;
+  height: 8px;
 }
 
 .dot.ok {
@@ -101,14 +106,16 @@ th,
 td {
   text-align: left;
   padding: 0.45rem 0.5rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
   vertical-align: top;
   overflow-wrap: anywhere;
 }
 
 .group {
   font-family: var(--mono);
-  font-size: 0.75rem;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 

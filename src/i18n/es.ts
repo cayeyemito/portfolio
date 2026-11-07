@@ -93,6 +93,7 @@ export const es = {
     title: 'Proyectos',
     path: '~/work',
     part: 'Mi parte',
+    caseStudy: 'Leer el caso',
     repo: 'Ver el repositorio',
     // The portfolio card's figure: what runs, and when.
     workflows: {
@@ -184,8 +185,17 @@ export const es = {
     site: 'web estática + /status',
   },
   build: {
-    eyebrow: 'Proyecto DevOps',
-    title: 'Cómo está hecha esta web',
+    // Case page of the portfolio project: its title and status come from projects.json.
+    toc: 'Contenido del caso',
+    status: 'Estado',
+    facts: [
+      { label: 'Web', value: 'Azure Storage · web estática' },
+      { label: 'Región', value: 'Spain Central' },
+      { label: 'Equipo', value: 'Proyecto individual' },
+      { label: 'Stack', value: 'Vue 3 · Vite · Terraform · GitHub Actions · Python' },
+    ],
+    repo: 'Ver el repositorio',
+    other: 'Otro proyecto',
     lead: 'Esta web es estática: Vue 3 compilado con Vite y servida con HTTPS desde Azure Storage. Toda la infraestructura está en Terraform, GitHub Actions la despliega sin guardar ningún secreto y un script en Python la revisa cada día. [El código está en GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Arquitectura',
     pipeline: 'Pipeline',

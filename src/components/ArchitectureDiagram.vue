@@ -50,14 +50,7 @@ const arrows = [
       <text x="215" y="252" class="label">HTTPS</text>
       <text x="555" y="252" class="label">logs</text>
       <g v-for="b in boxes" :key="b.title">
-        <rect
-          :x="b.x"
-          :y="b.y"
-          :width="b.w"
-          :height="H"
-          rx="10"
-          :class="['box', { accent: b.accent }]"
-        />
+        <rect :x="b.x" :y="b.y" :width="b.w" :height="H" :class="['box', { accent: b.accent }]" />
         <text :x="b.x + b.w / 2" :y="b.y + 26" class="title">{{ b.title }}</text>
         <text :x="b.x + b.w / 2" :y="b.y + 45" class="sub">{{ b.sub }}</text>
       </g>
@@ -69,6 +62,9 @@ const arrows = [
 <style scoped>
 .diagram {
   margin: 0;
+  padding: clamp(20px, 3vw, 40px);
+  border: 1px solid var(--rule2);
+  background: var(--panel);
 }
 
 svg {
@@ -77,17 +73,18 @@ svg {
 }
 
 .box {
-  fill: var(--surface);
-  stroke: var(--line);
-  stroke-width: 1.5;
+  fill: var(--bg);
+  stroke: var(--rule3);
+  stroke-width: 1;
 }
 
 .box.accent {
   stroke: var(--accent);
+  stroke-width: 1.5;
 }
 
 .title {
-  fill: var(--text);
+  fill: var(--fg);
   font-size: 15px;
   font-weight: 600;
   text-anchor: middle;
@@ -95,28 +92,32 @@ svg {
 
 .sub {
   fill: var(--muted);
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
   text-anchor: middle;
 }
 
 .link {
   fill: none;
-  stroke: var(--muted);
+  stroke: var(--rule3);
   stroke-width: 1.5;
 }
 
 .head {
-  fill: var(--muted);
+  fill: var(--rule3);
 }
 
 .label {
   fill: var(--muted);
   font-family: var(--mono);
   font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 figcaption {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 15px;
 }
 </style>

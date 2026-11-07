@@ -57,7 +57,7 @@ const demo = props.project.links.demo
 
       <div class="links">
         <a v-if="demo" :href="localizePath(demo, locale)">
-          {{ demoLabel(demo, m.nav.build) }}
+          {{ demoLabel(demo, m.projects.caseStudy) }}
           <svg
             v-if="demo.startsWith('https://')"
             width="14"

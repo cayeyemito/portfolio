@@ -29,11 +29,16 @@ describe('prerender', () => {
   )
 
   it.each(routes.filter((r) => r.page === 'build'))(
-    '$file has the build page title and the diagram',
+    '$file is the portfolio case: title, every section and the diagram',
     async ({ locale }) => {
       const html = await render('build', locale)
-      expect(html).toContain(messages[locale].build.title)
-      expect(html).toContain('<svg')
+      const b = messages[locale].build
+      const portfolio = projectsFor(locale).find((p) => p.slug === 'portfolio')!
+      expect(html).toContain(`>${portfolio.title}</h1>`)
+      for (const title of [b.architecture, b.pipeline, b.iacTitle, b.opsTitle])
+        expect(html).toContain(title)
+      expect(html).toContain('role="img"')
+      expect(html).toContain(portfolio.links.repo)
     },
   )
 })

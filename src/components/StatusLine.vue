@@ -44,7 +44,7 @@ onMounted(async () => {
 }
 
 .status-line:hover {
-  color: var(--text);
+  color: var(--fg);
 }
 
 .dot.ok {
