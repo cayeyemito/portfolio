@@ -2,6 +2,7 @@
 import '@/styles/case.css'
 import ArchitectureDiagram from '@/components/ArchitectureDiagram.vue'
 import CiLog from '@/components/CiLog.vue'
+import CaseToc from '@/components/CaseToc.vue'
 import RichText from '@/components/RichText.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
@@ -71,15 +72,7 @@ const sections = [
     </section>
 
     <div class="wrap case-content">
-      <nav class="m case-toc" :aria-label="b.toc">
-        <ol>
-          <li v-for="(s, i) in sections" :key="s.id">
-            <a :href="`#${s.id}`"
-              ><span class="num">{{ i + 1 }}</span> {{ s.title }}</a
-            >
-          </li>
-        </ol>
-      </nav>
+      <CaseToc :sections="sections" :label="b.toc" />
 
       <div class="case-sections">
         <section :id="sections[0]!.id" class="case-section" aria-labelledby="architecture-title">
