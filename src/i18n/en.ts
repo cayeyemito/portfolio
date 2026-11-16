@@ -166,7 +166,7 @@ export const en: Messages = {
   },
   diagram: {
     title: 'Portfolio architecture',
-    desc: 'A push to GitHub triggers GitHub Actions, which gets temporary access from Entra ID through OIDC and uploads the site with azcopy to an Azure Storage account with a static website. Visitors connect over HTTPS and every read is logged in Log Analytics.',
+    desc: 'A push to GitHub triggers GitHub Actions, which gets temporary access from Entra ID through OIDC and uploads the site with azcopy to an Azure Storage account with a static website. Visitors reach cayeyeste.com over HTTPS through Cloudflare, where a Worker fetches each page from Azure; every read is logged in Log Analytics.',
     caption: 'Deployment on top, traffic below. No Azure secret is stored in GitHub.',
     you: 'You',
     repository: 'repository',
@@ -180,7 +180,7 @@ export const en: Messages = {
     open: 'Open frimee.es',
     facts: [
       { label: 'Site', value: 'frimee.es' },
-      { label: 'Hosting', value: 'Hostinger' },
+      { label: 'Hosting', value: 'Vercel' },
       { label: 'Team', value: '2 people' },
       { label: 'Stack', value: 'Next.js · Supabase · Firebase · Capacitor · LiveKit' },
       { label: 'Services', value: 'Google Maps · OpenAI · Claude · Sentry' },
@@ -278,7 +278,8 @@ export const en: Messages = {
         sync: 'copies published plans to Firestore',
       },
       sentry: 'errors on the client, the server and the edge',
-      hosting: 'the Next.js site and its /api routes, at frimee.es',
+      hosting:
+        'the Next.js site and its /api routes, deployed on every merge to main; frimee.es domain at IONOS',
     },
     architectureNote:
       'Clients talk to the services directly with public keys. The server only steps in for what needs privileges, and the Supabase service key never reaches the client.',
@@ -350,7 +351,7 @@ export const en: Messages = {
     ],
     repo: 'View the repository',
     other: 'Other project',
-    lead: 'This is a static site: Vue 3 built with Vite and served over HTTPS from Azure Storage. All the infrastructure is in Terraform, GitHub Actions deploys it without storing any secret and a Python script checks it every day. [The code is on GitHub.](https://github.com/cayeyemito/portfolio)',
+    lead: 'This is a static site: Vue 3 built with Vite and served from Azure Storage, with Cloudflare in front for the domain and HTTPS. All the infrastructure is in Terraform, GitHub Actions deploys it without storing any secret and a Python script checks it every day. [The code is on GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Architecture',
     pipeline: 'Pipeline',
     pipelineText:
@@ -389,12 +390,13 @@ export const en: Messages = {
     ],
     iacTitle: 'Infrastructure as code',
     iacText:
-      'Everything lives in `infra/azure/`, with the Terraform state in a versioned storage account. Only that account and the overall budget were created by hand.',
+      'Everything lives in `infra/azure/`, with the Terraform state in a versioned storage account. Only that account, the overall budget and the Cloudflare setup were created by hand.',
     iacItems: [
       'Storage account with a static website (`index.html` in every folder and `404.html`), HTTPS and TLS 1.2 only, and no access keys: everything signs in with an identity.',
       'Two Entra ID identities with *federated credentials* for GitHub: the deploy one can only write to that account; the plan one can only read.',
       'Access logs in Log Analytics for 30 days, with a daily cap as a cost guard.',
       'Budget with alerts at 50 %, 100 % and on forecast.',
+      'In front, Cloudflare on its free plan: DNS for `cayeyeste.com`, the certificate and a Worker (`infra/cloudflare/worker.js`) that fetches each page from Azure under its own name, because Azure Storage does not accept another domain and the free plan cannot rewrite the Host header.',
     ],
     opsTitle: 'Operations',
     opsText:
@@ -404,6 +406,6 @@ export const en: Messages = {
       'The infrastructure was first designed for AWS: private S3, CloudFront with Origin Access Control, IAM roles with OIDC and AWS Budgets. It is in `infra/aws/`, validated with `terraform validate` and not deployed. I deployed it on Azure, where the architecture is the same with other pieces: Storage instead of S3, Entra ID instead of IAM and Log Analytics instead of the CloudFront logs.',
     notCoveredTitle: 'What it does not cover',
     notCoveredText:
-      'There is no Kubernetes and no real high availability: it is a static site in a single subscription. There is no CDN either: on Azure it would have a fixed monthly fee (Front Door) and, for a portfolio, the Storage static website is enough. In production I would split environments into separate subscriptions, add Front Door with a custom domain and security headers, and move `terraform apply` into the pipeline with manual approval.',
+      'There is no Kubernetes and no real high availability: it is a static site in a single subscription. The domain and HTTPS go through free Cloudflare instead of Front Door, which has a fixed monthly fee on Azure. In production I would split environments into separate subscriptions, bring Cloudflare into Terraform with security headers, and move `terraform apply` into the pipeline with manual approval.',
   },
 }

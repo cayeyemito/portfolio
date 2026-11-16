@@ -14,7 +14,7 @@ revisión, son mías.
   Tú ──────────► GitHub ──► GitHub Actions ──OIDC──► Entra ID (acceso temporal)
                               │  ci · deploy · health         │
                               │                               ▼ azcopy
-  Visitante ──HTTPS──────────────────────────► Azure Storage, web estática ($web + /status)
+  Visitante ──HTTPS──► Cloudflare (cayeyeste.com) ──Worker──► Azure Storage, web estática ($web + /status)
                                                    │
                                                    └──logs──► Log Analytics (30 días)
                                                                  ▲
@@ -24,6 +24,10 @@ revisión, son mías.
 - **Azure Storage con web estática.** Sirve el contenedor `$web` por HTTPS, con `index.html` en cada
   carpeta y `404.html` para las rutas que no existen. Solo HTTPS y TLS 1.2, y sin claves de acceso:
   todo entra con una identidad de Entra ID.
+- **Cloudflare (plan gratuito).** DNS de `cayeyeste.com`, certificado y un Worker
+  (`infra/cloudflare/worker.js`) que pide cada página a Azure con su propio nombre: Azure Storage no
+  acepta peticiones con otro Host y el plan gratuito no permite reescribirlo. También redirige `www`
+  al dominio principal.
 - **Log Analytics.** Recibe cada lectura de la web (tabla `StorageBlobLogs`) y se consulta con KQL.
 - **GitHub Actions.** No guarda ningún secreto de Azure: Entra ID cambia el token OIDC de cada
   ejecución por un acceso temporal, solo para este repositorio y la rama o PR esperadas.
@@ -37,6 +41,7 @@ revisión, son mías.
 | `src/entry-server.ts`, `scripts/prerender.ts`       | Generan el HTML de cada página en el build, para que el contenido esté sin JavaScript                    |
 | `index.html`, `como-esta-hecha/`, `en/`, `404.html` | Páginas del build multipágina de Vite: español en `/` e inglés en `/en/`, con los mismos componentes     |
 | `infra/azure/`                                      | Terraform desplegado: `main.tf`, `variables.tf`, `outputs.tf` y `backend.tf`                             |
+| `infra/cloudflare/worker.js`                        | Worker de Cloudflare entre el dominio y la web estática de Azure                                         |
 | `infra/aws/`                                        | La misma arquitectura para AWS, validada pero sin desplegar ([ver abajo](#la-versión-de-aws))            |
 | `ops/site_health.py`                                | Comprobaciones diarias e informe HTML/JSON                                                               |
 | `ops/logs.sh`                                       | Resumen de errores de los logs de acceso con `az`, `grep`, `awk` y `sort \| uniq -c`                     |
@@ -154,7 +159,8 @@ pestaña Actions para generar el primer `/status`.
    lleva `max-age=0`. `status/` se excluye para que el borrado de ficheros viejos no toque el informe.
 4. Hace una prueba de humo: las páginas propias responden 200 y una ruta inexistente, 404.
 
-No hay CDN delante, así que no hay caché que invalidar.
+Cloudflare solo guarda en caché ficheros estáticos (no el HTML) y respeta el `Cache-Control` de Azure,
+así que no hay que invalidar nada en cada despliegue.
 
 **`health.yml`, cada día a las 06:00 UTC:** lanza `site_health.py` con todas las comprobaciones,
 guarda el informe como artefacto y lo publica en `/status`. Si algo falla, el job termina en rojo y
@@ -182,8 +188,10 @@ GitHub avisa por email.
   HTML de cada página en `dist/`; en el navegador Vue lo hidrata. Buscadores, vistas previas y
   quien navegue sin JavaScript ven el contenido. Sin vite-ssg: con dos componentes de página,
   `renderToString` de Vue basta.
-- **Web estática de Storage sin CDN.** Front Door tiene una cuota fija mensual que no compensa en un
-  portfolio. El precio: sin dominio propio con HTTPS ni cabeceras de seguridad propias.
+- **Cloudflare en lugar de Front Door.** Front Door tiene una cuota fija mensual que no compensa en
+  un portfolio. Cloudflare gratuito da el dominio con HTTPS; el precio es un Worker, porque su plan
+  gratuito no reescribe la cabecera Host. Se configuró a mano en el panel; el código del Worker está
+  en el repositorio.
 - **Sin claves de acceso en ningún Storage.** Todo entra con identidad, queda registrado y no hay
   ninguna contraseña maestra que pueda filtrarse.
 - **Dos identidades en lugar de una.** El plan de las PR no debe poder escribir nada.
@@ -202,7 +210,8 @@ de Azure.
 ## Qué haría distinto en producción
 
 - Suscripciones separadas por entorno (grupos de administración) y un entorno de staging.
-- Front Door con dominio propio, certificado gestionado, cabeceras de seguridad y WAF.
+- Cloudflare gestionado con Terraform (DNS, rutas y Worker) y cabeceras de seguridad, o Front Door
+  con WAF si todo debe quedarse en Azure.
 - `terraform apply` en el pipeline (`workflow_dispatch` con aprobación en un environment protegido)
   en lugar de en local.
 - Alertas de Azure Monitor sobre la tasa de 5xx, con un grupo de acciones a email o Teams, en vez

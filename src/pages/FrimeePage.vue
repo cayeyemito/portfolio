@@ -282,7 +282,7 @@ const highlighted = 8
               <strong>Sentry</strong><span class="body">{{ a.sentry }}</span>
             </p>
             <p class="band">
-              <strong>Hostinger</strong><span class="body">{{ a.hosting }}</span>
+              <strong>Vercel</strong><span class="body">{{ a.hosting }}</span>
             </p>
           </figure>
           <p class="case-note">{{ f.architectureNote }}</p>

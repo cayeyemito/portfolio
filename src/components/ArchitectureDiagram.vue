@@ -13,6 +13,7 @@ const boxes: Box[] = [
   { x: 340, y: 30, w: 150, title: 'GitHub Actions', sub: 'ci · deploy · health' },
   { x: 525, y: 30, w: 120, title: 'Entra ID', sub: t.temporary },
   { x: 20, y: 230, w: 120, title: t.visitor, sub: t.browser },
+  { x: 175, y: 230, w: 130, title: 'Cloudflare', sub: 'DNS · TLS · Worker' },
   { x: 340, y: 230, w: 150, title: 'Azure Storage', sub: t.site, accent: true },
   { x: 660, y: 230, w: 120, title: 'Log Analytics', sub: 'logs · KQL' },
 ]
@@ -22,7 +23,8 @@ const arrows = [
   'M305 60 H340',
   'M490 60 H525',
   'M585 90 V160 H415 V230',
-  'M140 260 H340',
+  'M140 260 H175',
+  'M305 260 H340',
   'M490 260 H660',
 ]
 </script>
@@ -47,7 +49,6 @@ const arrows = [
       </defs>
       <path v-for="d in arrows" :key="d" :d="d" class="link" marker-end="url(#arrow)" />
       <text x="425" y="152" class="label">azcopy</text>
-      <text x="215" y="252" class="label">HTTPS</text>
       <text x="555" y="252" class="label">logs</text>
       <g v-for="b in boxes" :key="b.title">
         <rect :x="b.x" :y="b.y" :width="b.w" :height="H" :class="['box', { accent: b.accent }]" />
