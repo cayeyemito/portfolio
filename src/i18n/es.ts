@@ -175,7 +175,7 @@ export const es = {
   },
   diagram: {
     title: 'Arquitectura del portfolio',
-    desc: 'Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran por HTTPS y cada lectura queda registrada en Log Analytics.',
+    desc: 'Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran por HTTPS a cayeyeste.com, en Cloudflare, donde un Worker pide cada página a Azure; cada lectura queda registrada en Log Analytics.',
     caption: 'Despliegue arriba, tráfico abajo. Ningún secreto de Azure se guarda en GitHub.',
     you: 'Tú',
     repository: 'repositorio',
@@ -191,7 +191,7 @@ export const es = {
     open: 'Abrir frimee.es',
     facts: [
       { label: 'Web', value: 'frimee.es' },
-      { label: 'Despliegue', value: 'Hostinger' },
+      { label: 'Despliegue', value: 'Vercel' },
       { label: 'Equipo', value: '2 personas' },
       { label: 'Stack', value: 'Next.js · Supabase · Firebase · Capacitor · LiveKit' },
       { label: 'Servicios', value: 'Google Maps · OpenAI · Claude · Sentry' },
@@ -290,7 +290,8 @@ export const es = {
         sync: 'copia los planes publicados a Firestore',
       },
       sentry: 'errores en el cliente, el servidor y el edge',
-      hosting: 'la web de Next.js y sus rutas /api, en frimee.es',
+      hosting:
+        'la web de Next.js y sus rutas /api, desplegada en cada merge a main; dominio frimee.es en IONOS',
     },
     architectureNote:
       'Los clientes hablan directamente con los servicios usando claves públicas. El servidor solo interviene en lo que necesita privilegios, y la clave de servicio de Supabase nunca llega al cliente.',
@@ -363,7 +364,7 @@ export const es = {
     ],
     repo: 'Ver el repositorio',
     other: 'Otro proyecto',
-    lead: 'Esta web es estática: Vue 3 compilado con Vite y servida con HTTPS desde Azure Storage. Toda la infraestructura está en Terraform, GitHub Actions la despliega sin guardar ningún secreto y un script en Python la revisa cada día. [El código está en GitHub.](https://github.com/cayeyemito/portfolio)',
+    lead: 'Esta web es estática: Vue 3 compilado con Vite y servida desde Azure Storage, con Cloudflare delante para el dominio y el HTTPS. Toda la infraestructura está en Terraform, GitHub Actions la despliega sin guardar ningún secreto y un script en Python la revisa cada día. [El código está en GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Arquitectura',
     pipeline: 'Pipeline',
     pipelineText:
@@ -402,12 +403,13 @@ export const es = {
     ] as { file: string; trigger: string; steps: { name: string; detail?: string }[] }[],
     iacTitle: 'Infraestructura como código',
     iacText:
-      'Todo vive en `infra/azure/`, con el estado de Terraform en una cuenta de Storage con versionado. Solo se crearon a mano esa cuenta y el presupuesto general.',
+      'Todo vive en `infra/azure/`, con el estado de Terraform en una cuenta de Storage con versionado. Solo se crearon a mano esa cuenta, el presupuesto general y la configuración de Cloudflare.',
     iacItems: [
       'Cuenta de Storage con web estática (`index.html` en cada carpeta y `404.html`), solo HTTPS y TLS 1.2, y sin claves de acceso: todo entra con identidad.',
       'Dos identidades de Entra ID con *federated credentials* para GitHub: la de despliegue solo puede escribir en esa cuenta; la del plan, solo leer.',
       'Logs de acceso en Log Analytics durante 30 días, con una cuota diaria como freno.',
       'Presupuesto con avisos al 50 %, al 100 % y por previsión.',
+      'Delante, Cloudflare en su plan gratuito: DNS de `cayeyeste.com`, certificado y un Worker (`infra/cloudflare/worker.js`) que pide cada página a Azure con su propio nombre, porque Azure Storage no acepta otro dominio y el plan gratuito no permite reescribir la cabecera Host.',
     ],
     opsTitle: 'Operación',
     opsText:
@@ -417,7 +419,7 @@ export const es = {
       'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Está en `infra/aws/`, validada con `terraform validate` y sin desplegar. La desplegué en Azure, donde la arquitectura es la misma con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
     notCoveredTitle: 'Qué no cubre',
     notCoveredText:
-      'No hay Kubernetes ni alta disponibilidad real: es un sitio estático en una sola suscripción. Tampoco hay CDN: en Azure costaría una cuota fija mensual (Front Door) y, para un portfolio, la web estática de Storage basta. En producción separaría entornos en suscripciones distintas, pondría Front Door con dominio propio y cabeceras de seguridad, y movería el `terraform apply` al pipeline con aprobación manual.',
+      'No hay Kubernetes ni alta disponibilidad real: es un sitio estático en una sola suscripción. El dominio y el HTTPS van por Cloudflare gratuito en lugar de Front Door, que en Azure tiene una cuota fija mensual. En producción separaría entornos en suscripciones distintas, llevaría Cloudflare a Terraform con cabeceras de seguridad, y movería el `terraform apply` al pipeline con aprobación manual.',
   },
 }
 
