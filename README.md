@@ -40,6 +40,7 @@ revisión, son mías.
 | `src/i18n/`                                         | Textos en español (`es.ts`) e inglés (`en.ts`). El tipo `Messages` obliga a que tengan las mismas claves |
 | `src/entry-server.ts`, `scripts/prerender.ts`       | Generan el HTML de cada página en el build, para que el contenido esté sin JavaScript                    |
 | `index.html`, `como-esta-hecha/`, `en/`, `404.html` | Páginas del build multipágina de Vite: español en `/` e inglés en `/en/`, con los mismos componentes     |
+| `cv/`, `scripts/build-cv.mjs`                       | Contenido y estilo de los CV en PDF; `npm run cv` los genera en `public/cv/` con Chrome sin interfaz     |
 | `infra/azure/`                                      | Terraform desplegado: `main.tf`, `variables.tf`, `outputs.tf` y `backend.tf`                             |
 | `infra/cloudflare/worker.js`                        | Worker de Cloudflare entre el dominio y la web estática de Azure                                         |
 | `infra/aws/`                                        | La misma arquitectura para AWS, validada pero sin desplegar ([ver abajo](#la-versión-de-aws))            |

@@ -44,6 +44,7 @@ PAGES = [
     "/proyectos/frimee/",
     "/en/projects/frimee/",
     "/cv/Cayetano_Yeste_CV_DevOps.pdf",
+    "/cv/Cayetano_Yeste_CV_DevOps_EN.pdf",
     "/cv/Cayetano_Yeste_CV_FullStack.pdf",
     "/cv/Cayetano_Yeste_CV_FullStack_EN.pdf",
 ]
@@ -57,6 +58,7 @@ EXPECTED_KEYS = [
     "en/projects/frimee/index.html",
     "404.html",
     "cv/Cayetano_Yeste_CV_DevOps.pdf",
+    "cv/Cayetano_Yeste_CV_DevOps_EN.pdf",
     "cv/Cayetano_Yeste_CV_FullStack.pdf",
     "cv/Cayetano_Yeste_CV_FullStack_EN.pdf",
 ]
