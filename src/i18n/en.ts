@@ -29,12 +29,17 @@ export const en: Messages = {
       { name: 'English', level: 'Advanced' },
     ],
   },
-  // Only English CVs on the English site. The DevOps one will be added when it exists.
+  // Only English CVs on the English site.
   cvs: [
     {
       label: 'Full Stack / Backend',
       short: 'Full Stack CV',
       href: '/cv/Cayetano_Yeste_CV_FullStack_EN.pdf',
+    },
+    {
+      label: 'DevOps / IT Operations',
+      short: 'DevOps CV',
+      href: '/cv/Cayetano_Yeste_CV_DevOps_EN.pdf',
     },
   ],
   experience: [
@@ -42,23 +47,26 @@ export const en: Messages = {
       company: 'EY',
       role: 'Junior IT Consultant',
       period: 'Oct 2025 — Jun 2026',
-      kind: 'Training contract',
+      kind: 'Training contract · Barcelona, hybrid',
       points: [
-        'Features for the NH Hotels application with Spring Boot (REST API, JPA/Hibernate) and Vue, in a Scrum team',
-        'Introduced the first unit tests (JUnit and frontend) in a project that had none',
-        'Deployments to the test environment with Jenkins; Git flow with pull requests and Jira sprints',
+        'New features and bug fixes for the NH Hotels web application across the whole cycle: requirements analysis, implementation, testing and deployment',
+        'Backend with Spring Boot: REST API endpoints, business logic and data access with JPA/Hibernate and hand-written SQL queries',
+        'Frontend with Vue: extended existing components, wired them to the REST API and built new components and layouts',
+        'Integrated content managed in the Tridion CMS into the application',
+        'Introduced the first unit tests (JUnit and frontend) in a project that had none, written with the help of generative AI, cutting manual validation',
+        'Deployments to the test environment with Jenkins jobs; Git with branches and pull requests, Scrum sprints in Jira and technical documentation',
       ],
     },
     {
       company: 'Itequia',
       role: 'DevOps Engineer · intern',
       period: 'Mar 2021 — Jun 2022',
-      kind: 'Internship',
+      kind: 'Internship · IT consultancy of about 35 people',
       points: [
-        'Maintained the Azure DevOps Pipelines build agents: Windows VMs on Azure and on-premise',
-        'Troubleshot failures from the logs, and wrote PowerShell and Bash scripts',
-        'Daily backups and SQL databases',
-        'Incidents in Jira Service Management',
+        'Maintained, with one colleague, the Azure DevOps Pipelines build agents (Windows VMs on Azure and on-premise) so that every push was built and deployed',
+        'Troubleshot agent and pipeline failures by finding the root cause in the logs; restarts only as containment',
+        'PowerShell and Bash scripts for maintenance: daily backups, cleanup of old files and the SQL database',
+        'Incidents in Jira Service Management and a daily follow-up meeting with management and the project managers',
       ],
     },
     {
@@ -67,8 +75,8 @@ export const en: Messages = {
       period: 'Feb 2019 — Aug 2020',
       kind: 'Part time',
       points: [
-        'Managed MySQL databases, looking after their integrity and security',
-        'Technical reports for management and clients',
+        'Managed and maintained MySQL databases, looking after their integrity and security',
+        'Excel reports and presentations for management and clients',
       ],
     },
   ],
@@ -77,7 +85,7 @@ export const en: Messages = {
     items: [
       { period: '2024 — 2026', name: 'DAW · Web Application Development (VET diploma) · IFP' },
       {
-        period: '2019 — 2022',
+        period: '2020 — 2022',
         name: "DAM · Multiplatform Application Development (VET diploma) · IES Joan d'Àustria",
       },
     ],

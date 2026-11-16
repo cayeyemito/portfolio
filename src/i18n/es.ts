@@ -47,25 +47,28 @@ export const es = {
   experience: [
     {
       company: 'EY',
-      role: 'Consultor de Tecnología Junior',
+      role: 'Consultor de Tecnología de la Información Junior',
       period: 'oct 2025 — jun 2026',
-      kind: 'Contrato de formación',
+      kind: 'Contrato de formación · Barcelona, híbrido',
       points: [
-        'Funcionalidades para la aplicación de NH Hoteles con Spring Boot (API REST, JPA/Hibernate) y Vue, en un equipo Scrum',
-        'Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto que no tenía',
-        'Despliegue en el entorno de pruebas con Jenkins; flujo Git con pull requests y sprints en Jira',
+        'Nuevas funcionalidades y corrección de incidencias en la aplicación web de NH Hoteles, en todo el ciclo: análisis de requisitos, implementación, pruebas y despliegue',
+        'Backend con Spring Boot: endpoints de API REST, lógica de negocio y acceso a datos con JPA/Hibernate y consultas SQL escritas a mano',
+        'Frontend con Vue: amplié componentes existentes, los conecté con la API REST y maqueté componentes nuevos',
+        'Integración en la aplicación del contenido gestionado en el CMS Tridion',
+        'Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto que no tenía, escritos con ayuda de IA generativa, y reduje la validación manual',
+        'Despliegue en el entorno de pruebas con jobs de Jenkins; Git con ramas y pull requests, sprints de Scrum en Jira y documentación técnica',
       ],
     },
     {
       company: 'Itequia',
       role: 'DevOps Engineer · prácticas',
       period: 'mar 2021 — jun 2022',
-      kind: 'Prácticas',
+      kind: 'Prácticas · consultora TI de unas 35 personas',
       points: [
-        'Mantenimiento de los agentes de build de Azure DevOps Pipelines: VM Windows en Azure y on-premise',
-        'Diagnóstico de fallos revisando logs, y scripts en PowerShell y Bash',
-        'Copias de seguridad diarias y bases de datos SQL',
-        'Incidencias en Jira Service Management',
+        'Mantuve con otro compañero los agentes de build de Azure DevOps Pipelines (VM Windows en Azure y on-premise) para que cada push se construyera y desplegara',
+        'Diagnóstico de fallos en agentes y pipelines buscando la causa raíz en los logs; el reinicio, solo como contención',
+        'Scripts en PowerShell y Bash para el mantenimiento: copias de seguridad diarias, limpieza de ficheros antiguos y la base de datos SQL',
+        'Incidencias en Jira Service Management y reunión diaria de seguimiento con la dirección y los project managers',
       ],
     },
     {
@@ -74,8 +77,8 @@ export const es = {
       period: 'feb 2019 — ago 2020',
       kind: 'Jornada parcial',
       points: [
-        'Gestión de bases de datos MySQL, cuidando su integridad y seguridad',
-        'Informes técnicos para la dirección y los clientes',
+        'Gestión y mantenimiento de bases de datos MySQL, cuidando su integridad y seguridad',
+        'Informes en Excel y presentaciones para la dirección y los clientes',
       ],
     },
   ],
@@ -84,7 +87,7 @@ export const es = {
     items: [
       { period: '2024 — 2026', name: 'DAW · Desarrollo de Aplicaciones Web · IFP' },
       {
-        period: '2019 — 2022',
+        period: '2020 — 2022',
         name: "DAM · Desarrollo de Aplicaciones Multiplataforma · IES Joan d'Àustria",
       },
     ],
