@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue'
 import { useLocale, useMessages } from '@/i18n'
 import { fetchReport, timeAgo, type Report } from '@/lib/status'
 
-// One-line status under the title of the build page: verdict from report.json (only when it exists) plus deploy age.
+// Status in the fact sheet of the build page: the verdict from report.json (only when it
+// exists) or how long ago the site was deployed, one per row.
+const props = defineProps<{ show: 'verdict' | 'deploy' }>()
 const m = useMessages()
 const report = ref<Report | null>(null)
 const locale = useLocale()
@@ -22,12 +24,11 @@ onMounted(async () => {
 
 <template>
   <a href="/status/" class="status-line" aria-live="polite">
-    <template v-if="report">
+    <template v-if="props.show === 'verdict' && report">
       <span :class="['dot', report.ok ? 'ok' : 'fail']" aria-hidden="true">●</span>
       {{ report.ok ? m.status.allOk : m.status.failed }}
-      <span aria-hidden="true">·</span>
     </template>
-    <template v-if="deployed">{{ m.status.lastDeploy }} {{ deployed }}</template>
+    <template v-else-if="props.show === 'deploy' && deployed">{{ deployed }}</template>
   </a>
 </template>
 

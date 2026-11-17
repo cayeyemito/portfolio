@@ -24,10 +24,11 @@ revisión, son mías.
 - **Azure Storage con web estática.** Sirve el contenedor `$web` por HTTPS, con `index.html` en cada
   carpeta y `404.html` para las rutas que no existen. Solo HTTPS y TLS 1.2, y sin claves de acceso:
   todo entra con una identidad de Entra ID.
-- **Cloudflare (plan gratuito).** DNS de `cayeyeste.com`, certificado y un Worker
-  (`infra/cloudflare/worker.js`) que pide cada página a Azure con su propio nombre: Azure Storage no
-  acepta peticiones con otro Host y el plan gratuito no permite reescribirlo. También redirige `www`
-  al dominio principal.
+- **Cloudflare (plan gratuito).** Lleva el DNS de `cayeyeste.com` y el certificado. Azure Storage
+  admite un dominio propio, pero no le pone HTTPS si no pagas Front Door, así que Cloudflare termina
+  el TLS y un Worker (`infra/cloudflare/worker.js`) pide cada página a Azure con su propio nombre,
+  porque el plan gratuito no deja reescribir la cabecera Host. El Worker también redirige `www` al
+  dominio principal, añade las cabeceras de seguridad y quita las `x-ms-*` de Azure.
 - **Log Analytics.** Recibe cada lectura de la web (tabla `StorageBlobLogs`) y se consulta con KQL.
 - **GitHub Actions.** No guarda ningún secreto de Azure: Entra ID cambia el token OIDC de cada
   ejecución por un acceso temporal, solo para este repositorio y la rama o PR esperadas.
@@ -129,16 +130,21 @@ AZCOPY_AUTO_LOGIN_TYPE=AZCLI azcopy sync dist "https://$ACCOUNT.blob.core.window
 Ve a **Settings → Secrets and variables → Actions → Variables** y crea estas variables. No son
 secretos: con OIDC solo hacen falta identificadores.
 
-| Variable                 | Valor                   |
-| ------------------------ | ----------------------- |
-| `AZURE_TENANT_ID`        | `github_variables`      |
-| `AZURE_SUBSCRIPTION_ID`  | `github_variables`      |
-| `AZURE_DEPLOY_CLIENT_ID` | `github_variables`      |
-| `AZURE_PLAN_CLIENT_ID`   | `github_variables`      |
-| `SITE_STORAGE_ACCOUNT`   | `github_variables`      |
-| `LOG_WORKSPACE_ID`       | `github_variables`      |
-| `SITE_URL`               | `github_variables`      |
-| `BUDGET_EMAIL`           | el email de las alertas |
+| Variable                 | Valor                            |
+| ------------------------ | -------------------------------- |
+| `AZURE_TENANT_ID`        | `github_variables`               |
+| `AZURE_SUBSCRIPTION_ID`  | `github_variables`               |
+| `AZURE_DEPLOY_CLIENT_ID` | `github_variables`               |
+| `AZURE_PLAN_CLIENT_ID`   | `github_variables`               |
+| `SITE_STORAGE_ACCOUNT`   | `github_variables`               |
+| `LOG_WORKSPACE_ID`       | `github_variables`               |
+| `SITE_URL`               | `github_variables`               |
+| `BUDGET_EMAIL`           | el email de las alertas          |
+| `CLOUDFLARE_ACCOUNT_ID`  | el ID de la cuenta de Cloudflare |
+
+Y en la pestaña **Secrets**, `CLOUDFLARE_API_TOKEN`: un token de Cloudflare con la plantilla
+«Edit Cloudflare Workers», limitado a esta cuenta y a la zona `cayeyeste.com`. Es el único secreto
+del repositorio, porque Cloudflare no acepta los tokens OIDC de GitHub como hace Entra ID.
 
 A partir de aquí, cada push a `main` despliega solo. Puedes lanzar `health.yml` a mano desde la
 pestaña Actions para generar el primer `/status`.
@@ -159,6 +165,7 @@ pestaña Actions para generar el primer `/status`.
 3. Ejecuta `azcopy sync`. `assets/` lleva caché de un año porque los nombres tienen hash; el HTML
    lleva `max-age=0`. `status/` se excluye para que el borrado de ficheros viejos no toque el informe.
 4. Hace una prueba de humo: las páginas propias responden 200 y una ruta inexistente, 404.
+5. Publica el Worker de Cloudflare con `wrangler deploy` (en un job aparte que espera al anterior).
 
 Cloudflare solo guarda en caché ficheros estáticos (no el HTML) y respeta el `Cache-Control` de Azure,
 así que no hay que invalidar nada en cada despliegue.
@@ -170,6 +177,9 @@ GitHub avisa por email.
 ## Seguridad y costes
 
 - No hay secretos de Azure en el repositorio ni en GitHub: solo OIDC con _federated credentials_.
+  El único secreto es el token de Cloudflare, que solo puede editar Workers.
+- El Worker añade HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` y
+  `frame-ancestors 'none'`, y sus tests (`infra/cloudflare/worker.test.ts`) corren con los demás.
 - La identidad `portfolio-github-deploy` solo acepta tokens de la rama `main` de este repositorio.
   Puede escribir en la cuenta de Storage de la web y leer sus logs, y nada más.
 - La identidad `portfolio-github-plan` solo acepta tokens de pull requests: lectura de la
@@ -190,9 +200,9 @@ GitHub avisa por email.
   quien navegue sin JavaScript ven el contenido. Sin vite-ssg: con dos componentes de página,
   `renderToString` de Vue basta.
 - **Cloudflare en lugar de Front Door.** Front Door tiene una cuota fija mensual que no compensa en
-  un portfolio. Cloudflare gratuito da el dominio con HTTPS; el precio es un Worker, porque su plan
-  gratuito no reescribe la cabecera Host. Se configuró a mano en el panel; el código del Worker está
-  en el repositorio.
+  un portfolio. Cloudflare gratuito da el dominio con HTTPS, y lo que cuesta a cambio es un Worker,
+  porque su plan gratuito no reescribe la cabecera Host. La zona y el DNS se configuraron a mano en
+  el panel; el Worker y sus rutas están en el repositorio y se despliegan desde el pipeline.
 - **Sin claves de acceso en ningún Storage.** Todo entra con identidad, queda registrado y no hay
   ninguna contraseña maestra que pueda filtrarse.
 - **Dos identidades en lugar de una.** El plan de las PR no debe poder escribir nada.
@@ -211,8 +221,8 @@ de Azure.
 ## Qué haría distinto en producción
 
 - Suscripciones separadas por entorno (grupos de administración) y un entorno de staging.
-- Cloudflare gestionado con Terraform (DNS, rutas y Worker) y cabeceras de seguridad, o Front Door
-  con WAF si todo debe quedarse en Azure.
+- Cloudflare entero en Terraform (zona, DNS y Worker), o Front Door con WAF si todo debe quedarse
+  en Azure.
 - `terraform apply` en el pipeline (`workflow_dispatch` con aprobación en un environment protegido)
   en lugar de en local.
 - Alertas de Azure Monitor sobre la tasa de 5xx, con un grupo de acciones a email o Teams, en vez

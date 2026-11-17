@@ -46,7 +46,7 @@ jobs:
       # Only azcopy copy can set Cache-Control, so copy first and then let sync
       # delete what is gone from dist/ (it uploads nothing: Azure has newer files).
       # status/ belongs to the health workflow, so the delete must not touch it.
-      # No CDN in front, so there is no cache to invalidate afterwards.
+      # Cloudflare only caches static files and honours these headers, so nothing to purge.
       - name: Upload to $web
         run: |
           azcopy copy "dist/assets/*" "$WEB_CONTAINER_URL/assets" --recursive --overwrite=true \
@@ -64,3 +64,22 @@ jobs:
       - run: pip install -r ops/requirements.txt
       - name: Smoke test
         run: python ops/site_health.py --url "${{ vars.SITE_URL }}" --smoke
+
+  # The Cloudflare Worker in front of the site (infra/cloudflare). Its API token is the only
+  # stored secret of the repository: Cloudflare has no OIDC federation for GitHub, so it is
+  # a token limited to editing Workers on this account.
+  worker:
+    needs: deploy
+    runs-on: ubuntu-latest
+    # Skipped until the Cloudflare account ID is set as a repository variable.
+    if: vars.CLOUDFLARE_ACCOUNT_ID != ''
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: wrangler deploy
+        run: npx --yes wrangler@4.155.0 deploy --config infra/cloudflare/wrangler.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

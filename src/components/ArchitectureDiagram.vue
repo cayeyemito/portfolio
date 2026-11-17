@@ -27,11 +27,35 @@ const arrows = [
   'M305 260 H340',
   'M490 260 H660',
 ]
+
+// Phones: the same diagram in columns, deployment on the left and traffic on the right,
+// both ending in Azure Storage. Drawn at its real width so the text stays readable.
+const HT = 50
+const tall: Box[] = [
+  { x: 10, y: 34, w: 150, title: t.you, sub: 'git push' },
+  { x: 10, y: 124, w: 150, title: 'GitHub', sub: t.repository },
+  { x: 10, y: 214, w: 150, title: 'GitHub Actions', sub: 'ci · deploy · health' },
+  { x: 10, y: 304, w: 150, title: 'Entra ID', sub: t.temporary },
+  { x: 180, y: 214, w: 150, title: t.visitor, sub: t.browser },
+  { x: 180, y: 304, w: 150, title: 'Cloudflare', sub: 'DNS · TLS · Worker' },
+  { x: 10, y: 420, w: 320, title: 'Azure Storage', sub: t.site, accent: true },
+  { x: 95, y: 530, w: 150, title: 'Log Analytics', sub: 'logs · KQL' },
+]
+
+const tallArrows = [
+  'M85 84 V124',
+  'M85 174 V214',
+  'M85 264 V304',
+  'M85 354 V420',
+  'M255 264 V304',
+  'M255 354 V420',
+  'M170 470 V530',
+]
 </script>
 
 <template>
   <figure class="diagram">
-    <svg viewBox="0 0 800 310" role="img" aria-labelledby="arch-title arch-desc">
+    <svg class="wide" viewBox="0 0 800 310" role="img" aria-labelledby="arch-title arch-desc">
       <title id="arch-title">{{ t.title }}</title>
       <desc id="arch-desc">{{ t.desc }}</desc>
       <defs>
@@ -56,6 +80,39 @@ const arrows = [
         <text :x="b.x + b.w / 2" :y="b.y + 45" class="sub">{{ b.sub }}</text>
       </g>
     </svg>
+    <svg
+      class="tall"
+      viewBox="0 0 340 590"
+      role="img"
+      aria-labelledby="arch-title-tall arch-desc-tall"
+    >
+      <title id="arch-title-tall">{{ t.title }}</title>
+      <desc id="arch-desc-tall">{{ t.desc }}</desc>
+      <!-- Own marker: the wide SVG is display:none here and its defs would not render. -->
+      <defs>
+        <marker
+          id="arrow-tall"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto"
+        >
+          <path d="M0 0 L10 5 L0 10 z" class="head" />
+        </marker>
+      </defs>
+      <path v-for="d in tallArrows" :key="d" :d="d" class="link" marker-end="url(#arrow-tall)" />
+      <text x="10" y="18" class="label">{{ t.deployLabel }}</text>
+      <text x="180" y="198" class="label">{{ t.trafficLabel }}</text>
+      <text x="93" y="392" class="label">azcopy</text>
+      <text x="178" y="505" class="label">logs</text>
+      <g v-for="b in tall" :key="b.title">
+        <rect :x="b.x" :y="b.y" :width="b.w" :height="HT" :class="['box', { accent: b.accent }]" />
+        <text :x="b.x + b.w / 2" :y="b.y + 22" class="title">{{ b.title }}</text>
+        <text :x="b.x + b.w / 2" :y="b.y + 39" class="sub">{{ b.sub }}</text>
+      </g>
+    </svg>
     <figcaption class="muted">{{ t.caption }}</figcaption>
   </figure>
 </template>
@@ -71,6 +128,21 @@ const arrows = [
 svg {
   width: 100%;
   font-family: var(--font);
+}
+
+.tall {
+  display: none;
+  max-width: 400px;
+}
+
+@media (max-width: 640px) {
+  .wide {
+    display: none;
+  }
+
+  .tall {
+    display: block;
+  }
 }
 
 .box {
@@ -106,6 +178,7 @@ svg {
 
 .head {
   fill: var(--rule3);
+  stroke: none;
 }
 
 .label {

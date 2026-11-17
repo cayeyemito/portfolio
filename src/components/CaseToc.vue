@@ -28,6 +28,10 @@ function update() {
   active.value = activeSection(tops, window.innerHeight, atBottom)
 }
 
+function closeFold(event: MouseEvent) {
+  ;(event.currentTarget as HTMLElement).closest('details')?.removeAttribute('open')
+}
+
 // At most one update per frame, however many scroll events arrive.
 function onScroll() {
   if (!frame) frame = requestAnimationFrame(update)
@@ -47,6 +51,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <!-- Phones: folded, so the contents do not take a whole screen before the case. -->
+  <details class="m case-toc-fold">
+    <summary>{{ label }}</summary>
+    <ol>
+      <li v-for="(s, i) in sections" :key="s.id">
+        <a :href="`#${s.id}`" @click="closeFold"
+          ><span class="num">{{ i + 1 }}</span> {{ s.title }}</a
+        >
+      </li>
+    </ol>
+  </details>
   <nav class="m case-toc" :aria-label="label">
     <ol>
       <li v-for="(s, i) in sections" :key="s.id">
