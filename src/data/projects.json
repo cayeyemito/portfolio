@@ -14,11 +14,11 @@
       "en": "Brings a group's activities, map, calendar, shared expenses and chat together in a single plan. It is a website and an Android and iOS app that come from the same code, and two of us built it."
     },
     "part": {
-      "es": "La mayor parte del backend y del frontend: el esquema en Supabase, la app con Capacitor, la autenticación que comparten web y móvil, la lectura de tickets con OCR, las llamadas con LiveKit y, junto a Vicky, el chat en tiempo real con Supabase Realtime.",
-      "en": "Most of the backend and the frontend: the Supabase schema, the Capacitor app, the authentication shared by web and mobile, receipt scanning with OCR, the calls with LiveKit and, together with Vicky, the real-time chat with Supabase Realtime."
+      "es": "La mayor parte del backend y del frontend: el esquema en Supabase, la app con Capacitor, la autenticación que comparten web y móvil, la lectura de tickets con OCR, las llamadas con LiveKit y, junto a Victoria, el chat en tiempo real con Supabase Realtime.",
+      "en": "Most of the backend and the frontend: the Supabase schema, the Capacitor app, the authentication shared by web and mobile, receipt scanning with OCR, the calls with LiveKit and, together with Victoria, the real-time chat with Supabase Realtime."
     },
     "facts": [
-      { "label": { "es": "Diseño", "en": "Design" }, "value": "Vicky" },
+      { "label": { "es": "Diseño", "en": "Design" }, "value": "Victoria" },
       { "label": { "es": "Inicio", "en": "Started" }, "value": "2026" }
     ],
     "stack": ["Next.js", "Supabase", "Capacitor", "LiveKit", "Docker"],

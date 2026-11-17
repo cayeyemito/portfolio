@@ -240,7 +240,7 @@ export const en: Messages = {
     contextTitle: 'Context',
     context: [
       'When a group plans a trip, everything ends up scattered across messages, notes and loose payments. Frimee brings the activities, the map, the calendar, the shared expenses and the chat together in a single plan.',
-      'It is a web app and an Android and iOS app built from the same code. We were two: Vicky did the design, part of the UI and pieces such as the push notifications, and I did most of the backend and the frontend.',
+      'It is a web app and an Android and iOS app built from the same code. We were two: Victoria did the design, part of the UI and pieces such as the push notifications, and I did most of the backend and the frontend.',
     ],
     featuresTitle: 'Key features',
     features: [

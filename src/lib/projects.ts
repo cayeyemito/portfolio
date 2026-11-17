@@ -11,7 +11,7 @@ type ProjectSource = {
   summary: Localized
   // "My part": only for team projects.
   part?: Localized
-  // Short label/value pairs, e.g. Design: Vicky.
+  // Short label/value pairs, e.g. Design: Victoria.
   facts?: { label: Localized; value: string }[]
   stack: string[]
   // case: its case study page; demo: the live site; repo: the code.

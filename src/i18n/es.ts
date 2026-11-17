@@ -247,7 +247,7 @@ export const es = {
     contextTitle: 'Contexto',
     context: [
       'Cuando un grupo prepara un viaje, la información acaba repartida entre mensajes, notas y pagos sueltos. Frimee junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat.',
-      'Es una web y una app para Android e iOS que salen del mismo código. La hicimos entre dos: Vicky se encargó del diseño, de parte de la interfaz y de piezas como las notificaciones push, y yo hice la mayor parte del backend y del frontend.',
+      'Es una web y una app para Android e iOS que salen del mismo código. La hicimos entre dos: Victoria se encargó del diseño, de parte de la interfaz y de piezas como las notificaciones push, y yo hice la mayor parte del backend y del frontend.',
     ],
     featuresTitle: 'Funcionalidades clave',
     features: [

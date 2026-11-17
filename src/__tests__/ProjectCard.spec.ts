@@ -54,12 +54,12 @@ describe('ProjectCard', () => {
 
     const team = mount(ProjectCard, {
       props: {
-        project: { ...project, part: 'El backend.', facts: [{ label: 'Diseño', value: 'Vicky' }] },
+        project: { ...project, part: 'El backend.', facts: [{ label: 'Diseño', value: 'Victoria' }] },
         number: '01',
       },
     })
     expect(team.find('dl').text()).toContain('El backend.')
-    expect(team.find('dl').text()).toContain('Vicky')
+    expect(team.find('dl').text()).toContain('Victoria')
   })
 
   it('uses the #media slot instead of the image', () => {
