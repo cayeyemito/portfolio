@@ -61,7 +61,11 @@ const sections = [
         <dl class="m case-facts">
           <div>
             <dt>{{ b.status }}</dt>
-            <dd class="status"><StatusLine /></dd>
+            <dd class="status"><StatusLine show="verdict" /></dd>
+          </div>
+          <div>
+            <dt>{{ b.lastDeploy }}</dt>
+            <dd class="status"><StatusLine show="deploy" /></dd>
           </div>
           <div v-for="fact in b.facts" :key="fact.label">
             <dt>{{ fact.label }}</dt>
@@ -83,7 +87,7 @@ const sections = [
         <section :id="sections[1]!.id" class="case-section" aria-labelledby="pipeline-title">
           <h2 id="pipeline-title"><span class="m">2</span>{{ b.pipeline }}</h2>
           <p>{{ b.pipelineText }}</p>
-          <CiLog v-for="w in b.workflows" :key="w.file" v-bind="w" />
+          <CiLog v-for="w in b.workflows" :key="w.file" v-bind="w" :runs-label="b.runs" />
         </section>
 
         <section :id="sections[2]!.id" class="case-section" aria-labelledby="iac-title">
@@ -105,11 +109,42 @@ const sections = [
         <section :id="sections[4]!.id" class="case-section" aria-labelledby="from-aws-title">
           <h2 id="from-aws-title"><span class="m">5</span>{{ b.fromAwsTitle }}</h2>
           <p><RichText :text="b.fromAwsText" /></p>
+          <table class="case-map">
+            <thead>
+              <tr>
+                <th v-for="h in b.fromAwsHead" :key="h" scope="col">{{ h }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="[aws, azure] in b.fromAwsRows" :key="aws">
+                <td>{{ aws }}</td>
+                <td>{{ azure }}</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <section :id="sections[5]!.id" class="case-section" aria-labelledby="not-covered-title">
           <h2 id="not-covered-title"><span class="m">6</span>{{ b.notCoveredTitle }}</h2>
-          <p><RichText :text="b.notCoveredText" /></p>
+          <div class="case-lists">
+            <div>
+              <h3>{{ b.notHaveTitle }}</h3>
+              <ul class="case-items">
+                <li v-for="item in b.notHave" :key="item">
+                  <span class="m plus" aria-hidden="true">−</span><span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>{{ b.wouldDoTitle }}</h3>
+              <ul class="case-items">
+                <li v-for="item in b.wouldDo" :key="item">
+                  <span class="m plus" aria-hidden="true">+</span
+                  ><span><RichText :text="item" /></span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </section>
       </div>
     </div>

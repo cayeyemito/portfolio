@@ -1,0 +1,11 @@
+# Worker de cayeyeste.com. Lo despliega deploy.yml con `wrangler deploy`;
+# las rutas usan los CNAME con proxy de la zona (no un "custom domain").
+name = "portfolio-proxy"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+routes = [
+  { pattern = "cayeyeste.com/*", zone_name = "cayeyeste.com" },
+  { pattern = "www.cayeyeste.com/*", zone_name = "cayeyeste.com" },
+]
