@@ -22,7 +22,7 @@ export const es = {
     focus: 'Backend y DevOps',
     // The *starred* parts are highlighted.
     intro:
-      'Desarrollador full stack junior en Barcelona. He trabajado a los dos lados del deploy: *las máquinas que compilan y despliegan*, y *el código que llega a producción*.',
+      'Soy desarrollador full stack junior y vivo en Barcelona. He estado a los dos lados del despliegue: primero cuidando *las máquinas que compilan y publican el código*, y después escribiendo *el código que llega a producción*.',
     tags: ['Java', 'Spring Boot', 'TypeScript', 'Next.js', 'Azure', 'Terraform', 'Docker'],
     available: 'Abierto a ofertas',
     languages: [
@@ -51,12 +51,12 @@ export const es = {
       period: 'oct 2025 — jun 2026',
       kind: 'Contrato de formación · Barcelona, híbrido',
       points: [
-        'Nuevas funcionalidades y corrección de incidencias en la aplicación web de NH Hoteles, en todo el ciclo: análisis de requisitos, implementación, pruebas y despliegue',
-        'Backend con Spring Boot: endpoints de API REST, lógica de negocio y acceso a datos con JPA/Hibernate y consultas SQL escritas a mano',
-        'Frontend con Vue: amplié componentes existentes, los conecté con la API REST y maqueté componentes nuevos',
-        'Integración en la aplicación del contenido gestionado en el CMS Tridion',
-        'Introduje los primeros tests unitarios (JUnit y frontend) en un proyecto que no tenía, escritos con ayuda de IA generativa, y reduje la validación manual',
-        'Despliegue en el entorno de pruebas con jobs de Jenkins; Git con ramas y pull requests, sprints de Scrum en Jira y documentación técnica',
+        'Desarrollé funcionalidades nuevas y corregí incidencias en la web de NH Hoteles, desde el análisis de los requisitos hasta las pruebas y el despliegue.',
+        'En el backend, con Spring Boot, hice endpoints de la API REST, lógica de negocio y acceso a datos con JPA/Hibernate, y escribí a mano las consultas SQL que hacían falta.',
+        'En el frontend, con Vue, amplié componentes que ya existían, los conecté a la API y maqueté otros nuevos.',
+        'Integré en la aplicación el contenido que se gestiona desde el CMS Tridion.',
+        'El proyecto no tenía tests, así que introduje los primeros, con JUnit y en el frontend, escritos con ayuda de IA generativa, y con ellos bajó la validación manual.',
+        'Desplegaba en el entorno de pruebas con jobs de Jenkins y trabajaba con ramas y pull requests en Git. Nos organizábamos en sprints de Scrum con Jira, y también escribía la documentación técnica.',
       ],
     },
     {
@@ -65,10 +65,10 @@ export const es = {
       period: 'mar 2021 — jun 2022',
       kind: 'Prácticas · consultora TI de unas 35 personas',
       points: [
-        'Mantuve con otro compañero los agentes de build de Azure DevOps Pipelines (VM Windows en Azure y on-premise) para que cada push se construyera y desplegara',
-        'Diagnóstico de fallos en agentes y pipelines buscando la causa raíz en los logs; el reinicio, solo como contención',
-        'Scripts en PowerShell y Bash para el mantenimiento: copias de seguridad diarias, limpieza de ficheros antiguos y la base de datos SQL',
-        'Incidencias en Jira Service Management y reunión diaria de seguimiento con la dirección y los project managers',
+        'Con otro compañero, mantenía los agentes de build de Azure DevOps Pipelines, en máquinas Windows tanto en Azure como en servidores propios, para que cada push se construyera y se desplegara.',
+        'Cuando fallaba un agente o un pipeline, buscaba la causa en los logs, y el reinicio solo lo usaba para salir del paso mientras tanto.',
+        'Escribí scripts de PowerShell y Bash para el mantenimiento, como las copias de seguridad diarias, la limpieza de ficheros antiguos o las tareas de la base de datos SQL.',
+        'Llevaba las incidencias en Jira Service Management, y cada día teníamos una reunión de seguimiento con la dirección y los project managers.',
       ],
     },
     {
@@ -77,8 +77,8 @@ export const es = {
       period: 'feb 2019 — ago 2020',
       kind: 'Jornada parcial',
       points: [
-        'Gestión y mantenimiento de bases de datos MySQL, cuidando su integridad y seguridad',
-        'Informes en Excel y presentaciones para la dirección y los clientes',
+        'Me encargaba de mantener las bases de datos MySQL y de cuidar su integridad y su seguridad.',
+        'Preparaba informes en Excel y presentaciones para la dirección y para los clientes.',
       ],
     },
   ],
@@ -177,7 +177,7 @@ export const es = {
   },
   diagram: {
     title: 'Arquitectura del portfolio',
-    desc: 'Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran por HTTPS a cayeyeste.com, en Cloudflare, donde un Worker pide cada página a Azure; cada lectura queda registrada en Log Analytics.',
+    desc: 'Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran por HTTPS a cayeyeste.com, que está en Cloudflare, y allí un Worker pide cada página a Azure. Cada lectura queda registrada en Log Analytics.',
     caption:
       'El despliegue y las visitas acaban en el mismo sitio, la cuenta de Azure Storage. GitHub no guarda ninguna credencial de Azure.',
     you: 'Tú',
@@ -253,19 +253,19 @@ export const es = {
     features: [
       {
         name: 'Chat y llamadas',
-        text: 'Chat en tiempo real con Supabase Realtime; llamadas y videollamadas con LiveKit.',
+        text: 'El chat va en tiempo real con Supabase Realtime, y las llamadas y videollamadas funcionan con LiveKit.',
       },
       {
         name: 'Asistente en el chat',
-        text: 'Con Claude Haiku, desde una función de Supabase: responde preguntas y ofrece atajos, como crear planes.',
+        text: 'Funciona con Claude Haiku desde una función de Supabase. Responde preguntas sobre el plan y puede proponer cambios, como añadir un gasto o una actividad, que el grupo acepta o descarta.',
       },
       {
         name: 'Tickets y entradas',
-        text: 'Se leen con OCR (OpenAI) para añadir los gastos o las entradas del plan sin teclearlos.',
+        text: 'Se leen con OCR, usando OpenAI, para añadir el gasto o la entrada al plan sin tener que teclearlos.',
       },
       {
         name: 'Mapa y avisos',
-        text: 'Google Maps para los lugares y las rutas, y notificaciones push con Firebase.',
+        text: 'Los lugares y las rutas salen de Google Maps, y los avisos llegan como notificaciones push a través de Firebase.',
       },
     ],
     architectureTitle: 'Arquitectura',
@@ -299,7 +299,7 @@ export const es = {
         'la web de Next.js y sus rutas /api, desplegada en cada merge a main; dominio frimee.es en IONOS',
     },
     architectureNote:
-      'Los clientes hablan directamente con los servicios usando claves públicas. El servidor solo interviene en lo que necesita privilegios, y la clave de servicio de Supabase nunca llega al cliente.',
+      'Los clientes hablan directamente con los servicios usando claves públicas, y el servidor solo entra en juego cuando algo necesita privilegios. Por eso la clave de servicio de Supabase nunca llega al cliente.',
     decisionsTitle: 'Decisiones',
     why: 'Por qué',
     decisions: [
@@ -312,7 +312,7 @@ export const es = {
       {
         name: 'Supabase',
         note: 'lo relacional, el login y el tiempo real',
-        what: 'PostgreSQL con políticas RLS para planes, miembros, chats y gastos, más la autenticación y Realtime para el chat. Lo que necesita privilegios (OCR, borrar cuenta, tokens de llamada) va en rutas `/api` con la clave de servicio; el asistente y las notificaciones push, en funciones de Supabase.',
+        what: 'PostgreSQL con políticas RLS para los planes, los miembros, los chats y los gastos, y además la autenticación y Realtime para el chat. Lo que necesita privilegios, como el OCR, borrar la cuenta o los tokens de llamada, va en rutas `/api` con la clave de servicio, mientras que el asistente y las notificaciones push están en funciones de Supabase.',
         why: 'Para todo lo que tiene relaciones queríamos una base de datos SQL de verdad, y Supabase nos la daba ya montada, con el login y el tiempo real incluidos. Como el cliente habla directamente con la base de datos, protegimos los datos con políticas RLS, que era lo que más me preocupaba.',
       },
       {
@@ -330,7 +330,7 @@ export const es = {
       {
         name: 'LiveKit',
         note: 'llamadas y videollamadas',
-        what: 'WebRTC gestionado con LiveKit Cloud. El token lo emite `/api/livekit/token` solo si el usuario es miembro del chat (si no, 403), caduca en 1 hora y la ruta tiene límite de peticiones. El estado de cada llamada vive en la tabla `llamadas`, y un script SQL marca como terminadas las que llevan más de 2 horas abiertas.',
+        what: 'Es WebRTC gestionado por LiveKit Cloud. El token lo emite `/api/livekit/token`, y solo si el usuario es miembro del chat (si no, responde 403). Caduca en una hora y la ruta tiene un límite de peticiones. El estado de cada llamada se guarda en la tabla `llamadas`, y un script SQL da por terminadas las que llevan más de dos horas abiertas.',
         why: 'Hacer videollamadas en grupo nosotros mismos suponía montar y mantener un servidor de vídeo, y eso se nos iba de las manos. Con LiveKit Cloud solo tuvimos que generar el token desde nuestra API, y así seguimos decidiendo quién entra en cada llamada: si no estás en el chat, no hay token.',
       },
     ],
@@ -338,11 +338,11 @@ export const es = {
     challenge: {
       title: 'La sesión no llegaba desde la app móvil',
       text: [
-        'En la web, las rutas `/api` leían la sesión de la cookie. Pero la app es una exportación estática dentro de un WebView: el cliente de Supabase guarda la sesión en localStorage y las peticiones no llevan esa cookie, así que todo lo que pasaba por el servidor devolvía 401 desde el móvil (rutas, OCR de tickets, borrar cuenta…).',
-        'La solución: los clientes envían el access token en la cabecera `Authorization: Bearer` y cada ruta lo valida contra Supabase. En la web sigue funcionando la cookie.',
+        'En la web, las rutas `/api` leían la sesión de la cookie. Pero la app es una exportación estática dentro de un WebView: el cliente de Supabase guarda la sesión en localStorage y las peticiones no llevan esa cookie, así que desde el móvil todo lo que pasaba por el servidor, como el OCR de tickets o borrar la cuenta, devolvía 401.',
+        'Lo resolví haciendo que los clientes envíen el access token en la cabecera `Authorization: Bearer`, y cada ruta lo valida contra Supabase. En la web la cookie sigue funcionando como antes.',
       ],
       codeNote:
-        'La línea resaltada valida el token contra Supabase en lugar de decodificarlo en local: un token caducado o revocado no pasa.',
+        'La línea resaltada valida el token preguntando a Supabase en vez de decodificarlo en local, así que un token caducado o revocado no pasa.',
     },
     learningsTitle: 'Aprendizajes',
     learnings: [
@@ -352,7 +352,7 @@ export const es = {
       },
       {
         name: 'Web y WebView desde el primer día',
-        text: 'Las cookies frente a los tokens y el historial del WebView (hubo que cambiar el «volver atrás» en ajustes porque en móvil se comportaba de forma imprevisible) salieron tarde y costaron arreglos en muchas pantallas.',
+        text: 'Las diferencias entre la web y el WebView, como las cookies frente a los tokens o el historial (en el móvil, el «volver atrás» de ajustes se comportaba de forma imprevisible y hubo que cambiarlo), las descubrimos tarde y nos costaron arreglos en muchas pantallas. Hoy probaría las dos desde el principio.',
       },
     ],
     other: 'Siguiente',

@@ -10,8 +10,8 @@
       "en": "Live"
     },
     "summary": {
-      "es": "Junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat de un grupo. Web y app para Android e iOS desde el mismo código, hecha en un equipo de dos.",
-      "en": "Brings a group's activities, map, calendar, shared expenses and chat together in a single plan. Web and Android and iOS app from the same code, built in a team of two."
+      "es": "Junta en un solo plan las actividades, el mapa, el calendario, los gastos compartidos y el chat de un grupo. Es una web y una app para Android e iOS que salen del mismo código, y la hicimos entre dos personas.",
+      "en": "Brings a group's activities, map, calendar, shared expenses and chat together in a single plan. It is a website and an Android and iOS app that come from the same code, and two of us built it."
     },
     "part": {
       "es": "La mayor parte del backend y del frontend: el esquema en Supabase, la app con Capacitor, la autenticación que comparten web y móvil, la lectura de tickets con OCR, las llamadas con LiveKit y, junto a Vicky, el chat en tiempo real con Supabase Realtime.",
@@ -48,8 +48,8 @@
       "en": "Infrastructure"
     },
     "summary": {
-      "es": "El sitio que estás leyendo, sobre mi propia infraestructura en Azure: definida con Terraform, desplegada con GitHub Actions mediante OIDC, sin credenciales guardadas, y revisada a diario por un workflow programado en Python.",
-      "en": "The site you are reading, on my own Azure infrastructure: defined with Terraform, deployed by GitHub Actions through OIDC with no stored credentials, and checked every day by a scheduled workflow in Python."
+      "es": "Es la web que estás leyendo, montada sobre mi propia infraestructura en Azure. Está definida con Terraform, GitHub Actions la despliega con OIDC sin guardar credenciales de Azure, y un workflow programado en Python la revisa cada día.",
+      "en": "It is the site you are reading, running on my own Azure infrastructure. It is defined with Terraform, GitHub Actions deploys it through OIDC without storing any Azure credentials, and a scheduled Python workflow checks it every day."
     },
     "stack": ["Azure", "Terraform", "GitHub Actions", "OIDC", "Python"],
     "links": {
