@@ -21,7 +21,7 @@ export const en: Messages = {
   profile: {
     focus: 'Backend and DevOps',
     intro:
-      'Junior full stack developer in Barcelona. I have worked on both sides of the deploy: *the machines that build and ship*, and *the code that reaches production*.',
+      'I am a junior full stack developer based in Barcelona. I have been on both sides of a deployment, first looking after *the machines that build and ship the code*, and then writing *the code that reaches production*.',
     tags: ['Java', 'Spring Boot', 'TypeScript', 'Next.js', 'Azure', 'Terraform', 'Docker'],
     available: 'Open to work',
     languages: [
@@ -49,12 +49,12 @@ export const en: Messages = {
       period: 'Oct 2025 — Jun 2026',
       kind: 'Training contract · Barcelona, hybrid',
       points: [
-        'New features and bug fixes for the NH Hotels web application across the whole cycle: requirements analysis, implementation, testing and deployment',
-        'Backend with Spring Boot: REST API endpoints, business logic and data access with JPA/Hibernate and hand-written SQL queries',
-        'Frontend with Vue: extended existing components, wired them to the REST API and built new components and layouts',
-        'Integrated content managed in the Tridion CMS into the application',
-        'Introduced the first unit tests (JUnit and frontend) in a project that had none, written with the help of generative AI, cutting manual validation',
-        'Deployments to the test environment with Jenkins jobs; Git with branches and pull requests, Scrum sprints in Jira and technical documentation',
+        'I built new features and fixed bugs in the NH Hotels website, from the requirements analysis through to testing and deployment.',
+        'On the backend, with Spring Boot, I wrote REST API endpoints, business logic and data access with JPA/Hibernate, plus the SQL queries that had to be written by hand.',
+        'On the frontend, with Vue, I extended existing components, connected them to the API and built new ones.',
+        'I brought the content managed in the Tridion CMS into the application.',
+        'The project had no tests, so I wrote my own, with JUnit and on the frontend, to check my own changes. I wrote them with the help of generative AI, and they saved me a lot of manual checking.',
+        'I deployed to the test environment with Jenkins jobs and worked with branches and pull requests in Git. We organised the work in Scrum sprints in Jira, and I also wrote technical documentation.',
       ],
     },
     {
@@ -63,10 +63,10 @@ export const en: Messages = {
       period: 'Mar 2021 — Jun 2022',
       kind: 'Internship · IT consultancy of about 35 people',
       points: [
-        'Maintained, with one colleague, the Azure DevOps Pipelines build agents (Windows VMs on Azure and on-premise) so that every push was built and deployed',
-        'Troubleshot agent and pipeline failures by finding the root cause in the logs; restarts only as containment',
-        'PowerShell and Bash scripts for maintenance: daily backups, cleanup of old files and the SQL database',
-        'Incidents in Jira Service Management and a daily follow-up meeting with management and the project managers',
+        'Together with a colleague, I looked after the Azure DevOps Pipelines build agents, on Windows machines both in Azure and on our own servers, so that every push got built and deployed.',
+        'When an agent or a pipeline failed, I looked for the cause in the logs, and only restarted things to keep work going in the meantime.',
+        'I wrote PowerShell and Bash scripts for maintenance, such as the daily backups, cleaning up old files and jobs on the SQL database.',
+        'I handled incidents in Jira Service Management, and every day we had a follow-up meeting with management and the project managers.',
       ],
     },
     {
@@ -75,8 +75,8 @@ export const en: Messages = {
       period: 'Feb 2019 — Aug 2020',
       kind: 'Part time',
       points: [
-        'Managed and maintained MySQL databases, looking after their integrity and security',
-        'Excel reports and presentations for management and clients',
+        'I kept the MySQL databases running and looked after their integrity and security.',
+        'I prepared Excel reports and presentations for management and for clients.',
       ],
     },
   ],
@@ -173,7 +173,7 @@ export const en: Messages = {
   },
   diagram: {
     title: 'Portfolio architecture',
-    desc: 'A push to GitHub triggers GitHub Actions, which gets temporary access from Entra ID through OIDC and uploads the site with azcopy to an Azure Storage account with a static website. Visitors reach cayeyeste.com over HTTPS through Cloudflare, where a Worker fetches each page from Azure; every read is logged in Log Analytics.',
+    desc: 'A push to GitHub triggers GitHub Actions, which gets temporary access from Entra ID through OIDC and uploads the site with azcopy to an Azure Storage account with a static website. Visitors reach cayeyeste.com over HTTPS through Cloudflare, where a Worker fetches each page from Azure. Every read is logged in Log Analytics.',
     caption:
       'Deployments and visits end up in the same place, the Azure Storage account. GitHub stores no Azure credential.',
     you: 'You',
@@ -246,19 +246,19 @@ export const en: Messages = {
     features: [
       {
         name: 'Chat and calls',
-        text: 'Real-time chat with Supabase Realtime; voice and video calls with LiveKit.',
+        text: 'The chat runs in real time on Supabase Realtime, and voice and video calls work through LiveKit.',
       },
       {
         name: 'Assistant in the chat',
-        text: 'Claude Haiku, behind a Supabase function: answers questions and offers shortcuts, such as creating plans.',
+        text: 'It runs on Claude Haiku from a Supabase function. It answers questions about the plan and can suggest changes, like adding an expense or an activity, which the group then accepts or turns down.',
       },
       {
         name: 'Receipts and tickets',
-        text: 'Read with OCR (OpenAI) to add the expenses or the plan tickets without typing them.',
+        text: 'They are read with OCR, using OpenAI, so the expense or the ticket goes into the plan without typing it in.',
       },
       {
         name: 'Map and alerts',
-        text: 'Google Maps for places and routes, and push notifications with Firebase.',
+        text: 'Places and routes come from Google Maps, and alerts arrive as push notifications through Firebase.',
       },
     ],
     architectureTitle: 'Architecture',
@@ -292,7 +292,7 @@ export const en: Messages = {
         'the Next.js site and its /api routes, deployed on every merge to main; frimee.es domain at IONOS',
     },
     architectureNote:
-      'Clients talk to the services directly with public keys. The server only steps in for what needs privileges, and the Supabase service key never reaches the client.',
+      'Clients talk to the services directly with public keys, and the server only steps in when something needs privileges. That is why the Supabase service key never reaches the client.',
     decisionsTitle: 'Decisions',
     why: 'Why',
     decisions: [
@@ -305,7 +305,7 @@ export const en: Messages = {
       {
         name: 'Supabase',
         note: 'relational data, login and real time',
-        what: 'PostgreSQL with RLS policies for plans, members, chats and expenses, plus authentication and Realtime for the chat. Whatever needs privileges (OCR, account deletion, call tokens) lives in `/api` routes with the service key; the assistant and the push notifications, in Supabase functions.',
+        what: 'PostgreSQL with RLS policies for plans, members, chats and expenses, along with authentication and Realtime for the chat. Anything that needs privileges, such as OCR, deleting an account or call tokens, lives in `/api` routes with the service key, while the assistant and the push notifications run in Supabase functions.',
         why: 'For everything with relations we wanted a real SQL database, and Supabase gave us one ready to use, with login and real time included. Since the client talks to the database directly, we protected the data with RLS policies, which was what worried me most.',
       },
       {
@@ -323,7 +323,7 @@ export const en: Messages = {
       {
         name: 'LiveKit',
         note: 'voice and video calls',
-        what: 'Managed WebRTC with LiveKit Cloud. `/api/livekit/token` only issues the token if the user is a member of the chat (403 otherwise), it expires after 1 hour and the route is rate limited. Each call is tracked in the `llamadas` table, and a SQL script closes the ones left open for more than 2 hours.',
+        what: 'It is managed WebRTC on LiveKit Cloud. The token comes from `/api/livekit/token`, and only if the user is a member of the chat (otherwise it returns 403). It expires after an hour and the route is rate limited. Each call is tracked in the `llamadas` table, and a SQL script closes any that have been open for more than two hours.',
         why: 'Running group video calls ourselves meant setting up and maintaining a media server, and that was beyond what two people could handle. With LiveKit Cloud we only had to issue the token from our API, so we still decide who joins each call: if you are not in the chat, there is no token.',
       },
     ],
@@ -331,11 +331,11 @@ export const en: Messages = {
     challenge: {
       title: 'The session did not reach the server from the mobile app',
       text: [
-        'On the web, the `/api` routes read the session from the cookie. But the app is a static export inside a WebView: the Supabase client keeps the session in localStorage and requests do not carry that cookie, so everything that went through the server returned 401 on mobile (routes, receipt OCR, account deletion…).',
-        'The fix: clients send the access token in an `Authorization: Bearer` header and each route validates it against Supabase. On the web the cookie still works.',
+        'On the web, the `/api` routes read the session from the cookie. But the app is a static export inside a WebView: the Supabase client keeps the session in localStorage and requests do not carry that cookie, so on mobile everything that went through the server, like receipt OCR or deleting the account, came back with a 401.',
+        'I fixed it by having the clients send the access token in an `Authorization: Bearer` header, which each route validates against Supabase. On the web the cookie keeps working as before.',
       ],
       codeNote:
-        'The highlighted line validates the token against Supabase instead of decoding it locally: an expired or revoked token does not get through.',
+        'The highlighted line checks the token with Supabase instead of decoding it locally, so an expired or revoked token does not get through.',
     },
     learningsTitle: 'Lessons',
     learnings: [
@@ -345,7 +345,7 @@ export const en: Messages = {
       },
       {
         name: 'Web and WebView from day one',
-        text: 'Cookies versus tokens and the WebView history (the "go back" in settings had to change because it behaved unpredictably on mobile) came up late and meant fixes across many screens.',
+        text: 'The differences between the web and the WebView, like cookies versus tokens or the history (on mobile, the "go back" in settings behaved unpredictably and had to change), showed up late and meant fixes across many screens. Today I would test both from the start.',
       },
     ],
     other: 'Next',
