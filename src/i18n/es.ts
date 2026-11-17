@@ -114,12 +114,12 @@ export const es = {
     experiencePath: 'CHANGELOG.md',
     stackTitle: 'Stack',
     stackNote: 'Tecnología → dónde la he usado',
-    // "01" to "03" are the projects above. *Starred* items are the strongest ones.
+    // "01" and "02" are the projects above. *Starred* items are the strongest ones.
     stack: [
       {
         title: 'Backend y datos',
         items: [
-          { name: '*Java · Spring Boot*', where: 'EY · 03' },
+          { name: '*Java · Spring Boot*', where: 'EY' },
           { name: 'Supabase', where: '01' },
           { name: 'Python', where: '02' },
           { name: 'SQL', where: 'Itequia' },

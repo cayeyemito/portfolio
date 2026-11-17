@@ -115,7 +115,7 @@ export const en: Messages = {
       {
         title: 'Backend and data',
         items: [
-          { name: '*Java · Spring Boot*', where: 'EY · 03' },
+          { name: '*Java · Spring Boot*', where: 'EY' },
           { name: 'Supabase', where: '01' },
           { name: 'Python', where: '02' },
           { name: 'SQL', where: 'Itequia' },
