@@ -55,7 +55,7 @@ export const es = {
         'En el backend, con Spring Boot, hice endpoints de la API REST, lógica de negocio y acceso a datos con JPA/Hibernate, y escribí a mano las consultas SQL que hacían falta.',
         'En el frontend, con Vue, amplié componentes que ya existían, los conecté a la API y maqueté otros nuevos.',
         'Integré en la aplicación el contenido que se gestiona desde el CMS Tridion.',
-        'El proyecto no tenía tests, así que introduje los primeros, con JUnit y en el frontend, escritos con ayuda de IA generativa, y con ellos bajó la validación manual.',
+        'El proyecto no tenía tests, así que escribí los míos, con JUnit y en el frontend, para comprobar mis propios cambios. Los hacía con ayuda de IA generativa y me ahorraban mucha validación manual.',
         'Desplegaba en el entorno de pruebas con jobs de Jenkins y trabajaba con ramas y pull requests en Git. Nos organizábamos en sprints de Scrum con Jira, y también escribía la documentación técnica.',
       ],
     },

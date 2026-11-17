@@ -53,7 +53,7 @@ export const en: Messages = {
         'On the backend, with Spring Boot, I wrote REST API endpoints, business logic and data access with JPA/Hibernate, plus the SQL queries that had to be written by hand.',
         'On the frontend, with Vue, I extended existing components, connected them to the API and built new ones.',
         'I brought the content managed in the Tridion CMS into the application.',
-        'The project had no tests, so I added the first ones, with JUnit and on the frontend, written with the help of generative AI, and they cut down the manual checking.',
+        'The project had no tests, so I wrote my own, with JUnit and on the frontend, to check my own changes. I wrote them with the help of generative AI, and they saved me a lot of manual checking.',
         'I deployed to the test environment with Jenkins jobs and worked with branches and pull requests in Git. We organised the work in Scrum sprints in Jira, and I also wrote technical documentation.',
       ],
     },
