@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import '@/styles/case.css'
-import { onMounted, ref } from 'vue'
+import DemoVideo from '@/components/DemoVideo.vue'
 import CaseToc from '@/components/CaseToc.vue'
 import RichText from '@/components/RichText.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
@@ -31,27 +31,8 @@ const sections = [
   { id: 'lessons', title: f.learningsTitle },
 ]
 
-// Demo video: muted and looping, started in the browser only and never when the visitor
-// asked for reduced motion (then the poster stays). The button can pause it at any time.
-// Bound, not literal, so the SFC compiler does not turn them into module imports.
+// Demo video (DemoVideo): bound, not literal, so the SFC compiler does not turn the paths into imports.
 const demo = { src: '/projects/frimee/demo.mp4', poster: '/projects/frimee/demo-poster.webp' }
-const video = ref<HTMLVideoElement>()
-const playing = ref(false)
-
-function toggleVideo() {
-  const el = video.value
-  if (!el) return
-  if (el.paused) void el.play()
-  else el.pause()
-}
-
-onMounted(() => {
-  const el = video.value
-  if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  el.play().catch(() => {
-    // Autoplay blocked: the poster stays and the button can start it.
-  })
-})
 
 // From src/app/api/directions/route.ts in the Frimee repository (commit 5d73025 added the
 // Bearer fallback to every route). Verbatim, so it is not translated.
@@ -117,36 +98,15 @@ const highlighted = 8
     </section>
 
     <figure class="wrap shot">
-      <div class="video">
-        <video
-          ref="video"
-          :aria-label="f.video.label"
-          :poster="demo.poster"
-          width="1920"
-          height="1080"
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          @play="playing = true"
-          @pause="playing = false"
-        >
-          <source :src="demo.src" type="video/mp4" />
-        </video>
-        <button
-          type="button"
-          class="m video-toggle"
-          :aria-label="playing ? f.video.pause : f.video.play"
-          @click="toggleVideo"
-        >
-          <svg v-if="playing" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M5 3v10M11 3v10" />
-          </svg>
-          <svg v-else width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M4 2.5v11L13 8z" />
-          </svg>
-        </button>
-      </div>
+      <DemoVideo
+        :src="demo.src"
+        :poster="demo.poster"
+        :width="1920"
+        :height="1080"
+        :label="f.video.label"
+        :play-label="f.video.play"
+        :pause-label="f.video.pause"
+      />
       <figcaption class="case-note">{{ f.video.caption }}</figcaption>
     </figure>
 
@@ -394,41 +354,6 @@ const highlighted = 8
 
 .shot {
   margin-block: 0;
-}
-
-.video {
-  position: relative;
-}
-
-.video video {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--rule2);
-  background: var(--panel);
-}
-
-/* Fixed dark chip over the video, readable on any frame and in both themes. */
-.video-toggle {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid #34343a;
-  background: rgb(11 11 12 / 0.8);
-  color: #efede8;
-  cursor: pointer;
-}
-
-.video-toggle svg {
-  fill: currentColor;
-  stroke: currentColor;
-  stroke-width: 1.5;
 }
 
 /* Screenshots: the web side by side, the app as three phones. */

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
+import BookingFigure from '@/components/BookingFigure.vue'
+import DemoVideo from '@/components/DemoVideo.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import RichText from '@/components/RichText.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
@@ -88,8 +90,22 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
         </div>
         <template v-for="(p, i) in projects" :key="p.slug">
           <ProjectCard :project="p" :number="number(i)" :featured="i === 0">
-            <template v-if="p.slug === 'portfolio'" #media>
+            <template v-if="p.slug === 'frimee'" #media>
+              <DemoVideo
+                :src="m.projects.frimeeVideo.src"
+                :poster="m.projects.frimeeVideo.poster"
+                :width="1280"
+                :height="800"
+                :label="m.projects.frimeeVideo.label"
+                :play-label="m.frimee.video.play"
+                :pause-label="m.frimee.video.pause"
+              />
+            </template>
+            <template v-else-if="p.slug === 'portfolio'" #media>
               <WorkflowsFigure />
+            </template>
+            <template v-else-if="p.slug === 'booking-api'" #media>
+              <BookingFigure />
             </template>
           </ProjectCard>
         </template>
