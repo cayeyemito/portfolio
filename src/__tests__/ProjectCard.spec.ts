@@ -54,7 +54,11 @@ describe('ProjectCard', () => {
 
     const team = mount(ProjectCard, {
       props: {
-        project: { ...project, part: 'El backend.', facts: [{ label: 'Diseño', value: 'Victoria' }] },
+        project: {
+          ...project,
+          part: 'El backend.',
+          facts: [{ label: 'Diseño', value: 'Victoria' }],
+        },
         number: '01',
       },
     })
