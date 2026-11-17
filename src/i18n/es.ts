@@ -158,7 +158,6 @@ export const es = {
   status: {
     allOk: 'Todo operativo',
     failed: 'Hay comprobaciones fallidas',
-    lastDeploy: 'último despliegue',
     justNow: 'ahora mismo',
     loading: 'Cargando el último informe…',
     missing: 'Todavía no hay informe: se genera una vez al día.',
@@ -179,13 +178,16 @@ export const es = {
   diagram: {
     title: 'Arquitectura del portfolio',
     desc: 'Un push a GitHub lanza GitHub Actions, que obtiene un acceso temporal de Entra ID con OIDC y sube la web con azcopy a una cuenta de Azure Storage con web estática. Los visitantes entran por HTTPS a cayeyeste.com, en Cloudflare, donde un Worker pide cada página a Azure; cada lectura queda registrada en Log Analytics.',
-    caption: 'Despliegue arriba, tráfico abajo. Ningún secreto de Azure se guarda en GitHub.',
+    caption:
+      'El despliegue y las visitas acaban en el mismo sitio, la cuenta de Azure Storage. GitHub no guarda ninguna credencial de Azure.',
     you: 'Tú',
     repository: 'repositorio',
     temporary: 'OIDC, temporal',
     visitor: 'Visitante',
     browser: 'navegador',
     site: 'web estática + /status',
+    deployLabel: 'Despliegue',
+    trafficLabel: 'Tráfico',
   },
   // Case page of Frimee. Title, status, summary, "my part" and design credit come from
   // projects.json. Every technical fact here was checked against the Frimee repository.
@@ -359,19 +361,21 @@ export const es = {
     // Case page of the portfolio project: its title and status come from projects.json.
     toc: 'Contenido del caso',
     status: 'Estado',
+    lastDeploy: 'Último despliegue',
+    runs: 'Ver sus ejecuciones en GitHub Actions',
     facts: [
-      { label: 'Web', value: 'Azure Storage · web estática' },
+      { label: 'Alojamiento', value: 'Azure Storage y Cloudflare' },
       { label: 'Región', value: 'Spain Central' },
       { label: 'Equipo', value: 'Proyecto individual' },
       { label: 'Stack', value: 'Vue 3 · Vite · Terraform · GitHub Actions · Python' },
     ],
     repo: 'Ver el repositorio',
     other: 'Otro proyecto',
-    lead: 'Esta web es estática: Vue 3 compilado con Vite y servida desde Azure Storage, con Cloudflare delante para el dominio y el HTTPS. Toda la infraestructura está en Terraform, GitHub Actions la despliega sin guardar ningún secreto y un script en Python la revisa cada día. [El código está en GitHub.](https://github.com/cayeyemito/portfolio)',
+    lead: 'Esta web es estática. Está hecha con Vue 3 y Vite, se sirve desde Azure Storage y tiene Cloudflare delante para el dominio y el HTTPS. La parte de Azure está descrita en Terraform, GitHub Actions la despliega sin guardar ninguna credencial de Azure y un script en Python la revisa una vez al día. [El código está en GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Arquitectura',
     pipeline: 'Pipeline',
     pipelineText:
-      'Hay tres workflows de GitHub Actions. Se autentican en Azure con OIDC: Entra ID cambia el token de cada ejecución por un acceso temporal, solo si viene de este repositorio y de la rama o la pull request esperadas, y con permisos limitados a esta cuenta de Storage.',
+      'Son tres workflows de GitHub Actions, y el nombre de cada uno lleva a sus ejecuciones reales, así que los ticks se pueden comprobar. Para entrar en Azure usan OIDC: en cada ejecución, Entra ID cambia el token de GitHub por un acceso temporal, y solo si viene de este repositorio y de la rama o la pull request que espera. El único secreto guardado es el token de Cloudflare, que solo sirve para publicar el Worker.',
     workflows: [
       {
         file: 'ci.yml',
@@ -379,7 +383,7 @@ export const es = {
         steps: [
           { name: 'npm ci' },
           { name: 'lint', detail: 'oxlint, ESLint y Prettier' },
-          { name: 'tests', detail: 'Vitest' },
+          { name: 'tests', detail: 'Vitest, también los del Worker' },
           { name: 'build' },
           { name: 'pytest · shellcheck', detail: 'script de operación' },
           { name: 'terraform fmt · validate · plan', detail: 'plan comentado en la PR' },
@@ -393,6 +397,7 @@ export const es = {
           { name: 'azure/login', detail: 'OIDC con Entra ID, sin secretos' },
           { name: 'azcopy copy · sync', detail: 'caché larga para assets, corta para HTML' },
           { name: 'smoke test', detail: 'la web responde 200' },
+          { name: 'wrangler deploy', detail: 'Worker de Cloudflare' },
         ],
       },
       {
@@ -406,23 +411,42 @@ export const es = {
     ] as { file: string; trigger: string; steps: { name: string; detail?: string }[] }[],
     iacTitle: 'Infraestructura como código',
     iacText:
-      'Todo vive en `infra/azure/`, con el estado de Terraform en una cuenta de Storage con versionado. Solo se crearon a mano esa cuenta, el presupuesto general y la configuración de Cloudflare.',
+      'Lo de Azure vive en `infra/azure/`, y el estado de Terraform se guarda en una cuenta de Storage con versionado. A mano solo hice tres cosas: esa cuenta, que tiene que existir antes de que Terraform arranque, el presupuesto general de la suscripción y la configuración de Cloudflare.',
     iacItems: [
-      'Cuenta de Storage con web estática (`index.html` en cada carpeta y `404.html`), solo HTTPS y TLS 1.2, y sin claves de acceso: todo entra con identidad.',
-      'Dos identidades de Entra ID con *federated credentials* para GitHub: la de despliegue solo puede escribir en esa cuenta; la del plan, solo leer.',
-      'Logs de acceso en Log Analytics durante 30 días, con una cuota diaria como freno.',
-      'Presupuesto con avisos al 50 %, al 100 % y por previsión.',
-      'Delante, Cloudflare en su plan gratuito: DNS de `cayeyeste.com`, certificado y un Worker (`infra/cloudflare/worker.js`) que pide cada página a Azure con su propio nombre, porque Azure Storage no acepta otro dominio y el plan gratuito no permite reescribir la cabecera Host.',
+      'Una cuenta de Storage con la web estática, que sirve el `index.html` de cada carpeta y el `404.html` cuando una ruta no existe. Solo acepta HTTPS con TLS 1.2 y no tiene claves de acceso, así que todo lo que entra lo hace con una identidad.',
+      'Dos identidades de Entra ID con *federated credentials* para GitHub. La de despliegue solo puede escribir en esa cuenta, y la que usa el plan de las pull requests solo puede leer.',
+      'Los logs de acceso, que se guardan en Log Analytics durante 30 días con una cuota diaria para que el coste no se dispare.',
+      'Un presupuesto que avisa al 50 % y al 100 %, y también cuando la previsión del mes pasa del límite.',
+      'Delante está Cloudflare, en el plan gratuito, con el DNS de `cayeyeste.com` y el certificado. Azure Storage admite un dominio propio, pero no le pone HTTPS si no pagas Front Door, así que Cloudflare termina el TLS y un Worker (`infra/cloudflare/worker.js`) pide cada página a Azure con su propio nombre, porque el plan gratuito no deja cambiar la cabecera Host. De paso, el Worker añade las cabeceras de seguridad y quita las que delatan que detrás hay Azure.',
     ],
     opsTitle: 'Operación',
     opsText:
-      'Un workflow programado ejecuta `ops/site_health.py` una vez al día. Comprueba que las páginas y los enlaces de los proyectos responden, cuántos días le quedan al certificado TLS, que la web tiene los ficheros esperados y qué errores 4xx y 5xx aparecen en los logs, con una consulta KQL a Log Analytics. El informe se publica en [/status](/status/); si algo falla, el job termina en rojo y GitHub avisa por email.',
+      'Una vez al día, un workflow programado lanza `ops/site_health.py`. Comprueba que las páginas y los enlaces de los proyectos responden, cuántos días le quedan al certificado, que en la cuenta están los ficheros que tienen que estar y qué errores 4xx y 5xx han aparecido en los logs, esto último con una consulta KQL a Log Analytics. El informe se publica en [/status](/status/), y si algo falla el job acaba en rojo y GitHub me avisa por email.',
     fromAwsTitle: 'De AWS a Azure',
     fromAwsText:
-      'La infraestructura se diseñó primero para AWS: S3 privado, CloudFront con Origin Access Control, roles IAM con OIDC y AWS Budgets. Está en `infra/aws/`, validada con `terraform validate` y sin desplegar. La desplegué en Azure, donde la arquitectura es la misma con otras piezas: Storage en lugar de S3, Entra ID en lugar de IAM y Log Analytics en lugar de los logs de CloudFront.',
+      'Al principio lo diseñé para AWS. Esa versión está en `infra/aws/` y pasa `terraform validate`, pero nunca llegó a desplegarse, porque la verificación de la cuenta de AWS se alargó y acabé montándolo en Azure. La arquitectura es la misma y lo que cambian son las piezas:',
+    fromAwsHead: ['AWS', 'Azure'],
+    fromAwsRows: [
+      ['S3 privado', 'Storage con web estática'],
+      ['CloudFront y una CloudFront Function', 'Cloudflare y un Worker'],
+      ['Roles de IAM con OIDC', 'Entra ID con federated credentials'],
+      ['Logs de CloudFront', 'Log Analytics'],
+      ['AWS Budgets', 'Presupuestos de Azure'],
+    ],
     notCoveredTitle: 'Qué no cubre',
-    notCoveredText:
-      'No hay Kubernetes ni alta disponibilidad real: es un sitio estático en una sola suscripción. El dominio y el HTTPS van por Cloudflare gratuito en lugar de Front Door, que en Azure tiene una cuota fija mensual. En producción separaría entornos en suscripciones distintas, llevaría Cloudflare a Terraform con cabeceras de seguridad, y movería el `terraform apply` al pipeline con aprobación manual.',
+    notHaveTitle: 'Lo que no tiene',
+    notHave: [
+      'Kubernetes, que para una web estática no tendría sentido.',
+      'Alta disponibilidad de verdad, porque todo está en una sola suscripción y una sola región.',
+      'Un entorno de staging; cada pull request se revisa con el build y el plan de Terraform.',
+    ],
+    wouldDoTitle: 'Lo que haría en producción',
+    wouldDo: [
+      'Separar los entornos en suscripciones distintas.',
+      'Llevar Cloudflare también a Terraform, que ahora se configura en su panel.',
+      'Lanzar el `terraform apply` desde el pipeline, con aprobación manual, en lugar de en local.',
+      'Poner alertas de Azure Monitor sobre los errores 5xx en vez de depender del email de GitHub.',
+    ],
   },
 }
 

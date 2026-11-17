@@ -28,8 +28,8 @@ onMounted(async () => {
       <p class="verdict">
         <span :class="['dot', report.ok ? 'ok' : 'fail']" aria-hidden="true"></span>
         <strong>{{ report.ok ? m.status.summaryOk : m.status.failed }}</strong>
-        <span class="muted">
-          · {{ summarize(report).passed }}/{{ summarize(report).total }} {{ m.status.checks }} ·
+        <span class="muted meta">
+          {{ summarize(report).passed }}/{{ summarize(report).total }} {{ m.status.checks }} ·
           {{ formatDate(report.generated_at, locale) }}
         </span>
       </p>
@@ -72,6 +72,21 @@ onMounted(async () => {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
+}
+
+/* Beside the verdict on wide screens, on its own line on phones (no leading dot there). */
+.meta::before {
+  content: '· ';
+}
+
+@media (max-width: 640px) {
+  .meta {
+    flex-basis: 100%;
+  }
+
+  .meta::before {
+    content: none;
+  }
 }
 
 .dot {

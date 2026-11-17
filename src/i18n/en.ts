@@ -154,7 +154,6 @@ export const en: Messages = {
   status: {
     allOk: 'All systems operational',
     failed: 'Some checks failed',
-    lastDeploy: 'last deploy',
     justNow: 'just now',
     loading: 'Loading the latest report…',
     missing: 'No report yet: it is generated once a day.',
@@ -175,13 +174,16 @@ export const en: Messages = {
   diagram: {
     title: 'Portfolio architecture',
     desc: 'A push to GitHub triggers GitHub Actions, which gets temporary access from Entra ID through OIDC and uploads the site with azcopy to an Azure Storage account with a static website. Visitors reach cayeyeste.com over HTTPS through Cloudflare, where a Worker fetches each page from Azure; every read is logged in Log Analytics.',
-    caption: 'Deployment on top, traffic below. No Azure secret is stored in GitHub.',
+    caption:
+      'Deployments and visits end up in the same place, the Azure Storage account. GitHub stores no Azure credential.',
     you: 'You',
     repository: 'repository',
     temporary: 'OIDC, temporary',
     visitor: 'Visitor',
     browser: 'browser',
     site: 'static website + /status',
+    deployLabel: 'Deployment',
+    trafficLabel: 'Traffic',
   },
   frimee: {
     toc: 'Case contents',
@@ -351,19 +353,21 @@ export const en: Messages = {
   build: {
     toc: 'Case contents',
     status: 'Status',
+    lastDeploy: 'Last deploy',
+    runs: 'See its runs on GitHub Actions',
     facts: [
-      { label: 'Site', value: 'Azure Storage · static website' },
+      { label: 'Hosting', value: 'Azure Storage and Cloudflare' },
       { label: 'Region', value: 'Spain Central' },
       { label: 'Team', value: 'Solo project' },
       { label: 'Stack', value: 'Vue 3 · Vite · Terraform · GitHub Actions · Python' },
     ],
     repo: 'View the repository',
     other: 'Other project',
-    lead: 'This is a static site: Vue 3 built with Vite and served from Azure Storage, with Cloudflare in front for the domain and HTTPS. All the infrastructure is in Terraform, GitHub Actions deploys it without storing any secret and a Python script checks it every day. [The code is on GitHub.](https://github.com/cayeyemito/portfolio)',
+    lead: 'This is a static site. It is built with Vue 3 and Vite, served from Azure Storage and has Cloudflare in front for the domain and HTTPS. The Azure side is described in Terraform, GitHub Actions deploys it without storing any Azure credential and a Python script checks it once a day. [The code is on GitHub.](https://github.com/cayeyemito/portfolio)',
     architecture: 'Architecture',
     pipeline: 'Pipeline',
     pipelineText:
-      'There are three GitHub Actions workflows. They sign in to Azure with OIDC: Entra ID exchanges the token of each run for temporary access, only when it comes from this repository and the expected branch or pull request, and with permissions limited to this storage account.',
+      'There are three GitHub Actions workflows, and the name of each one links to its real runs, so the ticks can be checked. They sign in to Azure with OIDC: on every run, Entra ID swaps the GitHub token for temporary access, and only when it comes from this repository and the branch or pull request it expects. The only stored secret is the Cloudflare token, which can do nothing but publish the Worker.',
     workflows: [
       {
         file: 'ci.yml',
@@ -371,7 +375,7 @@ export const en: Messages = {
         steps: [
           { name: 'npm ci' },
           { name: 'lint', detail: 'oxlint, ESLint and Prettier' },
-          { name: 'tests', detail: 'Vitest' },
+          { name: 'tests', detail: 'Vitest, the Worker included' },
           { name: 'build' },
           { name: 'pytest · shellcheck', detail: 'operations script' },
           { name: 'terraform fmt · validate · plan', detail: 'plan posted on the PR' },
@@ -385,6 +389,7 @@ export const en: Messages = {
           { name: 'azure/login', detail: 'OIDC with Entra ID, no secrets' },
           { name: 'azcopy copy · sync', detail: 'long cache for assets, short for HTML' },
           { name: 'smoke test', detail: 'the site answers 200' },
+          { name: 'wrangler deploy', detail: 'Cloudflare Worker' },
         ],
       },
       {
@@ -398,22 +403,41 @@ export const en: Messages = {
     ],
     iacTitle: 'Infrastructure as code',
     iacText:
-      'Everything lives in `infra/azure/`, with the Terraform state in a versioned storage account. Only that account, the overall budget and the Cloudflare setup were created by hand.',
+      'The Azure side lives in `infra/azure/`, and the Terraform state is kept in a versioned storage account. Only three things were done by hand: that account, which has to exist before Terraform can start, the overall budget of the subscription and the Cloudflare setup.',
     iacItems: [
-      'Storage account with a static website (`index.html` in every folder and `404.html`), HTTPS and TLS 1.2 only, and no access keys: everything signs in with an identity.',
-      'Two Entra ID identities with *federated credentials* for GitHub: the deploy one can only write to that account; the plan one can only read.',
-      'Access logs in Log Analytics for 30 days, with a daily cap as a cost guard.',
-      'Budget with alerts at 50 %, 100 % and on forecast.',
-      'In front, Cloudflare on its free plan: DNS for `cayeyeste.com`, the certificate and a Worker (`infra/cloudflare/worker.js`) that fetches each page from Azure under its own name, because Azure Storage does not accept another domain and the free plan cannot rewrite the Host header.',
+      'A storage account with the static website, which serves the `index.html` of every folder and `404.html` when a path does not exist. It only accepts HTTPS with TLS 1.2 and has no access keys, so everything that gets in does so with an identity.',
+      'Two Entra ID identities with *federated credentials* for GitHub. The deploy one can only write to that account, and the one used by the pull request plan can only read.',
+      'Access logs, kept in Log Analytics for 30 days with a daily cap so the cost cannot run away.',
+      'A budget that warns at 50 % and 100 %, and also when the forecast for the month goes over the limit.',
+      'Cloudflare sits in front, on the free plan, with the DNS of `cayeyeste.com` and the certificate. Azure Storage does accept a custom domain, but it gives it no HTTPS unless you pay for Front Door, so Cloudflare terminates TLS and a Worker (`infra/cloudflare/worker.js`) fetches each page from Azure under its own name, because the free plan cannot change the Host header. While it is at it, the Worker adds the security headers and drops the ones that give Azure away.',
     ],
     opsTitle: 'Operations',
     opsText:
-      'A scheduled workflow runs `ops/site_health.py` once a day. It checks that the pages and the project links respond, how many days the TLS certificate has left, that the site holds the expected files and which 4xx and 5xx errors show up in the logs, with a KQL query to Log Analytics. The report is published at [/status](/status/); if anything fails, the job turns red and GitHub sends an email.',
+      'Once a day, a scheduled workflow runs `ops/site_health.py`. It checks that the pages and the project links respond, how many days the certificate has left, that the account holds the files it should and which 4xx and 5xx errors have shown up in the logs, the last part with a KQL query to Log Analytics. The report is published at [/status](/status/), and if anything fails the job turns red and GitHub sends me an email.',
     fromAwsTitle: 'From AWS to Azure',
     fromAwsText:
-      'The infrastructure was first designed for AWS: private S3, CloudFront with Origin Access Control, IAM roles with OIDC and AWS Budgets. It is in `infra/aws/`, validated with `terraform validate` and not deployed. I deployed it on Azure, where the architecture is the same with other pieces: Storage instead of S3, Entra ID instead of IAM and Log Analytics instead of the CloudFront logs.',
+      'I first designed it for AWS. That version is in `infra/aws/` and passes `terraform validate`, but it was never deployed, because the AWS account verification dragged on and I ended up building it on Azure. The architecture is the same and only the pieces change:',
+    fromAwsHead: ['AWS', 'Azure'],
+    fromAwsRows: [
+      ['Private S3', 'Storage with a static website'],
+      ['CloudFront and a CloudFront Function', 'Cloudflare and a Worker'],
+      ['IAM roles with OIDC', 'Entra ID with federated credentials'],
+      ['CloudFront logs', 'Log Analytics'],
+      ['AWS Budgets', 'Azure budgets'],
+    ],
     notCoveredTitle: 'What it does not cover',
-    notCoveredText:
-      'There is no Kubernetes and no real high availability: it is a static site in a single subscription. The domain and HTTPS go through free Cloudflare instead of Front Door, which has a fixed monthly fee on Azure. In production I would split environments into separate subscriptions, bring Cloudflare into Terraform with security headers, and move `terraform apply` into the pipeline with manual approval.',
+    notHaveTitle: 'What it does not have',
+    notHave: [
+      'Kubernetes, which would make no sense for a static site.',
+      'Real high availability, since everything is in a single subscription and a single region.',
+      'A staging environment; each pull request is reviewed with the build and the Terraform plan.',
+    ],
+    wouldDoTitle: 'What I would do in production',
+    wouldDo: [
+      'Split the environments into separate subscriptions.',
+      'Bring Cloudflare into Terraform too, since today it is set up in its dashboard.',
+      'Run `terraform apply` from the pipeline, with manual approval, instead of locally.',
+      'Add Azure Monitor alerts on 5xx errors instead of relying on the GitHub email.',
+    ],
   },
 }
