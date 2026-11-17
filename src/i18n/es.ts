@@ -51,12 +51,10 @@ export const es = {
       period: 'oct 2025 — jun 2026',
       kind: 'Contrato de formación · Barcelona, híbrido',
       points: [
-        'Desarrollé funcionalidades nuevas y corregí incidencias en la web de NH Hoteles, desde el análisis de los requisitos hasta las pruebas y el despliegue.',
+        'Desarrollé funcionalidades nuevas y corregí incidencias en la web de NH Hoteles, desde el análisis de los requisitos hasta el despliegue con Jenkins, en sprints de Scrum.',
         'En el backend, con Spring Boot, hice endpoints de la API REST, lógica de negocio y acceso a datos con JPA/Hibernate, y escribí a mano las consultas SQL que hacían falta.',
-        'En el frontend, con Vue, amplié componentes que ya existían, los conecté a la API y maqueté otros nuevos.',
-        'Integré en la aplicación el contenido que se gestiona desde el CMS Tridion.',
-        'El proyecto no tenía tests, así que escribí los míos, con JUnit y en el frontend, para comprobar mis propios cambios. Los hacía con ayuda de IA generativa y me ahorraban mucha validación manual.',
-        'Desplegaba en el entorno de pruebas con jobs de Jenkins y trabajaba con ramas y pull requests en Git. Nos organizábamos en sprints de Scrum con Jira, y también escribía la documentación técnica.',
+        'En el frontend, con Vue, amplié componentes, los conecté a la API e integré el contenido del CMS Tridion.',
+        'El proyecto no tenía tests, así que escribí los míos, con JUnit y en el frontend, con ayuda de IA generativa.',
       ],
     },
     {
@@ -66,9 +64,8 @@ export const es = {
       kind: 'Prácticas · consultora TI de unas 35 personas',
       points: [
         'Con otro compañero, mantenía los agentes de build de Azure DevOps Pipelines, en máquinas Windows tanto en Azure como en servidores propios, para que cada push se construyera y se desplegara.',
-        'Cuando fallaba un agente o un pipeline, buscaba la causa en los logs, y el reinicio solo lo usaba para salir del paso mientras tanto.',
+        'Cuando fallaba un agente o un pipeline, buscaba la causa en los logs.',
         'Escribí scripts de PowerShell y Bash para el mantenimiento, como las copias de seguridad diarias, la limpieza de ficheros antiguos o las tareas de la base de datos SQL.',
-        'Llevaba las incidencias en Jira Service Management, y cada día teníamos una reunión de seguimiento con la dirección y los project managers.',
       ],
     },
     {
@@ -108,6 +105,18 @@ export const es = {
       scheduled: 'Programado',
       scheduledNote: 'revisión diaria del sitio',
     },
+    // The booking API card's figure (the SQL itself is in BookingFigure.vue).
+    booking: {
+      caption: 'PostgreSQL · restricción de exclusión',
+      note: 'Dos reservas confirmadas de la misma habitación no pueden solaparse, y no lo comprueba el código sino la propia base de datos.',
+    },
+    // Frimee's card: the short clip of the itinerary and the map.
+    frimeeVideo: {
+      src: '/projects/frimee/frimee-anuncio-es.mp4',
+      poster: '/projects/frimee/frimee-anuncio-es-poster.webp',
+      label:
+        'Anuncio de Frimee: el itinerario de un viaje, la ruta del día en el mapa y la app en el móvil.',
+    },
   },
   home: {
     experienceTitle: 'Experiencia',
@@ -121,6 +130,7 @@ export const es = {
         items: [
           { name: '*Java · Spring Boot*', where: 'EY · 03' },
           { name: 'Supabase', where: '01' },
+          { name: 'LiveKit', where: '01' },
           { name: 'Python', where: '02' },
           { name: 'SQL', where: 'Itequia' },
           { name: 'MySQL', where: 'Little Suite' },
@@ -133,7 +143,6 @@ export const es = {
           { name: 'React · Next.js', where: '01' },
           { name: 'TypeScript', where: '01 · 02' },
           { name: 'Capacitor', where: '01' },
-          { name: 'LiveKit', where: '01' },
         ],
       },
       {

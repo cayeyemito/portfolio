@@ -49,12 +49,10 @@ export const en: Messages = {
       period: 'Oct 2025 — Jun 2026',
       kind: 'Training contract · Barcelona, hybrid',
       points: [
-        'I built new features and fixed bugs in the NH Hotels website, from the requirements analysis through to testing and deployment.',
+        'I built new features and fixed bugs in the NH Hotels website, from the requirements analysis through to deployment with Jenkins, in Scrum sprints.',
         'On the backend, with Spring Boot, I wrote REST API endpoints, business logic and data access with JPA/Hibernate, plus the SQL queries that had to be written by hand.',
-        'On the frontend, with Vue, I extended existing components, connected them to the API and built new ones.',
-        'I brought the content managed in the Tridion CMS into the application.',
-        'The project had no tests, so I wrote my own, with JUnit and on the frontend, to check my own changes. I wrote them with the help of generative AI, and they saved me a lot of manual checking.',
-        'I deployed to the test environment with Jenkins jobs and worked with branches and pull requests in Git. We organised the work in Scrum sprints in Jira, and I also wrote technical documentation.',
+        'On the frontend, with Vue, I extended components, connected them to the API and brought in the content from the Tridion CMS.',
+        'The project had no tests, so I wrote my own, with JUnit and on the frontend, with the help of generative AI.',
       ],
     },
     {
@@ -64,9 +62,8 @@ export const en: Messages = {
       kind: 'Internship · IT consultancy of about 35 people',
       points: [
         'Together with a colleague, I looked after the Azure DevOps Pipelines build agents, on Windows machines both in Azure and on our own servers, so that every push got built and deployed.',
-        'When an agent or a pipeline failed, I looked for the cause in the logs, and only restarted things to keep work going in the meantime.',
+        'When an agent or a pipeline failed, I looked for the cause in the logs.',
         'I wrote PowerShell and Bash scripts for maintenance, such as the daily backups, cleaning up old files and jobs on the SQL database.',
-        'I handled incidents in Jira Service Management, and every day we had a follow-up meeting with management and the project managers.',
       ],
     },
     {
@@ -105,6 +102,16 @@ export const en: Messages = {
       scheduled: 'Scheduled',
       scheduledNote: 'daily check of the site',
     },
+    booking: {
+      caption: 'PostgreSQL · exclusion constraint',
+      note: 'Two confirmed bookings of the same room cannot overlap, and it is the database itself that enforces it, not the code.',
+    },
+    frimeeVideo: {
+      src: '/projects/frimee/frimee-anuncio-en.mp4',
+      poster: '/projects/frimee/frimee-anuncio-en-poster.webp',
+      label:
+        'Frimee promo: a trip itinerary, the route of the day on the map and the app on a phone.',
+    },
   },
   home: {
     experienceTitle: 'Experience',
@@ -117,6 +124,7 @@ export const en: Messages = {
         items: [
           { name: '*Java · Spring Boot*', where: 'EY · 03' },
           { name: 'Supabase', where: '01' },
+          { name: 'LiveKit', where: '01' },
           { name: 'Python', where: '02' },
           { name: 'SQL', where: 'Itequia' },
           { name: 'MySQL', where: 'Little Suite' },
@@ -129,7 +137,6 @@ export const en: Messages = {
           { name: 'React · Next.js', where: '01' },
           { name: 'TypeScript', where: '01 · 02' },
           { name: 'Capacitor', where: '01' },
-          { name: 'LiveKit', where: '01' },
         ],
       },
       {
