@@ -56,5 +56,24 @@
       "case": "/como-esta-hecha/",
       "repo": "https://github.com/cayeyemito/portfolio"
     }
+  },
+  {
+    "slug": "hotel-booking-api",
+    "title": {
+      "es": "Hotel Booking API",
+      "en": "Hotel Booking API"
+    },
+    "status": {
+      "es": "Próximamente",
+      "en": "Coming soon"
+    },
+    "summary": {
+      "es": "Una API REST para reservar habitaciones de hotel, que estoy escribiendo por mi cuenta en Java 21 y Spring Boot. Ya consulta la disponibilidad y crea y cancela reservas, y es PostgreSQL quien impide que dos reservas de la misma habitación se solapen. Me falta la seguridad con JWT, la imagen Docker con su pipeline y el despliegue en Azure Container Apps con Terraform.",
+      "en": "A REST API for booking hotel rooms, which I am writing on my own in Java 21 and Spring Boot. It already checks availability and creates and cancels bookings, and PostgreSQL itself stops two bookings of the same room from overlapping. Still to come are JWT security, a Docker image with its pipeline and deployment to Azure Container Apps with Terraform."
+    },
+    "stack": ["Java 21", "Spring Boot", "PostgreSQL", "Flyway", "Testcontainers"],
+    "links": {
+      "repo": "https://github.com/cayeyemito/hotel-booking-api"
+    }
   }
 ]

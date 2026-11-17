@@ -1,18 +1,22 @@
 <script setup lang="ts">
+import { computed, useSlots } from 'vue'
 import { localizePath, useLocale, useMessages } from '@/i18n'
 import { demoLabel, type Project } from '@/lib/projects'
 
 // featured: media first and a big title (the main project). Otherwise the text comes
 // first and the media (the #media slot, or the project image) sits beside it.
-defineProps<{ project: Project; number: string; featured?: boolean }>()
+const props = defineProps<{ project: Project; number: string; featured?: boolean }>()
+const slots = useSlots()
+// A project with nothing to show yet (no image, no figure) is text only.
+const hasMedia = computed(() => Boolean(slots.media || props.project.image))
 
 const locale = useLocale()
 const m = useMessages()
 </script>
 
 <template>
-  <article :id="project.slug" :class="['project', { featured }]">
-    <div class="media">
+  <article :id="project.slug" :class="['project', { featured, bare: !hasMedia }]">
+    <div v-if="hasMedia" class="media">
       <slot name="media">
         <img
           v-if="project.image"
@@ -105,6 +109,11 @@ const m = useMessages()
   display: flex;
   flex-direction: column;
   order: 1;
+}
+
+/* Text only: keep the status label next to the title instead of at the far edge. */
+.bare .body {
+  flex: 0 1 640px;
 }
 
 .featured .media {
