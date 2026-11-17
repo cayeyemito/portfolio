@@ -56,5 +56,24 @@
       "case": "/como-esta-hecha/",
       "repo": "https://github.com/cayeyemito/portfolio"
     }
+  },
+  {
+    "slug": "booking-api",
+    "title": {
+      "es": "API de reservas",
+      "en": "Booking API"
+    },
+    "status": {
+      "es": "Próximamente",
+      "en": "Coming soon"
+    },
+    "summary": {
+      "es": "Una API REST de reservas en Java 21 y Spring Boot, que parte de lo que aprendí en EY trabajando en la web de NH Hoteles. Ya gestiona la disponibilidad y las reservas sin solapamientos, y ahora la estoy llevando hacia un proyecto propio.",
+      "en": "A REST booking API in Java 21 and Spring Boot, building on what I learned at EY working on the NH Hotels website. It already handles availability and bookings without overlaps, and I am now turning it into a project of my own."
+    },
+    "stack": ["Java 21", "Spring Boot", "PostgreSQL", "Flyway", "Testcontainers"],
+    "links": {
+      "repo": "https://github.com/cayeyemito/hotel-booking-api"
+    }
   }
 ]
