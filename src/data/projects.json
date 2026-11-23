@@ -71,8 +71,8 @@
       "en": "In development"
     },
     "summary": {
-      "es": "Un dominio que conocí en EY, ahora como proyecto propio: una API REST de reservas en Java 21 y Spring Boot. Consulta la disponibilidad, crea y cancela reservas, y es PostgreSQL quien impide que dos reservas de la misma habitación se solapen. Los tests corren contra un PostgreSQL real con Testcontainers.",
-      "en": "A domain I got to know at EY, now as a project of my own: a REST booking API in Java 21 and Spring Boot. It checks availability, creates and cancels bookings, and PostgreSQL itself stops two bookings of the same room from overlapping. The tests run against a real PostgreSQL with Testcontainers."
+      "es": "Un dominio que conocí en EY, ahora como proyecto propio: una API REST de reservas en Java 21 y Spring Boot. Consulta la disponibilidad, crea y cancela reservas, y es PostgreSQL quien impide que dos reservas de la misma habitación se solapen. Los tests corren contra un PostgreSQL real con Testcontainers. Más adelante la adaptaré para que Frimee pueda hacer reservas desde la propia app: no es un modelo copiado de ningún proyecto del trabajo, sino lo que aprendí construyéndola por mi cuenta.",
+      "en": "A domain I got to know at EY, now as a project of my own: a REST booking API in Java 21 and Spring Boot. It checks availability, creates and cancels bookings, and PostgreSQL itself stops two bookings of the same room from overlapping. The tests run against a real PostgreSQL with Testcontainers. Later I will adapt it so Frimee can make bookings from the app itself: it is not a model copied from any work project, but what I learned building it on my own."
     },
     "stack": ["Java 21", "Spring Boot", "PostgreSQL", "Flyway", "Testcontainers"],
     "links": {
