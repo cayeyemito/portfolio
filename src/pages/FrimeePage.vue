@@ -641,7 +641,7 @@ p {
 }
 
 .stop-main {
-  flex: 1 1 300px;
+  flex: 1.8 1 440px;
   min-width: 0;
 }
 
@@ -670,7 +670,7 @@ p {
 }
 
 .stop-see {
-  flex: 1.3 1 340px;
+  flex: 1.2 1 320px;
   min-width: 0;
 }
 
@@ -685,7 +685,7 @@ p {
 /* "Under the hood" as the stub of a Wallet ticket: perforated edge and two notches */
 .stop-hood {
   position: relative;
-  flex: 1 1 280px;
+  flex: 1 1 260px;
   align-self: flex-start;
   min-width: 0;
   padding: 18px 20px;
