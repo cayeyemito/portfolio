@@ -209,9 +209,8 @@ export const en: Messages = {
     ],
     code: 'Code',
     video: {
-      label:
-        'A tour of Frimee: sign-in, plans, itinerary, the map with the route, shared expenses, the chat with the assistant and the same app on Android.',
-      caption: 'A 21-second tour of the web and the Android app, edited from real screenshots.',
+      caption:
+        'An 11-second ad: a trip’s itinerary, the day’s route on the map and the app on a phone.',
       pause: 'Pause the video',
       play: 'Play the video',
     },
@@ -229,6 +228,8 @@ export const en: Messages = {
     },
     see: 'What you see',
     hood: 'Under the hood',
+    viewLabel: 'View on',
+    views: { web: 'Web', mobile: 'Mobile' },
     pieces: [
       {
         id: 'planes',
@@ -243,12 +244,19 @@ export const en: Messages = {
           'Creating a plan is a three-step wizard that warns you if a similar plan already exists on those dates',
           'The home screen sums up what is happening and what each person still has to decide',
         ],
-        image: {
-          src: '/projects/frimee/web-itinerario.webp',
-          width: 1552,
-          height: 986,
-          phone: false,
-          alt: 'Itinerary of a trip to New York: the day’s activities with times, travel between them and the route on the map',
+        shots: {
+          web: {
+            src: '/projects/frimee/plan-web.webp',
+            width: 976,
+            height: 900,
+            alt: 'Itinerary of the Lisbon getaway: the day’s activities with times, the travel between them and the route on the map',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-plan.webp',
+            width: 350,
+            height: 720,
+            alt: 'Itinerary of the Lisbon getaway on a phone: the flight and the hotel check-in of the first day, with the travel between them',
+          },
         },
       },
       {
@@ -263,12 +271,19 @@ export const en: Messages = {
           'Receipts are read with the camera so you do not type the amount',
           'The plan summary can be exported to PDF',
         ],
-        image: {
-          src: '/projects/frimee/web-gastos.webp',
-          width: 1240,
-          height: 600,
-          phone: false,
-          alt: '“My expenses” on the guest account: what you are owed, what you owe and the payments still to settle across two plans',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-gastos.webp',
+            width: 1240,
+            height: 600,
+            alt: '“My expenses” on the guest account: what you are owed, what you owe and the payments still to settle across two plans',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-gastos.webp',
+            width: 350,
+            height: 625,
+            alt: '“My expenses” on a phone: what you are owed, what you owe and the pending payment to Sara',
+          },
         },
       },
       {
@@ -284,12 +299,19 @@ export const en: Messages = {
           '41 automated tests on the time, the placement and the grouping',
           'The map uses MapLibre and videos can reach 100 MB',
         ],
-        image: {
-          src: '/projects/frimee/web-album.webp',
-          width: 1440,
-          height: 900,
-          phone: false,
-          alt: 'Album of the trip to Rome: the route of the trip drawn on the map, with the title, the days and the photos',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-album.webp',
+            width: 1440,
+            height: 900,
+            alt: 'Album of the trip to Rome: the route of the trip drawn on the map, with the title, the days and the photos',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-album.webp',
+            width: 350,
+            height: 760,
+            alt: 'Album of the trip to Rome on a phone: the route on the map with the title and the trip details',
+          },
         },
       },
       {
@@ -305,12 +327,19 @@ export const en: Messages = {
           'A process marks with a diamond the messages that look like a plan, a place or an expense, to turn them into an activity with one tap',
           'From a chat with no plan you can create one and take the conversation with you',
         ],
-        image: {
-          src: '/projects/frimee/movil-chat.webp',
-          width: 540,
-          height: 1200,
-          phone: true,
-          alt: 'Android app: a poll in the plan’s chat',
+        shots: {
+          web: {
+            src: '/projects/frimee/chat-web.webp',
+            width: 960,
+            height: 540,
+            alt: 'The plan’s chat on desktop: the group’s conversation with a quoted reply and the side ruler to scrub through it',
+          },
+          mobile: {
+            src: '/projects/frimee/chat-movil.webp',
+            width: 360,
+            height: 800,
+            alt: 'The plan’s chat on a phone: day 1 as a chapter, a reaction and the side ruler to scrub through the conversation',
+          },
         },
       },
       {
@@ -325,12 +354,19 @@ export const en: Messages = {
           'It runs on Claude Haiku, called from a Supabase function',
           'It has a rate limit and a daily quota, per person and for the whole service',
         ],
-        image: {
-          src: '/projects/frimee/web-chat.webp',
-          width: 1286,
-          height: 947,
-          phone: false,
-          alt: 'Chat of the Tokyo plan: the assistant suggests three restaurants and creates a poll to vote',
+        shots: {
+          web: {
+            src: '/projects/frimee/asistente-web.webp',
+            width: 960,
+            height: 540,
+            alt: 'Lisbon plan chat: the assistant suggests four places for fado dinner and a poll the group can create or dismiss',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-asistente.webp',
+            width: 350,
+            height: 800,
+            alt: 'The assistant’s reply in the chat on a phone: four places for fado dinner and the poll proposal',
+          },
         },
       },
       {
@@ -345,7 +381,10 @@ export const en: Messages = {
           'LiveKit, with the token issued by `/api/livekit/token` only if you are in the chat',
           'Custom Capacitor plugins for the native parts',
         ],
-        image: null,
+        shots: {
+          web: null,
+          mobile: null,
+        },
       },
       {
         id: 'cartera',
@@ -361,12 +400,19 @@ export const en: Messages = {
           'The code is stored encrypted in Supabase Vault; the files, privately and behind links that expire after five minutes',
           'On Android, while you show it, the screen goes to full brightness and cannot be captured',
         ],
-        image: {
-          src: '/projects/frimee/web-cartera.webp',
-          width: 1240,
-          height: 690,
-          phone: false,
-          alt: 'Wallet on the guest account: an upcoming entry ticket and flight, with the paper ticket and its booking reference',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-cartera.webp',
+            width: 1240,
+            height: 690,
+            alt: 'Wallet on the guest account: an upcoming entry ticket and flight, with the paper ticket and its booking reference',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-cartera.webp',
+            width: 350,
+            height: 594,
+            alt: 'Wallet on a phone: the fado night entry ticket with its booking reference and the plan’s tickets',
+          },
         },
       },
       {
@@ -382,12 +428,19 @@ export const en: Messages = {
           'Google’s geocoder only steps in when a place has no coordinates',
           'Stamps are created by a scheduled job in the database',
         ],
-        image: {
-          src: '/projects/frimee/movil-pasaporte.webp',
-          width: 350,
-          height: 770,
-          phone: true,
-          alt: 'Passport on a phone: the 2026 page with the stamps for Rome, the Vatican, Italy and the first trip',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-pasaporte.webp',
+            width: 1010,
+            height: 690,
+            alt: 'Passport open on desktop: the 2026 page with the stamps for Rome, the Vatican, Italy and the first trip',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-pasaporte.webp',
+            width: 350,
+            height: 770,
+            alt: 'Passport on a phone: the 2026 page with the stamps for Rome, the Vatican, Italy and the first trip',
+          },
         },
       },
     ],
