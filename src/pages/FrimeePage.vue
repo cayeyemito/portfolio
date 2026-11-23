@@ -6,6 +6,7 @@ import SiteFooter from '@/components/SiteFooter.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
 import { localizePath, useLocale, useMessages } from '@/i18n'
 import { projectsFor } from '@/lib/projects'
+import { reactive } from 'vue'
 
 // Case page of Frimee (01), in five blocks: what it is, what you find (a departures
 // board as the index and the pieces as stops of an itinerary), how it works, how it was
@@ -23,14 +24,22 @@ const other = projects.find((p) => p.slug !== 'frimee')!
 const otherNumber = String(projects.indexOf(other) + 1).padStart(2, '0')
 
 const pad = (n: number) => String(n).padStart(2, '0')
+
+// Each piece can show its screenshot on the web or on the phone; the choice is per piece.
+type Mode = 'web' | 'mobile'
+const modes = (piece: (typeof f.pieces)[number]) =>
+  (['web', 'mobile'] as const).filter((k) => piece.shots[k])
+const chosen = reactive<Record<string, Mode>>({})
+const current = (piece: (typeof f.pieces)[number]) => {
+  const available = modes(piece)
+  const pick = chosen[piece.id]
+  return pick && available.includes(pick) ? pick : available[0]
+}
 const paths = [
   { kind: 'direct', title: a.direct, note: a.directNote, boxes: a.directBoxes },
   { kind: 'server', title: a.server, note: a.serverNote, boxes: a.serverBoxes },
   { kind: 'background', title: a.background, note: a.backgroundNote, boxes: a.backgroundBoxes },
 ] as const
-
-// Demo video (DemoVideo): bound, not literal, so the SFC compiler does not turn the paths into imports.
-const demo = { src: '/projects/frimee/demo.mp4', poster: '/projects/frimee/demo-poster.webp' }
 
 // From src/app/api/directions/route.ts in the Frimee repository (commit 5d73025 added the
 // Bearer fallback to every route). Verbatim, so it is not translated.
@@ -112,11 +121,11 @@ const highlighted = 8
 
     <figure class="wrap shot">
       <DemoVideo
-        :src="demo.src"
-        :poster="demo.poster"
-        :width="1920"
-        :height="1080"
-        :label="f.video.label"
+        :src="m.projects.frimeeVideo.src"
+        :poster="m.projects.frimeeVideo.poster"
+        :width="1280"
+        :height="800"
+        :label="m.projects.frimeeVideo.label"
         :play-label="f.video.play"
         :pause-label="f.video.pause"
       />
@@ -170,15 +179,30 @@ const highlighted = 8
             <h3>
               <span class="vh">{{ f.board.stop }} {{ pad(i + 1) }}: </span>{{ piece.name }}
             </h3>
-            <img
-              v-if="piece.image"
-              :src="piece.image.src"
-              :alt="piece.image.alt"
-              :width="piece.image.width"
-              :height="piece.image.height"
-              :class="{ phone: piece.image.phone }"
-              loading="lazy"
-            />
+            <div v-if="modes(piece).length > 1" class="seg" role="group" :aria-label="f.viewLabel">
+              <button
+                v-for="k in modes(piece)"
+                :key="k"
+                type="button"
+                class="m"
+                :class="{ on: current(piece) === k }"
+                :aria-pressed="current(piece) === k"
+                @click="chosen[piece.id] = k"
+              >
+                {{ f.views[k] }}
+              </button>
+            </div>
+            <template v-for="k in modes(piece)" :key="k">
+              <img
+                v-show="current(piece) === k"
+                :src="piece.shots[k]!.src"
+                :alt="piece.shots[k]!.alt"
+                :width="piece.shots[k]!.width"
+                :height="piece.shots[k]!.height"
+                :class="{ phone: k === 'mobile' }"
+                loading="lazy"
+              />
+            </template>
           </div>
           <div class="stop-see">
             <p class="m muted label">{{ f.see }}</p>
@@ -653,6 +677,32 @@ p {
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.02em;
+}
+
+.seg {
+  display: inline-flex;
+  margin-top: 16px;
+  border: 1px solid var(--rule3);
+}
+
+.seg button {
+  min-height: 36px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: var(--body);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.seg button + button {
+  border-left: 1px solid var(--rule3);
+}
+
+.seg button.on {
+  background: var(--fg);
+  color: var(--bg);
 }
 
 .stop-main img {

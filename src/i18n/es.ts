@@ -217,10 +217,8 @@ export const es = {
     ],
     code: 'Código',
     video: {
-      label:
-        'Recorrido por Frimee: inicio de sesión, planes, itinerario, mapa con la ruta, gastos compartidos, chat con el asistente y la misma app en Android.',
       caption:
-        'Recorrido de 21 segundos por la web y la app de Android, montado con capturas reales.',
+        'Anuncio de 11 segundos: el itinerario de un viaje, la ruta del día en el mapa y la app en el móvil.',
       pause: 'Pausar el vídeo',
       play: 'Reproducir el vídeo',
     },
@@ -238,6 +236,8 @@ export const es = {
     },
     see: 'Lo que ves',
     hood: 'Bajo el capó',
+    viewLabel: 'Ver en',
+    views: { web: 'Web', mobile: 'Móvil' },
     pieces: [
       {
         id: 'planes',
@@ -252,12 +252,19 @@ export const es = {
           'Crear un plan es un asistente de tres pasos que avisa si ya hay otro parecido en esas fechas',
           'El inicio resume lo que está en curso y lo que le toca decidir a cada persona',
         ],
-        image: {
-          src: '/projects/frimee/plan-web.webp',
-          width: 976,
-          height: 900,
-          phone: false,
-          alt: 'Itinerario de la escapada a Lisboa: las actividades del día con horarios, los desplazamientos entre ellas y la ruta en el mapa',
+        shots: {
+          web: {
+            src: '/projects/frimee/plan-web.webp',
+            width: 976,
+            height: 900,
+            alt: 'Itinerario de la escapada a Lisboa: las actividades del día con horarios, los desplazamientos entre ellas y la ruta en el mapa',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-plan.webp',
+            width: 350,
+            height: 720,
+            alt: 'Itinerario de la escapada a Lisboa en el móvil: el vuelo y el check-in del primer día, con sus desplazamientos',
+          },
         },
       },
       {
@@ -272,12 +279,19 @@ export const es = {
           'Los tickets se leen con la cámara para no teclear el importe',
           'El resumen del plan se puede exportar a PDF',
         ],
-        image: {
-          src: '/projects/frimee/web-gastos.webp',
-          width: 1240,
-          height: 600,
-          phone: false,
-          alt: 'Pantalla «Mis gastos» de la cuenta de invitado: lo que te deben, lo que debes y los pagos por resolver de dos planes',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-gastos.webp',
+            width: 1240,
+            height: 600,
+            alt: 'Pantalla «Mis gastos» de la cuenta de invitado: lo que te deben, lo que debes y los pagos por resolver de dos planes',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-gastos.webp',
+            width: 350,
+            height: 625,
+            alt: '«Mis gastos» en el móvil: lo que te deben, lo que debes y el pago pendiente a Sara',
+          },
         },
       },
       {
@@ -293,12 +307,19 @@ export const es = {
           '41 pruebas automatizadas sobre la hora, la colocación y la agrupación',
           'El mapa usa MapLibre y los vídeos pueden llegar a 100 MB',
         ],
-        image: {
-          src: '/projects/frimee/web-album.webp',
-          width: 1440,
-          height: 900,
-          phone: false,
-          alt: 'Álbum del viaje a Roma: el recorrido del viaje dibujado sobre el mapa, con el título, los días y las fotos',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-album.webp',
+            width: 1440,
+            height: 900,
+            alt: 'Álbum del viaje a Roma: el recorrido del viaje dibujado sobre el mapa, con el título, los días y las fotos',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-album.webp',
+            width: 350,
+            height: 760,
+            alt: 'Álbum del viaje a Roma en el móvil: el recorrido sobre el mapa con el título y los datos del viaje',
+          },
         },
       },
       {
@@ -314,12 +335,19 @@ export const es = {
           'Un proceso marca con un rombo los mensajes que parecen un plan, un lugar o un gasto, para convertirlos en actividad con un toque',
           'Desde un chat sin plan se crea uno llevándose la conversación',
         ],
-        image: {
-          src: '/projects/frimee/chat-movil.webp',
-          width: 360,
-          height: 800,
-          phone: true,
-          alt: 'Chat del plan en el móvil: el día 1 como capítulo, una reacción y la regla lateral para recorrer la conversación',
+        shots: {
+          web: {
+            src: '/projects/frimee/chat-web.webp',
+            width: 960,
+            height: 540,
+            alt: 'Chat del plan en el escritorio: la conversación del grupo con una respuesta citada y la regla lateral para recorrerla',
+          },
+          mobile: {
+            src: '/projects/frimee/chat-movil.webp',
+            width: 360,
+            height: 800,
+            alt: 'Chat del plan en el móvil: el día 1 como capítulo, una reacción y la regla lateral para recorrer la conversación',
+          },
         },
       },
       {
@@ -334,12 +362,19 @@ export const es = {
           'Funciona con Claude Haiku, llamado desde una función de Supabase',
           'Tiene un límite de peticiones y un cupo diario, por persona y para todo el servicio',
         ],
-        image: {
-          src: '/projects/frimee/asistente-web.webp',
-          width: 960,
-          height: 540,
-          phone: false,
-          alt: 'Chat del plan de Lisboa: el asistente propone cuatro sitios para cenar fado y una encuesta que el grupo puede crear o descartar',
+        shots: {
+          web: {
+            src: '/projects/frimee/asistente-web.webp',
+            width: 960,
+            height: 540,
+            alt: 'Chat del plan de Lisboa: el asistente propone cuatro sitios para cenar fado y una encuesta que el grupo puede crear o descartar',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-asistente.webp',
+            width: 350,
+            height: 800,
+            alt: 'Respuesta del asistente en el chat del móvil: cuatro sitios para cenar fado y la propuesta de encuesta',
+          },
         },
       },
       {
@@ -354,7 +389,10 @@ export const es = {
           'LiveKit, con el token emitido por `/api/livekit/token` solo si estás en el chat',
           'Plugins de Capacitor escritos a medida para lo nativo',
         ],
-        image: null,
+        shots: {
+          web: null,
+          mobile: null,
+        },
       },
       {
         id: 'cartera',
@@ -370,12 +408,19 @@ export const es = {
           'El código se guarda cifrado en Supabase Vault; los archivos, en privado y con enlaces que caducan a los cinco minutos',
           'En Android, al enseñarlo, la pantalla sube el brillo y no se puede capturar',
         ],
-        image: {
-          src: '/projects/frimee/web-cartera.webp',
-          width: 1240,
-          height: 690,
-          phone: false,
-          alt: 'Cartera de la cuenta de invitado: una entrada y un vuelo próximos, con el billete en papel y su localizador',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-cartera.webp',
+            width: 1240,
+            height: 690,
+            alt: 'Cartera de la cuenta de invitado: una entrada y un vuelo próximos, con el billete en papel y su localizador',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-cartera.webp',
+            width: 350,
+            height: 594,
+            alt: 'Cartera en el móvil: la entrada de la noche de fado con su localizador y los billetes del plan',
+          },
         },
       },
       {
@@ -391,12 +436,19 @@ export const es = {
           'El geocodificador de Google solo entra cuando un sitio no tiene coordenadas',
           'Los sellos los crea una tarea programada en la base de datos',
         ],
-        image: {
-          src: '/projects/frimee/movil-pasaporte.webp',
-          width: 350,
-          height: 770,
-          phone: true,
-          alt: 'Pasaporte en el móvil: la página de 2026 con los sellos de Roma, el Vaticano, Italia y el primer viaje',
+        shots: {
+          web: {
+            src: '/projects/frimee/web-pasaporte.webp',
+            width: 1010,
+            height: 690,
+            alt: 'Pasaporte abierto en el escritorio: la página de 2026 con los sellos de Roma, el Vaticano, Italia y el primer viaje',
+          },
+          mobile: {
+            src: '/projects/frimee/movil-pasaporte.webp',
+            width: 350,
+            height: 770,
+            alt: 'Pasaporte en el móvil: la página de 2026 con los sellos de Roma, el Vaticano, Italia y el primer viaje',
+          },
         },
       },
     ],

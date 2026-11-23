@@ -39,12 +39,14 @@ describe('prerender', () => {
       for (const title of [f.piecesTitle, f.howTitle, f.workTitle, f.statusTitle])
         expect(html).toContain(title)
       expect(html).toContain(`href="${f.guestHref}"`)
-      expect(html).toContain('src="/projects/frimee/demo.mp4"')
+      expect(html).toContain(`src="${messages[locale].projects.frimeeVideo.src}"`)
       for (const piece of f.pieces) {
         expect(html).toContain(`href="#${piece.id}"`)
         expect(html).toContain(`id="${piece.id}"`)
       }
-      const images = f.pieces.flatMap((piece) => (piece.image ? [piece.image.src] : []))
+      const images = f.pieces.flatMap((piece) =>
+        [piece.shots.web, piece.shots.mobile].flatMap((shot) => (shot ? [shot.src] : [])),
+      )
       expect(images.length).toBeGreaterThan(0)
       for (const src of images) expect(html).toContain(src)
       expect(html).toContain('auth.getUser(token)')
