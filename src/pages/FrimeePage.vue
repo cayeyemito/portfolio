@@ -179,6 +179,17 @@ const highlighted = 8
             <h3>
               <span class="vh">{{ f.board.stop }} {{ pad(i + 1) }}: </span>{{ piece.name }}
             </h3>
+            <template v-for="k in modes(piece)" :key="k">
+              <img
+                v-show="current(piece) === k"
+                :src="piece.shots[k]!.src"
+                :alt="piece.shots[k]!.alt"
+                :width="piece.shots[k]!.width"
+                :height="piece.shots[k]!.height"
+                :class="{ phone: k === 'mobile' }"
+                loading="lazy"
+              />
+            </template>
             <div v-if="modes(piece).length > 1" class="seg" role="group" :aria-label="f.viewLabel">
               <button
                 v-for="k in modes(piece)"
@@ -192,17 +203,6 @@ const highlighted = 8
                 {{ f.views[k] }}
               </button>
             </div>
-            <template v-for="k in modes(piece)" :key="k">
-              <img
-                v-show="current(piece) === k"
-                :src="piece.shots[k]!.src"
-                :alt="piece.shots[k]!.alt"
-                :width="piece.shots[k]!.width"
-                :height="piece.shots[k]!.height"
-                :class="{ phone: k === 'mobile' }"
-                loading="lazy"
-              />
-            </template>
           </div>
           <div class="stop-see">
             <p class="m muted label">{{ f.see }}</p>

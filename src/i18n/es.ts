@@ -217,8 +217,7 @@ export const es = {
     ],
     code: 'Código',
     video: {
-      caption:
-        'Anuncio de 11 segundos: el itinerario de un viaje, la ruta del día en el mapa y la app en el móvil.',
+      caption: 'Vídeo provisional: el explicativo está en desarrollo.',
       pause: 'Pausar el vídeo',
       play: 'Reproducir el vídeo',
     },
@@ -595,6 +594,7 @@ export const es = {
       'Buscar sitios con Google Places desde el propio chat.',
       'Participantes por actividad.',
       'Publicar la app de Android de forma estable.',
+      'Un tablero de tareas opcional para cada plan: los grupos que quieran organizarse activan una lista de tarjetas que se arrastran entre columnas, con todo lo que hay que resolver antes del viaje y cada tarea asignada a uno o varios miembros. Al activarlo, la propia app podría proponer las tareas de partida, como reservar el alojamiento o cerrar el transporte.',
     ],
     other: 'Siguiente',
   },
