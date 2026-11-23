@@ -209,8 +209,10 @@ export const en: Messages = {
     ],
     code: 'Code',
     video: {
+      title: 'Explainer video',
+      note: 'In development',
       caption:
-        'An 11-second ad: a trip’s itinerary, the day’s route on the map and the app on a phone.',
+        'Provisional: for now, an 11-second ad with a trip’s itinerary, the day’s route on the map and the app on a phone. The explainer video, with a voice-over going through every feature, is in development.',
       pause: 'Pause the video',
       play: 'Play the video',
     },
@@ -587,6 +589,7 @@ export const en: Messages = {
       'Searching places with Google Places from the chat itself.',
       'Participants per activity.',
       'Publishing the Android app as a stable release.',
+      'An optional task board for each plan: groups that want to get organised can switch on a list of cards that drag between columns, with everything to sort out before the trip and each task assigned to one or more members. When it is switched on, the app itself could suggest the starting tasks, such as booking the stay or settling the transport.',
     ],
     other: 'Next',
   },

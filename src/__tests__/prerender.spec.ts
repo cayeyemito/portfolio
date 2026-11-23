@@ -36,7 +36,7 @@ describe('prerender', () => {
       const html = await render('frimee', locale)
       const f = messages[locale].frimee
       expect(html).toContain('>Frimee</h1>')
-      for (const title of [f.piecesTitle, f.howTitle, f.workTitle, f.statusTitle])
+      for (const title of [f.piecesTitle, f.howTitle, f.workTitle, f.statusTitle, f.video.title])
         expect(html).toContain(title)
       expect(html).toContain(`href="${f.guestHref}"`)
       expect(html).toContain(`src="${messages[locale].projects.frimeeVideo.src}"`)
