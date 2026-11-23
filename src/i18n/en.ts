@@ -244,11 +244,11 @@ export const en: Messages = {
           'The home screen sums up what is happening and what each person still has to decide',
         ],
         image: {
-          src: '/projects/frimee/web-itinerario.webp',
-          width: 1552,
-          height: 986,
+          src: '/projects/frimee/plan-web.webp',
+          width: 976,
+          height: 900,
           phone: false,
-          alt: 'Itinerary of a trip to New York: the day’s activities with times, travel between them and the route on the map',
+          alt: 'Itinerary of the Lisbon getaway: the day’s activities with times, the travel between them and the route on the map',
         },
       },
       {
@@ -306,11 +306,11 @@ export const en: Messages = {
           'From a chat with no plan you can create one and take the conversation with you',
         ],
         image: {
-          src: '/projects/frimee/movil-chat.webp',
-          width: 540,
-          height: 1200,
+          src: '/projects/frimee/chat-movil.webp',
+          width: 360,
+          height: 800,
           phone: true,
-          alt: 'Android app: a poll in the plan’s chat',
+          alt: 'The plan’s chat on a phone: day 1 as a chapter, a reaction and the side ruler to scrub through the conversation',
         },
       },
       {
@@ -326,11 +326,11 @@ export const en: Messages = {
           'It has a rate limit and a daily quota, per person and for the whole service',
         ],
         image: {
-          src: '/projects/frimee/web-chat.webp',
-          width: 1286,
-          height: 947,
+          src: '/projects/frimee/asistente-web.webp',
+          width: 960,
+          height: 540,
           phone: false,
-          alt: 'Chat of the Tokyo plan: the assistant suggests three restaurants and creates a poll to vote',
+          alt: 'Lisbon plan chat: the assistant suggests four places for fado dinner and a poll the group can create or dismiss',
         },
       },
       {

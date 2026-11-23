@@ -253,11 +253,11 @@ export const es = {
           'El inicio resume lo que está en curso y lo que le toca decidir a cada persona',
         ],
         image: {
-          src: '/projects/frimee/web-itinerario.webp',
-          width: 1552,
-          height: 986,
+          src: '/projects/frimee/plan-web.webp',
+          width: 976,
+          height: 900,
           phone: false,
-          alt: 'Itinerario de un viaje a Nueva York: actividades del día con horarios, desplazamientos y la ruta en el mapa',
+          alt: 'Itinerario de la escapada a Lisboa: las actividades del día con horarios, los desplazamientos entre ellas y la ruta en el mapa',
         },
       },
       {
@@ -315,11 +315,11 @@ export const es = {
           'Desde un chat sin plan se crea uno llevándose la conversación',
         ],
         image: {
-          src: '/projects/frimee/movil-chat.webp',
-          width: 540,
-          height: 1200,
+          src: '/projects/frimee/chat-movil.webp',
+          width: 360,
+          height: 800,
           phone: true,
-          alt: 'App de Android: encuesta en el chat del plan',
+          alt: 'Chat del plan en el móvil: el día 1 como capítulo, una reacción y la regla lateral para recorrer la conversación',
         },
       },
       {
@@ -335,11 +335,11 @@ export const es = {
           'Tiene un límite de peticiones y un cupo diario, por persona y para todo el servicio',
         ],
         image: {
-          src: '/projects/frimee/web-chat.webp',
-          width: 1286,
-          height: 947,
+          src: '/projects/frimee/asistente-web.webp',
+          width: 960,
+          height: 540,
           phone: false,
-          alt: 'Chat del plan de Tokio: el asistente propone tres restaurantes y crea una encuesta para votar',
+          alt: 'Chat del plan de Lisboa: el asistente propone cuatro sitios para cenar fado y una encuesta que el grupo puede crear o descartar',
         },
       },
       {
