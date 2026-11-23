@@ -209,10 +209,7 @@ export const en: Messages = {
     ],
     code: 'Code',
     video: {
-      title: 'Explainer video',
-      note: 'In development',
-      caption:
-        'Provisional: for now, an 11-second ad with a trip’s itinerary, the day’s route on the map and the app on a phone. The explainer video, with a voice-over going through every feature, is in development.',
+      caption: 'Provisional video: the explainer is in development.',
       pause: 'Pause the video',
       play: 'Play the video',
     },

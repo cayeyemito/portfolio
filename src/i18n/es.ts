@@ -217,10 +217,7 @@ export const es = {
     ],
     code: 'Código',
     video: {
-      title: 'Vídeo explicativo',
-      note: 'En desarrollo',
-      caption:
-        'Provisional: de momento, un anuncio de 11 segundos con el itinerario de un viaje, la ruta del día en el mapa y la app en el móvil. El vídeo explicativo, con voz y recorriendo todas las funciones, está en desarrollo.',
+      caption: 'Vídeo provisional: el explicativo está en desarrollo.',
       pause: 'Pausar el vídeo',
       play: 'Reproducir el vídeo',
     },

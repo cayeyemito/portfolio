@@ -119,6 +119,19 @@ const highlighted = 8
       </div>
     </section>
 
+    <figure class="wrap shot">
+      <DemoVideo
+        :src="m.projects.frimeeVideo.src"
+        :poster="m.projects.frimeeVideo.poster"
+        :width="1280"
+        :height="800"
+        :label="m.projects.frimeeVideo.label"
+        :play-label="f.video.play"
+        :pause-label="f.video.pause"
+      />
+      <figcaption class="case-note">{{ f.video.caption }}</figcaption>
+    </figure>
+
     <!-- 2 · What you find -->
     <section class="wrap block" aria-labelledby="pieces-title">
       <h2 id="pieces-title" class="block-head">
@@ -330,7 +343,7 @@ const highlighted = 8
     </section>
 
     <!-- 5 · What it does not do yet -->
-    <section class="wrap block" aria-labelledby="status-title">
+    <section class="wrap block last-block" aria-labelledby="status-title">
       <h2 id="status-title" class="block-head">
         <span class="block-title"
           ><span class="m num">5 /</span><span class="d">{{ f.statusTitle }}</span></span
@@ -356,28 +369,6 @@ const highlighted = 8
           </ul>
         </div>
       </div>
-    </section>
-
-    <!-- Video (provisional) -->
-    <section class="wrap block last-block" aria-labelledby="video-title">
-      <h2 id="video-title" class="block-head">
-        <span class="block-title"
-          ><span class="d">{{ f.video.title }}</span></span
-        >
-        <span class="m muted">{{ f.video.note }}</span>
-      </h2>
-      <figure class="shot">
-        <DemoVideo
-          :src="m.projects.frimeeVideo.src"
-          :poster="m.projects.frimeeVideo.poster"
-          :width="1280"
-          :height="800"
-          :label="m.projects.frimeeVideo.label"
-          :play-label="f.video.play"
-          :pause-label="f.video.pause"
-        />
-        <figcaption class="case-note">{{ f.video.caption }}</figcaption>
-      </figure>
     </section>
 
     <nav class="case-other" :aria-label="f.other">
@@ -472,7 +463,7 @@ p {
 }
 
 .shot {
-  margin: 40px 0 0;
+  margin-block: 48px 0;
 }
 
 .shot figcaption {
