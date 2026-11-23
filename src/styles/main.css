@@ -30,6 +30,8 @@
   --iaccent: var(--accent);
   --ok: #15803d;
   --fail: #b91c1c;
+  /* Frimee's own colour, only on its case page and only for lines and markers (3.4:1 on paper). */
+  --frimee: #298e7d;
 
   --font: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
@@ -68,6 +70,7 @@
     --iaccent: var(--accent-ink);
     --ok: #4ade80;
     --fail: #f87171;
+    --frimee: #3cddc2;
   }
 }
 
@@ -91,6 +94,7 @@
   --iaccent: var(--accent-ink);
   --ok: #4ade80;
   --fail: #f87171;
+  --frimee: #3cddc2;
   color-scheme: dark;
 }
 

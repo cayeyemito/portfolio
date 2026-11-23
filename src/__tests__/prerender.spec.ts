@@ -31,18 +31,23 @@ describe('prerender', () => {
   )
 
   it.each(routes.filter((r) => r.page === 'frimee'))(
-    '$file is the Frimee case: title, sections, code and the link to the next case',
+    '$file is the Frimee case: the five blocks, every piece, the code and the next case',
     async ({ locale }) => {
       const html = await render('frimee', locale)
       const f = messages[locale].frimee
       expect(html).toContain('>Frimee</h1>')
-      for (const title of [f.contextTitle, f.architectureTitle, f.decisionsTitle, f.challengeTitle])
+      for (const title of [f.piecesTitle, f.howTitle, f.workTitle, f.statusTitle])
         expect(html).toContain(title)
-      expect(html).toContain('auth.getUser(token)')
-      expect(html).toContain(f.capturesTitle)
+      expect(html).toContain(`href="${f.guestHref}"`)
       expect(html).toContain('src="/projects/frimee/demo.mp4"')
-      for (const shot of [...f.captures.webShots, ...f.captures.mobileShots])
-        expect(html).toContain(shot.src)
+      for (const piece of f.pieces) {
+        expect(html).toContain(`href="#${piece.id}"`)
+        expect(html).toContain(`id="${piece.id}"`)
+      }
+      const images = f.pieces.flatMap((piece) => (piece.image ? [piece.image.src] : []))
+      expect(images.length).toBeGreaterThan(0)
+      for (const src of images) expect(html).toContain(src)
+      expect(html).toContain('auth.getUser(token)')
       expect(html).toContain(
         locale === 'es' ? 'href="/como-esta-hecha/"' : 'href="/en/how-it-is-built/"',
       )
